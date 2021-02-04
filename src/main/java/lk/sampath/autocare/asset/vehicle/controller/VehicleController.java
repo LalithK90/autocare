@@ -8,6 +8,8 @@ import lk.sampath.autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath.autocare.asset.customer.service.CustomerService;
 import lk.sampath.autocare.asset.employee.entity.Employee;
 import lk.sampath.autocare.asset.employee.entity.enums.Designation;
+import lk.sampath.autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
+import lk.sampath.autocare.asset.user.entity.User;
 import lk.sampath.autocare.asset.vehicle.entity.Enum.VehicleModel;
 import lk.sampath.autocare.asset.vehicle.entity.Vehicle;
 import lk.sampath.autocare.asset.vehicle.service.VehicleService;
@@ -115,7 +117,7 @@ public class VehicleController implements AbstractController< Vehicle, Integer >
 
     @GetMapping( "/view/{id}" )
     public String view(@PathVariable Integer id, Model model) {
-        model.addAttribute("vehicleDetails", vehicleService.findById(id));
+        model.addAttribute("vehicleDetail", vehicleService.findById(id));
         return "vehicle/vehicle-detail";
     }
 
