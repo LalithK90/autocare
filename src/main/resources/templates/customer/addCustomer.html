@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head data-th-replace="~{fragments/header :: headerFragment}">
-    <link th:href="@{/css/addCustomerCss.css}" media="all" rel="stylesheet" type="text/css"/>
+    <link  data-th-href="@{/css/addCustomerCss.css}" media="all" rel="stylesheet" type="text/css"/>
     <meta charset="UTF-8">
     <title>addCustomer</title>
 </head>
@@ -165,9 +165,9 @@
         </div>
 </div>
 <!--footer include-->
-<footer data-th-replace="~{fragments/footer :: footerFragment}"></footer>
+<div data-th-replace="~{fragments/footer :: footerFragment}"></div>
 <!--script include-->
-<script data-th-replace="~{fragments/script :: scriptFragment}"></script>
+<div data-th-replace="~{fragments/script :: scriptFragment}"></div>
 
 </body>
 </html>

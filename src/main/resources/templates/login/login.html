@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: headerFragment}">
+<head  data-th-replace="~{fragments/header :: headerFragment}">
     <meta charset="UTF-8">
     <title>Thymeleaf Springboot </title>
 
 </head>
 <body id="loginBack">
-<link th:href="@{/css/myCss.css}" media="all" rel="stylesheet" type="text/css"/>
+<link  data-th-href="@{/css/myCss.css}" media="all" rel="stylesheet" type="text/css"/>
 <div class="col full-height " id="loginPage" align="center">
     <div class="col-8 col-sm-4 form-box ui-widget-content formBackground " id="draggable">
-        <form th:action="${'/login'}" method="post">
+        <form  data-th-action="${'/login'}" method="post">
 
             <fieldset>
                 <!--<legend class="text-lg-center bg-white"><h3><strong> Excise Department - Sri Lanka</strong></h3>
@@ -38,19 +38,19 @@
                 </div>
 
             </fieldset>
-            <div class="container-fluid " th:if="${param.error}">
+            <div class="container-fluid "  data-th-if="${param.error}">
                 <p class="bg-white text-capitalize text-danger text-lg-center">Invalid username or password. </p>
             </div>
             <div class="container-fluid ">
-                <p id="errorMessage" th:text="${err}" class="bg-white text-capitalize text-danger text-lg-center"></p>
+                <p id="errorMessage"  data-th-text="${err}" class="bg-white text-capitalize text-danger text-lg-center"></p>
             </div>
         </form>
     </div>
 </div>
 <!--footer include-->
-<footer th:replace="~{fragments/footer :: footerFragment}"></footer>
+<div  data-th-replace="~{fragments/footer :: footerFragment}"></div>
 <!--script include-->
-<script th:replace="~{fragments/script :: scriptFragment}"></script>
+<div  data-th-replace="~{fragments/script :: scriptFragment}"></div>
 
 </body>
 </html>

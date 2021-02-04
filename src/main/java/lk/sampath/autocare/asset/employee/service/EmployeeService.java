@@ -2,7 +2,7 @@ package lk.sampath.autocare.asset.employee.service;
 
 
 
-import lk.sampath.autocare.asset.commonAsset.model.Enum.LiveDead;
+import lk.sampath.autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath.autocare.asset.employee.dao.EmployeeDao;
 import lk.sampath.autocare.asset.employee.entity.Employee;
 import lk.sampath.autocare.util.interfaces.AbstractService;

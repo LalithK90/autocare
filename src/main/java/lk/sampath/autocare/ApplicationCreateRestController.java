@@ -1,8 +1,8 @@
 package lk.sampath.autocare;
 
-import lk.sampath.autocare.asset.commonAsset.model.Enum.CivilStatus;
-import lk.sampath.autocare.asset.commonAsset.model.Enum.Gender;
-import lk.sampath.autocare.asset.commonAsset.model.Enum.Title;
+import lk.sampath.autocare.asset.common_asset.model.Enum.CivilStatus;
+import lk.sampath.autocare.asset.common_asset.model.Enum.Gender;
+import lk.sampath.autocare.asset.common_asset.model.Enum.Title;
 import lk.sampath.autocare.asset.employee.entity.Employee;
 import lk.sampath.autocare.asset.employee.entity.enums.Designation;
 import lk.sampath.autocare.asset.employee.entity.enums.EmployeeStatus;

@@ -1,10 +1,10 @@
 package lk.sampath.autocare.asset.serviceType.controller;
 
 
-import lk.sampath.autocare.asset.commonAsset.model.Enum.LiveDead;
+import lk.sampath.autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath.autocare.asset.serviceType.entity.ServiceType;
 import lk.sampath.autocare.asset.serviceType.service.ServiceTypeService;
-import lk.sampath.autocare.asset.serviceTypeParameter.service.ServiceTypeParameterService;
+import lk.sampath.autocare.asset.service_type_parameter.service.ServiceTypeParameterService;
 import lk.sampath.autocare.asset.vehicle.entity.Enum.VehicleModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

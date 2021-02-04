@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: headerFragment}">
-    <link th:href="@{/css/addVehicleCss.css}" media="all" rel="stylesheet" type="text/css"/>
+<head  data-th-replace="~{fragments/header :: headerFragment}">
+    <link  data-th-href="@{/css/addVehicleCss.css}" media="all" rel="stylesheet" type="text/css"/>
     <meta charset="UTF-8">
     <title>Thymeleaf Springboot </title>
 </head>
 <body>
-<nav th:replace="~{fragments/navBar :: navBarFragment}"></nav>
+<nav  data-th-replace="~{fragments/navBar :: navBarFragment}"></nav>
 <!--Heading Area-->
 <div class="container-fluid form-boder" id="topicBack">
     <div class="row text-center formManagement border-info">
@@ -25,7 +25,7 @@
         <div class="col" id="topic">
             <h2 class="text-light text-center">
                 <strong>
-                    <span data-th-text="${addStatus==true?'Add New Customer':'Update Customer Details'}"></span>
+                    <span data-th-text="${addStatus==false?'Add New Vehicle':'Update Vehicle Details'}"></span>
                 </strong>
             </h2>
         </div>
@@ -56,10 +56,10 @@
             <!--Registration number need to show-->
             <div class="form-group row" data-th-if="${addStatus==true}">
                 <label data-th-for="${'name'}" class="col-sm-4 col-form-label ">
-                    Lab Test Name </label>
+                    Vehicle Registration Number </label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" data-th-field="*{registrationNumber}"
-                           required>
+                           required style="text-transform:uppercase" >
                     <p class="text-danger" data-th-if="${#fields.hasErrors('registrationNumber')}"
                        data-th-errors="*{registrationNumber}">Error Name</p>
                 </div>
@@ -82,7 +82,7 @@
             <div class="form-group row">
                 <label data-th-for="${'number'}" class="col-sm-4 col-form-label ">
                     Register Number </label>
-                    <input type="text" class="form-control" data-th-field="*{number}"
+                    <input type="text" class="form-control" data-th-field="*{number}" placeholder="XN0996" style="text-transform:uppercase"
                            required>
                     <p class="text-danger" data-th-if="${#fields.hasErrors('number')}"
                        data-th-errors="*{number}">Error Name</p>
@@ -91,7 +91,7 @@
             <div class="form-group row">
                 <label data-th-for="${'engineNumber'}" class="col-sm-4 col-form-label ">
                     Engine Number </label>
-                    <input type="text" class="form-control" data-th-field="*{engineNumber}"
+                    <input type="text" class="form-control" data-th-field="*{engineNumber}" style="text-transform:uppercase"
                            required>
                     <p class="text-danger" data-th-if="${#fields.hasErrors('engineNumber')}"
                        data-th-errors="*{engineNumber}">Error Name</p>
@@ -100,7 +100,7 @@
             <div class="form-group row">
                 <label data-th-for="${'chassisNumber'}" class="col-sm-4 col-form-label ">
                     Chasis Number </label>
-                    <input type="text" class="form-control" data-th-field="*{chassisNumber}"
+                    <input type="text" class="form-control" data-th-field="*{chassisNumber}" style="text-transform:uppercase"
                            required>
                     <p class="text-danger" data-th-if="${#fields.hasErrors('chassisNumber')}"
                        data-th-errors="*{chassisNumber}">Error Name</p>
@@ -109,7 +109,7 @@
             <div class="form-group row">
                 <label data-th-for="${'manufacturedYear'}" class="col-sm-4 col-form-label ">
                     Manufactured Year </label>
-                    <input type="text" class="form-control" data-th-field="*{manufacturedYear}"
+                    <input type="text" class="form-control" maxlength="4" data-th-field="*{manufacturedYear}" style="text-transform:uppercase"
                            required>
                     <p class="text-danger" data-th-if="${#fields.hasErrors('manufacturedYear')}"
                        data-th-errors="*{manufacturedYear}">Error Name</p>
@@ -141,22 +141,19 @@
             <div class="form-group" id="formButton">
                 <div class=" form-group text-center col-sm-10">
                     <!--Back Button-->
-                    <a class="btn btn-dark"  tabindex="10" href="/customer">
+                    <a class="btn btn-dark"  tabindex="10" href="/vehicle">
                         <i class="fas fa-arrow-circle-left" style="font-size: 20px"></i>&nbsp;&nbsp;Back
                     </a>
                     <!--Save Button-->
-                    <button class="btn btn-success ml-5" type="submit" tabindex="8">
-                        <i class="fa fa-save " style="font-size: 20px"></i>&nbsp;&nbsp;<span id="submit" data-th-text="${addStatus==true?'Save': 'Update'}"></span>
+                    <button type="submit" class="btn btn-primary">
+                        <i data-th-class="${addStatus==false?'fa fa-save mr-1':'fa fa-thumbs-up mr-1'}"></i>
+                        <span
+                              data-th-text="${addStatus==false?'Save' : 'Update'}"></span>
                     </button>
                     <!--Cancel Button-->
                     <button class="btn btn-warning ml-5" type="reset" tabindex="9">
                         <i class="far fa-times-circle" style="font-size: 20px"></i>&nbsp;&nbsp;Cancel
                     </button>
-                    <!--<button type="submit" class="btn btn-primary">
-                        <i data-th-class="${addStatus==false?'fa fa-save mr-1':'fa fa-thumbs-up mr-1'}"></i>
-                        <span
-                                data-th-text="${addStatus==false?'Save' : 'Update'}"></span>
-                    </button>-->
                 </div>
             </div>
         </div>
@@ -164,9 +161,9 @@
 </div>
 
 <!--footer include-->
-<footer th:replace="~{fragments/footer :: footerFragment}"></footer>
+<div  data-th-replace="~{fragments/footer :: footerFragment}"></div>
 <!--script include-->
-<script th:replace="~{fragments/script :: scriptFragment}"></script>
+<div  data-th-replace="~{fragments/script :: scriptFragment}"></div>
 
 </body>
 </html>

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VehicleDao extends JpaRepository< Vehicle, Integer> {
+  Vehicle findByNumber(String number);
 }

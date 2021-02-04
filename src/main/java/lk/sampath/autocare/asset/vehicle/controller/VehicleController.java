@@ -1,13 +1,19 @@
 package lk.sampath.autocare.asset.vehicle.controller;
 
 
-import lk.sampath.autocare.asset.commonAsset.model.Enum.LiveDead;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import lk.sampath.autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath.autocare.asset.customer.service.CustomerService;
+import lk.sampath.autocare.asset.employee.entity.Employee;
+import lk.sampath.autocare.asset.employee.entity.enums.Designation;
 import lk.sampath.autocare.asset.vehicle.entity.Enum.VehicleModel;
 import lk.sampath.autocare.asset.vehicle.entity.Vehicle;
 import lk.sampath.autocare.asset.vehicle.service.VehicleService;
 import lk.sampath.autocare.util.interfaces.AbstractController;
 import lk.sampath.autocare.util.service.MakeAutoGenerateNumberService;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -72,12 +79,12 @@ public class VehicleController implements AbstractController< Vehicle, Integer >
             if (customerService.lastCustomer() == null) {
                 System.out.println("last customer null");
                 //need to generate new one customer
-                vehicle.setRegistrationNumber("GRI"+makeAutoGenerateNumberService.numberAutoGen(null).toString());
+                vehicle.setRegistrationNumber("SAV"+makeAutoGenerateNumberService.numberAutoGen(null).toString());
             } else {
                 System.out.println("last customer not null");
                 //if there is customer in db need to get that customer's code and increase its value
                 String previousCode = customerService.lastCustomer().getCode().substring(3);
-                vehicle.setRegistrationNumber("GRI"+makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
+                vehicle.setRegistrationNumber("SAV"+makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
             }
             //send welcome message and email
             if (vehicle.getCustomer().getEmail() != null) {
@@ -110,6 +117,24 @@ public class VehicleController implements AbstractController< Vehicle, Integer >
     public String view(@PathVariable Integer id, Model model) {
         model.addAttribute("vehicleDetails", vehicleService.findById(id));
         return "vehicle/vehicle-detail";
+    }
+
+
+    @GetMapping( "find/{number}" )
+    @ResponseBody
+    public MappingJacksonValue findByNumber(@PathVariable("number") String number) {
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(vehicleService.findByNumber(number));
+        SimpleBeanPropertyFilter simpleBeanPropertyFilterForVehicle = SimpleBeanPropertyFilter
+            .filterOutAllExcept("id", "number", "registrationNumber", "chassisNumber","engineNumber");
+
+        SimpleBeanPropertyFilter simpleBeanPropertyFilterCustomer = SimpleBeanPropertyFilter
+            .filterOutAllExcept("id", "name","mobile");
+
+        FilterProvider filters = new SimpleFilterProvider()
+            .addFilter("Customer", simpleBeanPropertyFilterCustomer)
+            .addFilter("Vehicle", simpleBeanPropertyFilterForVehicle);
+        mappingJacksonValue.setFilters(filters);
+        return mappingJacksonValue;
     }
 
 

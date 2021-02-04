@@ -1,7 +1,7 @@
 package lk.sampath.autocare.asset.customer.service;
 
 
-import lk.sampath.autocare.asset.commonAsset.model.Enum.LiveDead;
+import lk.sampath.autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath.autocare.asset.customer.dao.CustomerDao;
 import lk.sampath.autocare.asset.customer.entity.Customer;
 import lk.sampath.autocare.util.interfaces.AbstractService;

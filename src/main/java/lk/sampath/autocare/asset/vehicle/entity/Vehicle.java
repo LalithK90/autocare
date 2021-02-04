@@ -1,7 +1,7 @@
 package lk.sampath.autocare.asset.vehicle.entity;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
-import lk.sampath.autocare.asset.commonAsset.model.Enum.LiveDead;
+import lk.sampath.autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath.autocare.asset.customer.entity.Customer;
 import lk.sampath.autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
 import lk.sampath.autocare.asset.vehicle.entity.Enum.VehicleModel;
@@ -21,7 +21,7 @@ import java.util.List;
 public class Vehicle extends AuditEntity {
 
     @Column(unique = true)
-    private String number; //wp NA 09238
+    private String number; //NA09238
 
     @Column(unique = true, nullable = false)
     private String registrationNumber;// nn09089
@@ -42,7 +42,7 @@ public class Vehicle extends AuditEntity {
     @Enumerated(EnumType.STRING)
     private VehicleModel vehicleModel;//van car or ...
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Customer customer;
 
     @OneToMany(mappedBy = "vehicle")

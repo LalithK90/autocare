@@ -1,11 +1,11 @@
 package lk.sampath.autocare.asset.employee.entity;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
-import lk.sampath.autocare.asset.commonAsset.model.Enum.CivilStatus;
-import lk.sampath.autocare.asset.commonAsset.model.Enum.Gender;
-import lk.sampath.autocare.asset.commonAsset.model.Enum.LiveDead;
-import lk.sampath.autocare.asset.commonAsset.model.Enum.Title;
-import lk.sampath.autocare.asset.commonAsset.model.FileInfo;
+import lk.sampath.autocare.asset.common_asset.model.Enum.CivilStatus;
+import lk.sampath.autocare.asset.common_asset.model.Enum.Gender;
+import lk.sampath.autocare.asset.common_asset.model.Enum.LiveDead;
+import lk.sampath.autocare.asset.common_asset.model.Enum.Title;
+import lk.sampath.autocare.asset.common_asset.model.FileInfo;
 import lk.sampath.autocare.asset.employee.entity.enums.Designation;
 import lk.sampath.autocare.asset.employee.entity.enums.EmployeeStatus;
 import lk.sampath.autocare.util.audit.AuditEntity;

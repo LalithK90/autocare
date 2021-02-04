@@ -2,8 +2,8 @@ package lk.sampath.autocare.asset.customer.controller;
 
 
 
-import lk.sampath.autocare.asset.commonAsset.model.Enum.LiveDead;
-import lk.sampath.autocare.asset.commonAsset.model.Enum.Title;
+import lk.sampath.autocare.asset.common_asset.model.Enum.LiveDead;
+import lk.sampath.autocare.asset.common_asset.model.Enum.Title;
 import lk.sampath.autocare.asset.customer.entity.Customer;
 import lk.sampath.autocare.asset.customer.service.CustomerService;
 import lk.sampath.autocare.util.service.EmailService;

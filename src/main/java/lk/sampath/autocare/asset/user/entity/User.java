@@ -3,7 +3,7 @@ package lk.sampath.autocare.asset.user.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lk.sampath.autocare.asset.employee.entity.Employee;
 import lk.sampath.autocare.asset.role.entity.Role;
-import lk.sampath.autocare.asset.userManagement.entity.UserSessionLog;
+import lk.sampath.autocare.asset.user_management.entity.UserSessionLog;
 import lk.sampath.autocare.util.audit.AuditEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
