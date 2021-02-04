@@ -49,6 +49,7 @@
       <tr >
         <th >S No</th >
         <th >Parameter Name</th >
+        <th >Vehicle Modal</th >
         <th >Price</th >
         <th >Modify</th >
       </tr >
@@ -57,6 +58,7 @@
       <tr data-th-each="serviceTypeParameter, rowCount : ${serviceTypeParameters}" scope="row" >
         <th data-th-text="${rowCount.count}" ></th >
         <th data-th-text="${serviceTypeParameter.name}" ></th >
+        <th data-th-text="${serviceTypeParameter.vehicleModal.VehicleModel}" ></th >
         <th data-th-text="${serviceTypeParameter.price}" ></th >
 
         <th >
