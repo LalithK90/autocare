@@ -25,136 +25,137 @@ import java.util.stream.Collectors;
 @RequestMapping( "/vehicle" )
 public class VehicleController implements AbstractController< Vehicle, Integer > {
 
-    private final VehicleService vehicleService;
-    private final CustomerService customerService;
-    private final MakeAutoGenerateNumberService makeAutoGenerateNumberService;
+  private final VehicleService vehicleService;
+  private final CustomerService customerService;
+  private final MakeAutoGenerateNumberService makeAutoGenerateNumberService;
 
-    public VehicleController(VehicleService vehicleService, CustomerService customerService,
-                             MakeAutoGenerateNumberService makeAutoGenerateNumberService) {
-        this.vehicleService = vehicleService;
-        this.customerService = customerService;
-        this.makeAutoGenerateNumberService = makeAutoGenerateNumberService;
+  public VehicleController(VehicleService vehicleService, CustomerService customerService,
+                           MakeAutoGenerateNumberService makeAutoGenerateNumberService) {
+    this.vehicleService = vehicleService;
+    this.customerService = customerService;
+    this.makeAutoGenerateNumberService = makeAutoGenerateNumberService;
+  }
+
+  @GetMapping
+  public String findAll(Model model) {
+    model.addAttribute("vehicles", vehicleService.findAll()
+        .stream()
+        .filter(x -> LiveDead.ACTIVE.equals(x.getLiveDead()))
+        .collect(Collectors.toList()));
+    return "vehicle/vehicle";
+  }
+
+  @GetMapping( "/{id}" )
+  public String findById(@PathVariable Integer id, Model model) {
+    model.addAttribute("vehicle", vehicleService.findById(id));
+    return "vehicle/vehicle-detail";
+  }
+
+  @GetMapping( "/edit/{id}" )
+  public String edit(@PathVariable Integer id, Model model) {
+    model.addAttribute("customers", customerService.findAll());
+    model.addAttribute("vehicleModels", VehicleModel.values());
+    model.addAttribute("addStatus", true);
+    model.addAttribute("vehicle", vehicleService.findById(id));
+    return "vehicle/addVehicle";
+  }
+
+  @PostMapping( value = {"/save", "/update"} )
+  public String persist(@Valid @ModelAttribute Vehicle vehicle, BindingResult bindingResult,
+                        RedirectAttributes redirectAttributes, Model model) {
+    if ( bindingResult.hasErrors() ) {
+      model.addAttribute("customers", customerService.findAll());
+      model.addAttribute("vehicleModels", VehicleModel.values());
+      model.addAttribute("addStatus", false);
+      model.addAttribute("vehicle", vehicle);
+      return "vehicle/addVehicle";
     }
-
-    @GetMapping
-    public String findAll(Model model) {
-        model.addAttribute("vehicles", vehicleService.findAll()
-            .stream()
-            .filter(x -> LiveDead.ACTIVE.equals(x.getLiveDead()))
-            .collect(Collectors.toList()));
-        return "vehicle/vehicle";
+    vehicle.setNumber(vehicle.getNumber().toUpperCase());
+    //if customer has id that customer is not a new customer
+    if ( vehicle.getId() == null ) {
+      //if there is not customer in db
+      if ( vehicleService.lastVehicle() == null ) {
+        System.out.println("last customer null");
+        //need to generate new one customer
+        vehicle.setRegistrationNumber("SAV" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
+      } else {
+        System.out.println("last customer not null");
+        //if there is customer in db need to get that customer's code and increase its value
+        String previousCode = vehicleService.lastVehicle().getRegistrationNumber().substring(3);
+        vehicle.setRegistrationNumber("SAV" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
+      }
+      //send welcome message and email
+      if ( vehicle.getCustomer().getEmail() != null ) {
+        //  emailService.sendEmail(customer.getEmail(), "Welcome Message", "Welcome to Kmart Super...");
+      }
+      if ( vehicle.getCustomer().getMobile() != null ) {
+        //    twilioMessageService.sendSMS(customer.getMobile(), "Welcome to Kmart Super");
+      }
     }
+    redirectAttributes.addFlashAttribute("vehicleDetails", vehicleService.persist(vehicle));
+    return "redirect:/vehicle";
+  }
 
-    @GetMapping( "/{id}" )
-    public String findById(@PathVariable Integer id, Model model) {
-        model.addAttribute("vehicle", vehicleService.findById(id));
-        return "vehicle/vehicle-detail";
-    }
+  @GetMapping( "/add" )
+  public String addForm(Model model) {
+    model.addAttribute("customers", customerService.findAll());
+    model.addAttribute("vehicleModels", VehicleModel.values());
+    model.addAttribute("addStatus", false);
+    model.addAttribute("vehicle", new Vehicle());
+    return "vehicle/addVehicle";
+  }
 
-    @GetMapping( "/edit/{id}" )
-    public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("customers", customerService.findAll());
-        model.addAttribute("vehicleModels", VehicleModel.values());
-        model.addAttribute("addStatus", true);
-        model.addAttribute("vehicle", vehicleService.findById(id));
-        return "vehicle/addVehicle";
-    }
+  @GetMapping( "/delete/{id}" )
+  public String delete(@PathVariable Integer id, Model model) {
+    vehicleService.delete(id);
+    return "redirect:/vehicle";
+  }
 
-    @PostMapping( value = {"/save", "/update"} )
-    public String persist(@Valid @ModelAttribute Vehicle vehicle, BindingResult bindingResult,
-                          RedirectAttributes redirectAttributes, Model model) {
-        if ( bindingResult.hasErrors() ) {
-            model.addAttribute("customers", customerService.findAll());
-            model.addAttribute("vehicleModels", VehicleModel.values());
-            model.addAttribute("addStatus", false);
-            model.addAttribute("vehicle", vehicle);
-            return "vehicle/addVehicle";
-        }
-        //if customer has id that customer is not a new customer
-        if (vehicle.getId() == null) {
-            //if there is not customer in db
-            if (customerService.lastCustomer() == null) {
-                System.out.println("last customer null");
-                //need to generate new one customer
-                vehicle.setRegistrationNumber("SAV"+makeAutoGenerateNumberService.numberAutoGen(null).toString());
-            } else {
-                System.out.println("last customer not null");
-                //if there is customer in db need to get that customer's code and increase its value
-                String previousCode = customerService.lastCustomer().getCode().substring(3);
-                vehicle.setRegistrationNumber("SAV"+makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
-            }
-            //send welcome message and email
-            if (vehicle.getCustomer().getEmail() != null) {
-                //  emailService.sendEmail(customer.getEmail(), "Welcome Message", "Welcome to Kmart Super...");
-            }
-            if (vehicle.getCustomer().getMobile() != null) {
-                //    twilioMessageService.sendSMS(customer.getMobile(), "Welcome to Kmart Super");
-            }
-        }
-        redirectAttributes.addFlashAttribute("vehicleDetails", vehicleService.persist(vehicle));
-        return "redirect:/vehicle";
-    }
-
-    @GetMapping( "/add" )
-    public String addForm(Model model) {
-        model.addAttribute("customers", customerService.findAll());
-        model.addAttribute("vehicleModels", VehicleModel.values());
-        model.addAttribute("addStatus", false);
-        model.addAttribute("vehicle", new Vehicle());
-        return "vehicle/addVehicle";
-    }
-
-    @GetMapping( "/delete/{id}" )
-    public String delete(@PathVariable Integer id, Model model) {
-        vehicleService.delete(id);
-        return "redirect:/vehicle";
-    }
-
-    @GetMapping( "/view/{id}" )
-    public String view(@PathVariable Integer id, Model model) {
-        model.addAttribute("vehicleDetail", vehicleService.findById(id));
-        return "vehicle/vehicle-detail";
-    }
+  @GetMapping( "/view/{id}" )
+  public String view(@PathVariable Integer id, Model model) {
+    model.addAttribute("vehicleDetail", vehicleService.findById(id));
+    return "vehicle/vehicle-detail";
+  }
 
 
-    @GetMapping( "find/{number}" )
-    @ResponseBody
-    public MappingJacksonValue findByNumber(@PathVariable("number") String number) {
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(vehicleService.findByNumber(number));
-        SimpleBeanPropertyFilter simpleBeanPropertyFilterForVehicle = SimpleBeanPropertyFilter
-            .filterOutAllExcept("id", "number", "registrationNumber", "chassisNumber","engineNumber");
+  @GetMapping( "find/{number}" )
+  @ResponseBody
+  public MappingJacksonValue findByNumber(@PathVariable( "number" ) String number) {
+    MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(vehicleService.findByNumber(number));
+    SimpleBeanPropertyFilter simpleBeanPropertyFilterForVehicle = SimpleBeanPropertyFilter
+        .filterOutAllExcept("id", "number", "registrationNumber", "chassisNumber", "engineNumber");
 
-        SimpleBeanPropertyFilter simpleBeanPropertyFilterCustomer = SimpleBeanPropertyFilter
-            .filterOutAllExcept("id", "name","mobile");
+    SimpleBeanPropertyFilter simpleBeanPropertyFilterCustomer = SimpleBeanPropertyFilter
+        .filterOutAllExcept("id", "name", "mobile");
 
-        FilterProvider filters = new SimpleFilterProvider()
-            .addFilter("Customer", simpleBeanPropertyFilterCustomer)
-            .addFilter("Vehicle", simpleBeanPropertyFilterForVehicle);
-        mappingJacksonValue.setFilters(filters);
-        return mappingJacksonValue;
-    }
+    FilterProvider filters = new SimpleFilterProvider()
+        .addFilter("Customer", simpleBeanPropertyFilterCustomer)
+        .addFilter("Vehicle", simpleBeanPropertyFilterForVehicle);
+    mappingJacksonValue.setFilters(filters);
+    return mappingJacksonValue;
+  }
 
 
 //ORDER FOLLOW
-    //================//
-    //1. Entity -> Relevant parameter (instance)
-    //2. Dao/Repository -> database managing
-    //3. Service -> controller and repository management
-    //1.findAll
-    //2.findById
-    //3.persist
-    //4.delete
-    //5.search
-    //4. Controller -> view manage (HTML)
-    //1.findAll
-    //2.findById
-    //3.edit
-    //4.persist
-    //5.delete
-    //6.form
-    //5. Html / Views -> data collect from frontend to backend and data display backend to frontend
-    //1. relevant entity name html
-    //2. addForm
-    //3. details show
+  //================//
+  //1. Entity -> Relevant parameter (instance)
+  //2. Dao/Repository -> database managing
+  //3. Service -> controller and repository management
+  //1.findAll
+  //2.findById
+  //3.persist
+  //4.delete
+  //5.search
+  //4. Controller -> view manage (HTML)
+  //1.findAll
+  //2.findById
+  //3.edit
+  //4.persist
+  //5.delete
+  //6.form
+  //5. Html / Views -> data collect from frontend to backend and data display backend to frontend
+  //1. relevant entity name html
+  //2. addForm
+  //3. details show
 
 }

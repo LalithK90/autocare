@@ -9,6 +9,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+import javax.management.loading.MLetContent;
 import java.util.List;
 
 @Service
@@ -52,5 +53,9 @@ public class VehicleService implements AbstractService< Vehicle, Integer> {
 
   public Vehicle findByNumber(String number) {
   return vehicleDao.findByNumber(number);
+    }
+
+  public Vehicle lastVehicle() {
+  return vehicleDao.findFirstByOrderByIdDesc();
     }
 }

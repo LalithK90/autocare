@@ -1,11 +1,15 @@
 package lk.sampath_autocare.asset.serviceType.controller;
 
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.serviceType.entity.ServiceType;
 import lk.sampath_autocare.asset.serviceType.service.ServiceTypeService;
 import lk.sampath_autocare.asset.service_type_parameter.service.ServiceTypeParameterService;
 import lk.sampath_autocare.asset.vehicle.entity.Enum.VehicleModel;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -75,5 +79,18 @@ public class ServiceTypeController {
     public String delete(@PathVariable Integer id, Model model) {
         serviceTypeService.delete(id);
         return "redirect:/serviceType";
+    }
+
+    @GetMapping("findBy/{id}")
+    @ResponseBody
+    public MappingJacksonValue findId(@PathVariable Integer id) {
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(serviceTypeService.findById(id).getServiceTypeParameters());
+        SimpleBeanPropertyFilter simpleBeanPropertyFilterOne = SimpleBeanPropertyFilter
+            .filterOutAllExcept("id", "name");
+
+        FilterProvider filters = new SimpleFilterProvider()
+            .addFilter("ServiceTypeParameter", simpleBeanPropertyFilterOne);
+        mappingJacksonValue.setFilters(filters);
+        return mappingJacksonValue;
     }
 }

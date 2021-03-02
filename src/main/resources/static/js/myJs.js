@@ -22,7 +22,7 @@ $(document).ready(function () {
     /*//--------------- data table short using - data table plugin ------- start //*/
 
     /*When edit employee if there is a nic number need to select relevant gender*/
-    if ($("#nic").val() !== null || $("#nic").val() !== undefined) {
+    if ($("#nic").val() !== null && $("#nic").val() !== undefined) {
         $("input:radio[name=gender]").filter(`[value=${calculateGender($("#nic").val())}]`).prop('checked', true);
     }
 
