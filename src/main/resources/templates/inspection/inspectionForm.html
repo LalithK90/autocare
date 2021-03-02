@@ -187,6 +187,15 @@
                    id="id" readonly >
           </div >
           <input type="hidden" data-th-value="${vehicleDetail.id}" >
+          <!--meter value -->
+          <div class="form-group text-right" >
+            <div class="form-inline" >
+              <label class="control-label" >Meter Value
+                                            :
+                <input type="number" class="form-control" data-th-field="*{meterValue}" required/>
+              </label >
+            </div >
+          </div >
           <!--Service type -->
           <div class="form-group text-right" >
             <div class="form-inline" >
@@ -203,8 +212,8 @@
           </div >
           <!--selected parameter list-->
           <div class="form-group" >
-            <ul id="selectedParameter" class="list-group" ></ul>
-          </div>
+            <ul id="selectedParameter" class="list-group" ></ul >
+          </div >
           <!--button-->
           <div class="form-group " >
             <div class="offset-sm-2 col-sm-10" >
@@ -233,7 +242,7 @@
         for (let i = 0; i < checks.length; i++) {
             $.ajax({
                 type: 'GET',
-                url: finalUrl+$(checks[i]).val(),
+                url: finalUrl + $(checks[i]).val(),
                 success: function (resp) {
                     showParameter(resp)
                 },
@@ -244,12 +253,13 @@
 
         }
     });
+
     function showParameter(resp) {
         let html = '';
-        for (let i=0; i<resp.length;i++){
-            html+=`<li class="list-group-item"> ${resp[i].name}</li>`
+        for (let i = 0; i < resp.length; i++) {
+            html += `<li class="list-group-item"> ${resp[i].name}</li>`
         }
-       $("#selectedParameter").append(html);
+        $("#selectedParameter").append(html);
     }
 
 </script >
