@@ -29,9 +29,6 @@ public class ServiceTypeParameterVehicle extends AuditEntity {
   @Enumerated( EnumType.STRING )
   private ServiceTypeParameterVehicleStatus serviceTypeParameterVehicleStatus;
 
-  @Enumerated( EnumType.STRING)
-  private LiveDead liveDead;
-
   @Transient
   private List< ServiceType > serviceTypes;
 

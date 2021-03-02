@@ -4,11 +4,14 @@ package lk.sampath_autocare.asset.service_type_parameter_vehicle.service;
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.dao.ServiceTypeParameterVehicleDao;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
+import lk.sampath_autocare.asset.vehicle.entity.Vehicle;
 import lk.sampath_autocare.util.interfaces.AbstractService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -29,15 +32,13 @@ public class ServiceTypeParameterVehicleService implements AbstractService< Serv
   }
 
   public ServiceTypeParameterVehicle persist(ServiceTypeParameterVehicle serviceTypeParameterVehicle) {
-    if ( serviceTypeParameterVehicle.getId() == null ) {
-      serviceTypeParameterVehicle.setLiveDead(LiveDead.ACTIVE);
-    }
+
     return serviceTypeParameterVehicleDao.save(serviceTypeParameterVehicle);
   }
 
   public boolean delete(Integer id) {
     ServiceTypeParameterVehicle serviceTypeParameterVehicle = serviceTypeParameterVehicleDao.getOne(id);
-    serviceTypeParameterVehicle.setLiveDead(LiveDead.STOP);
+
     serviceTypeParameterVehicleDao.save(serviceTypeParameterVehicle);
     return true;
   }
@@ -50,5 +51,13 @@ public class ServiceTypeParameterVehicleService implements AbstractService< Serv
         .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
     Example<ServiceTypeParameterVehicle> labTestParameterExample = Example.of(serviceTypeParameterVehicle, matcher);
     return serviceTypeParameterVehicleDao.findAll(labTestParameterExample);
+  }
+
+  public List<ServiceTypeParameterVehicle> findByCreatedAtIsBetween(LocalDateTime form, LocalDateTime to) {
+  return serviceTypeParameterVehicleDao.findByCreatedAtIsBetween(form,to);
+  }
+
+  public List<ServiceTypeParameterVehicle> findByCreatedAtIsBetweenAndVehicle(LocalDateTime form, LocalDateTime to, Vehicle vehicle) {
+    return serviceTypeParameterVehicleDao.findByCreatedAtIsBetweenAndVehicle(form,to,vehicle);
   }
 }

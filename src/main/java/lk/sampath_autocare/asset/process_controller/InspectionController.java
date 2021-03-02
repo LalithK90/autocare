@@ -26,19 +26,14 @@ import java.util.stream.Collectors;
 @RequestMapping( "/inspection" )
 public class InspectionController {
   private final VehicleService vehicleService;
-  private final CustomerService customerService;
   private final ServiceTypeService serviceTypeService;
-  private final ServiceTypeParameterService serviceTypeParameterService;
   private final ServiceTypeParameterVehicleService serviceTypeParameterVehicleService;
 
-  public InspectionController(VehicleService vehicleService, CustomerService customerService,
+  public InspectionController(VehicleService vehicleService,
                               ServiceTypeService serviceTypeService,
-                              ServiceTypeParameterService serviceTypeParameterService,
                               ServiceTypeParameterVehicleService serviceTypeParameterVehicleService) {
     this.vehicleService = vehicleService;
-    this.customerService = customerService;
     this.serviceTypeService = serviceTypeService;
-    this.serviceTypeParameterService = serviceTypeParameterService;
     this.serviceTypeParameterVehicleService = serviceTypeParameterVehicleService;
   }
 
@@ -101,7 +96,6 @@ public class InspectionController {
       serviceType.getServiceTypeParameters().forEach(x->{
         ServiceTypeParameterVehicle serviceTypeParameterVehicleDB = new ServiceTypeParameterVehicle();
         serviceTypeParameterVehicleDB.setServiceTypeParameter(x);
-        serviceTypeParameterVehicleDB.setLiveDead(LiveDead.ACTIVE);
         serviceTypeParameterVehicleDB.setVehicle(serviceTypeParameterVehicle.getVehicle());
         serviceTypeParameterVehicleDB.setServiceTypeParameterVehicleStatus(ServiceTypeParameterVehicleStatus.CHK);
         serviceTypeParameterVehicleDB.setMeterValue(serviceTypeParameterVehicle.getMeterValue());
