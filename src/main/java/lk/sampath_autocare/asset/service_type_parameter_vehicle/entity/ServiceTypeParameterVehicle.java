@@ -35,6 +35,5 @@ public class ServiceTypeParameterVehicle extends AuditEntity {
   @Transient
   private List< ServiceType > serviceTypes;
 
-  @Transient
   private int meterValue;
 }

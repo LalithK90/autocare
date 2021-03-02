@@ -3,9 +3,11 @@ package lk.sampath_autocare.asset.process_controller;
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.customer.service.CustomerService;
 import lk.sampath_autocare.asset.serviceType.controller.ServiceTypeController;
+import lk.sampath_autocare.asset.serviceType.entity.ServiceType;
 import lk.sampath_autocare.asset.serviceType.service.ServiceTypeService;
 import lk.sampath_autocare.asset.service_type_parameter.service.ServiceTypeParameterService;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
+import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.enums.ServiceTypeParameterVehicleStatus;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.service.ServiceTypeParameterVehicleService;
 import lk.sampath_autocare.asset.user.entity.User;
 import lk.sampath_autocare.asset.vehicle.entity.Vehicle;
@@ -91,9 +93,22 @@ public class InspectionController {
 
   @PostMapping( "/save" )
   public String save(@Valid @ModelAttribute( "serviceTypeParameterVehicle" ) ServiceTypeParameterVehicle serviceTypeParameterVehicle, BindingResult bindingResult, Model model) {
-//todo
 
+    if(bindingResult.hasErrors()){
+      return "redirect:/inspection";
+    }
+    for ( ServiceType serviceType : serviceTypeParameterVehicle.getServiceTypes() ) {
+      serviceType.getServiceTypeParameters().forEach(x->{
+        ServiceTypeParameterVehicle serviceTypeParameterVehicleDB = new ServiceTypeParameterVehicle();
+        serviceTypeParameterVehicleDB.setServiceTypeParameter(x);
+        serviceTypeParameterVehicleDB.setLiveDead(LiveDead.ACTIVE);
+        serviceTypeParameterVehicleDB.setVehicle(serviceTypeParameterVehicle.getVehicle());
+        serviceTypeParameterVehicleDB.setServiceTypeParameterVehicleStatus(ServiceTypeParameterVehicleStatus.CHK);
+        serviceTypeParameterVehicleDB.setMeterValue(serviceTypeParameterVehicle.getMeterValue());
+        serviceTypeParameterVehicleService.persist(serviceTypeParameterVehicleDB);
+      });
+    }
 
-    return "redirect:/inspection/searchAll";
+    return "redirect:/inspection";
   }
 }
