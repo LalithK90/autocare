@@ -2,6 +2,7 @@ package lk.sampath_autocare.asset.service_type_parameter.controller;
 
 
 import lk.sampath_autocare.asset.service_type_parameter.entity.ServiceTypeParameter;
+import lk.sampath_autocare.asset.service_type_parameter.entity.enums.ServiceSection;
 import lk.sampath_autocare.asset.service_type_parameter.service.ServiceTypeParameterService;
 import lk.sampath_autocare.asset.vehicle.entity.Enum.VehicleModel;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ public class ServiceTypeParameterController {
         model.addAttribute("addStatus", booleanValue);
         model.addAttribute("serviceTypeParameter", serviceTypeParameter);
         model.addAttribute("vehicleModels", VehicleModel.values());
+        model.addAttribute("serviceSections", ServiceSection.values());
         return "serviceTypeParameter/addServiceTypeParameter";
     }
 
