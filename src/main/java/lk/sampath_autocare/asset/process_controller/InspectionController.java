@@ -12,9 +12,11 @@ import lk.sampath_autocare.asset.vehicle.entity.Vehicle;
 import lk.sampath_autocare.asset.vehicle.service.VehicleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,5 +87,13 @@ public class InspectionController {
     model.addAttribute("customerDetail", vehicle.getCustomer());
     model.addAttribute("serviceTypeParameterVehicle", new ServiceTypeParameterVehicle());
     return "inspection/inspectionForm";
+  }
+
+  @PostMapping( "/save" )
+  public String save(@Valid @ModelAttribute( "serviceTypeParameterVehicle" ) ServiceTypeParameterVehicle serviceTypeParameterVehicle, BindingResult bindingResult, Model model) {
+//todo
+
+
+    return "redirect:/inspection/searchAll";
   }
 }
