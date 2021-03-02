@@ -1,6 +1,8 @@
 package lk.sampath_autocare.asset.process_controller;
 
+import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.customer.service.CustomerService;
+import lk.sampath_autocare.asset.serviceType.controller.ServiceTypeController;
 import lk.sampath_autocare.asset.serviceType.service.ServiceTypeService;
 import lk.sampath_autocare.asset.service_type_parameter.service.ServiceTypeParameterService;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
@@ -11,6 +13,7 @@ import lk.sampath_autocare.asset.vehicle.service.VehicleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,7 +52,6 @@ public class InspectionController {
 
     if ( vehicles.size() == 1 ) {
       Vehicle vehicleDB = vehicles.get(0);
-      model.addAttribute("user", new User());
       model.addAttribute("vehicleDetail", vehicleDB);
       model.addAttribute("customerDetail", vehicleDB.getCustomer());
       model.addAttribute("serviceTypeParameterVehicle", new ServiceTypeParameterVehicle());
@@ -57,12 +59,12 @@ public class InspectionController {
       model.addAttribute("vehicleSearch", false);
       model.addAttribute("serviceTypes", serviceTypeService.findAll()
           .stream()
-          .filter(x -> x.getVehicleModel().equals(vehicleDB.getVehicleModel()))
+          .filter(x -> x.getVehicleModel().equals(vehicleDB.getVehicleModel()) && x.getLiveDead().equals(LiveDead.ACTIVE))
           .collect(Collectors.toList()));
-      model.addAttribute("serviceTypeParameters", serviceTypeParameterService.findAll()
-          .stream()
-          .filter(x -> x.getVehicleModel().equals(vehicleDB.getVehicleModel()))
-          .collect(Collectors.toList()));
+      model.addAttribute("serviceParameterUrl", MvcUriComponentsBuilder
+          .fromMethodName(ServiceTypeController.class, "findId", "")
+          .build()
+          .toString());
       return "inspection/inspectionForm";
     }
     model.addAttribute("vehicleSearch", true);

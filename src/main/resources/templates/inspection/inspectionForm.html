@@ -103,6 +103,7 @@
         </button >
         <strong ><span id="employeeNotFound" data-th-text="${employeeNotFound}" ></span ></strong >
       </div >
+
     </div >
                                       <!--All vehicle-->
     <div data-th-if="${not #lists.isEmpty(vehicles)}" >
@@ -188,32 +189,22 @@
           <input type="hidden" data-th-value="${vehicleDetail.id}" >
           <!--Service type -->
           <div class="form-group text-right" >
-            <label class="control-label" for="serviceType" >Service Type Name
-                                                            :</label >
-            <select id="serviceType"
-                    class="form-control"
-                    tabindex="3" required multiple >
-              <option value="" disabled >Please select</option >
-              <option
-                    data-th-each="serviceType : ${serviceTypes}"
-                    data-th-text="${serviceType.name}"
-                    data-th-value="${serviceType.id}" ></option >
-            </select >
+            <div class="form-inline" >
+              <label class="control-label" >Service Type Name
+                                            :
+                <input type="checkbox" class="form-control ml-1 mr-1 serviceType"
+                       data-th-each="serviceType : ${serviceTypes}"
+                       data-th-text="${serviceType.name +' Price: '+serviceType.price }"
+                       data-th-value="${serviceType.id}"
+                       data-th-field="*{serviceTypes}"
+                />
+              </label >
+            </div >
           </div >
-          <!--Service type parameter-->
-          <div class="form-group text-right" >
-            <label class="control-label" for="title" >Service Type Parameter Name
-                                                      :</label >
-            <select id="title"
-                    class="form-control"
-                    tabindex="3" required multiple >
-              <option value="" disabled >Please select</option >
-              <option
-                    data-th-each="serviceTypeParameter : ${serviceTypeParameters}"
-                    data-th-text="${serviceTypeParameter.name}"
-                    data-th-value="${serviceTypeParameter.id}" ></option >
-            </select >
-          </div >
+          <!--selected parameter list-->
+          <div class="form-group" >
+            <ul id="selectedParameter" class="list-group" ></ul>
+          </div>
           <!--button-->
           <div class="form-group " >
             <div class="offset-sm-2 col-sm-10" >
@@ -224,20 +215,48 @@
               </button >
             </div >
           </div >
-
         </div >
-
       </form >
     </div >
   </div >
+  <input type="hidden" data-th-value="${serviceParameterUrl}" id="serviceParameterUrl" >
 </div >
 <!-- footer Section -->
 <div data-th-replace="~{fragments/footer :: footerFragment}" ></div >
 <!-- script Fragment -->
 <div data-th-replace="~{fragments/script :: scriptFragment}" ></div >
+<script data-th-if="${!vehicleSearch}" >
+    $('.serviceType').on("change", function () {
+        let finalUrl = $("#serviceParameterUrl").val();
+        let checks = $("input[type='checkbox']:checked"); // returns object of checkeds.
+        $('#selectedParameter').empty();
+        for (let i = 0; i < checks.length; i++) {
+            $.ajax({
+                type: 'GET',
+                url: finalUrl+$(checks[i]).val(),
+                success: function (resp) {
+                    showParameter(resp)
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
 
-<script >
+        }
+    });
+    function showParameter(resp) {
+        let html = '';
+        for (let i=0; i<resp.length;i++){
+            html+=`<li class="list-group-item"> ${resp[i].name}</li>`
+        }
+       $("#selectedParameter").append(html);
+    }
+
+</script >
+<script data-th-if="${employeeNotFoundShow==true}" >
     $(".alert").alert();
 </script >
+
+
 </body >
 </html >
