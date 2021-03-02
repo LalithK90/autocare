@@ -20,8 +20,10 @@ import java.util.List;
 @JsonFilter("Vehicle")
 public class Vehicle extends AuditEntity {
 
+    private String  code;
+
     @Column(unique = true)
-    private String number; //NA09238
+    private String number;
 
     @Column(unique = true, nullable = false)
     private String registrationNumber;// nn09089
