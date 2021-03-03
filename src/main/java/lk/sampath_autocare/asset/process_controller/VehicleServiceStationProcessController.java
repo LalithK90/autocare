@@ -1,5 +1,6 @@
 package lk.sampath_autocare.asset.process_controller;
 
+import lk.sampath_autocare.asset.common_asset.model.TwoDate;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.enums.ServiceTypeParameterVehicleStatus;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.service.ServiceTypeParameterVehicleService;
 import lk.sampath_autocare.asset.vehicle.entity.Vehicle;
@@ -34,13 +35,13 @@ public class VehicleServiceStationProcessController {
   @GetMapping
   public String allVehicleOnToday(Model model) {
     model.addAttribute("addStatus", true);
-    return common(model, ServiceTypeParameterVehicleStatus.CHK);
+    return common(model, ServiceTypeParameterVehicleStatus.CHK, LocalDate.now(), LocalDate.now());
   }
 
-  private String common(Model model, ServiceTypeParameterVehicleStatus serviceTypeParameterVehicleStatus) {
-    LocalDate localDate = LocalDate.now();
-    LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(localDate);
-    LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(localDate);
+  private String common(Model model, ServiceTypeParameterVehicleStatus serviceTypeParameterVehicleStatus, LocalDate fromDate, LocalDate toDate) {
+
+    LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(fromDate);
+    LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(toDate);
     Set< Vehicle > vehicles = new LinkedHashSet<>();
 
     serviceTypeParameterVehicleService.findByCreatedAtIsBetween(form, to).stream().filter(x -> x.getServiceTypeParameterVehicleStatus().equals(serviceTypeParameterVehicleStatus)).collect(Collectors.toList()).forEach(x -> vehicles.add(x.getVehicle()));
@@ -51,13 +52,17 @@ public class VehicleServiceStationProcessController {
   @GetMapping( "/done" )
   public String getServiceTypeParameterVehicleStatusDone(Model model) {
     model.addAttribute("addStatus", false);
-    return common(model, ServiceTypeParameterVehicleStatus.DONE);
+    return common(model, ServiceTypeParameterVehicleStatus.DONE,LocalDate.now(),LocalDate.now());
   }
-
+  @PostMapping( "/done/search" )
+  public String getServiceTypeParameterVehicleStatusDoneSearch(@ModelAttribute TwoDate twoDate, Model model) {
+    model.addAttribute("addStatus", false);
+    return common(model, ServiceTypeParameterVehicleStatus.DONE,twoDate.getStartDate(), twoDate.getEndDate());
+  }
   @GetMapping( "/pending" )
   public String getServiceTypeParameterVehicleStatusPend(Model model) {
     model.addAttribute("addStatus", true);
-    return common(model, ServiceTypeParameterVehicleStatus.PEND);
+    return common(model, ServiceTypeParameterVehicleStatus.PEND,LocalDate.now(),LocalDate.now());
   }
 
   @GetMapping( "/vehicle/{id}" )
@@ -81,7 +86,7 @@ public class VehicleServiceStationProcessController {
 
   @PostMapping( "/save" )
   public String save(@ModelAttribute( "vehicle" ) Vehicle vehicle) {
-
+//todo
     return "redirect:/vehicleServiceStationProcess";
   }
 }

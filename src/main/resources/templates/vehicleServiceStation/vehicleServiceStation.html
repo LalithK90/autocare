@@ -59,6 +59,37 @@
       </a >
     </div >
   </div >
+  <!--Custom search -->
+  <div class="container-fluid" data-th-if="${addStatus==false}" >
+    <div class="row" >
+      <!--Custom job done search-->
+      <button type="button" class="btn btn-info mb-5 btn-block text-capitalize" data-toggle="collapse"
+              data-target="#dataTargetCollapse"
+              aria-expanded="false" aria-controls="dataTargetCollapse"
+      > Custom Payment Search
+      </button >
+      <div class="collapse mx-auto" id="dataTargetCollapse" >
+        <h4 class="text-info" ><b > Custom Search</b ></h4 >
+        <form class="form-inline" data-th-action="@{/vehicleServiceStationProcess/done/search}" data-th-method="POST" >
+          <div class="col-4" >
+            <label for="startDate" >FROM :
+              <input class="form-control" id="startDate" name="startDate" type="date" /></label >
+          </div >
+          <div class="col-4" >
+            <label for="endDate" >TO :
+              <input class="form-control" id="endDate" name="endDate" type="date" /></label >
+          </div >
+          <div class="col-4" >
+            <button class="btn btn-success" id="btnSummaryFind" type="submit" ><span
+                  class="glyphicon glyphicon-search" ></span >&nbsp;Search
+            </button >
+          </div >
+        </form >
+      </div >
+    </div >
+  </div >
+
+  <!--there are vehicles-->
   <div class="container-fluid" id="roleListPresent" data-th-if="${not #lists.isEmpty(vehicles)}" >
     <div class="table-responsive" >
       <table class="table table-striped table-condensed" >
@@ -74,7 +105,7 @@
         <tbody >
         <tr data-th-each="vehicle, rowCount : ${vehicles}" >
           <th data-th-text="${rowCount.count}" ></th >
-          <th  data-th-text="${vehicle.number}"></th >
+          <th data-th-text="${vehicle.number}" ></th >
           <th data-th-text="${vehicle.customer.name}" ></th >
           <th data-th-text="${vehicle.manufacturedYear}" ></th >
           <th data-th-if="${addStatus}" >
@@ -103,6 +134,7 @@
       </h3 >
     </div >
   </div >
+
 </div >
 <!--footer include-->
 <div data-th-replace="~{fragments/footer :: footerFragment}" ></div >
