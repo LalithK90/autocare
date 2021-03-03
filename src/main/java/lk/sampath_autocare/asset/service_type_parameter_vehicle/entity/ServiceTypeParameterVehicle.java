@@ -30,6 +30,7 @@ public class ServiceTypeParameterVehicle extends AuditEntity {
 
   @ManyToOne
   private Vehicle vehicle;
+
   @Transient
   private List< ServiceType > serviceTypes;
 }

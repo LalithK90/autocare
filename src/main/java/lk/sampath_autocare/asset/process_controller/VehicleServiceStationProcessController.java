@@ -71,7 +71,9 @@ public class VehicleServiceStationProcessController {
                                                 .stream()
                                                 .filter(x -> !x.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.DONE))
                                                 .collect(Collectors.toList()));
+
     model.addAttribute("vehicleDetail", vehicle);
+    model.addAttribute("vehicle", vehicle);
     model.addAttribute("serviceTypeParameterVehicleStatuses", ServiceTypeParameterVehicleStatus.values());
     model.addAttribute("addStatus", true);
     return "vehicleServiceStation/addVehicleServiceStation";

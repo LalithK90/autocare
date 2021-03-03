@@ -73,52 +73,52 @@
         <div class="row" >
           <input id="id" data-th-field="*{id}" class="form-control" type="hidden" readonly />
           <div class="form-group col-md-12 col-sm-12 text-left flex-column" >
-            <div class="form-row text-right" >
-              <div class="col-md-4" >
-                <label class="control-label" for="meterValue" >Meter Reader Value :</label >
-              </div >
-              <div class="col-md-8" >
-                <input data-th-field="*{meterValue}" class="form-control"
-                       type="text" readonly />
-              </div >
-            </div >
-            <!--todo-->
+
             <div class="form-row" >
-              <table class="table table-striped table-inverse table-responsive" >
+              <table class="table table-striped table-inverse" >
                 <thead class="thead-inverse" >
                 <tr >
                   <th >Index</th >
                   <th >Vehicle Meter</th >
                   <th >Service Name</th >
+                  <th >Service Section</th >
                   <th >Status Manage</th >
                 </tr >
                 </thead >
                 <tbody >
                 <tr data-th-each="serviceTypeParameterVehicle, index : ${vehicle.serviceTypeParameterVehicles}" >
-                  <td >
-                    <input type="text" data-th-value="${index.index}" readonly />
+                  <td data-th-text="${index.index}" >
                   </td >
                   <td >
-                    <input type="text" data-th-field="*{serviceTypeParameterVihicle[__${index.index}__].meterValue}" />
+                    <input type="text" class="form-control"
+                           data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].meterValue}" readonly />
                   </td >
                   <td >
-                    <input type="text"
-                           data-th-field="*{serviceTypeParameterVihicle[__${index.index}__].serviceTypeParameter.name}" />
+                    <input type="text" class="form-control"
+                           data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].serviceTypeParameter.name}"
+                           readonly />
                     <input type="hidden"
-                           data-th-field="*{serviceTypeParameterVihicle[__${index.index}__].serviceTypeParameter.id}" />
+                           data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].serviceTypeParameter.id}" />
                     <input type="hidden"
-                           data-th-field="*{serviceTypeParameterVihicle[__${index.index}__].vehicle.id}" />
+                           data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].vehicle.id}" />
                   </td >
+                  <td>
+                    <input type="text" class="form-control"
+                           data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].serviceTypeParameter.serviceSection.serviceSection}"
+                           readonly />
+                  </td>
                   <td >
                     <div class="custom-control custom-checkbox custom-control-inline "
-                         data-th-each="genders,index : ${serviceTypeParameterVehicleStatuses}" >
+                         data-th-each="serviceTypeParameterVehicleStatus,indexOne : ${serviceTypeParameterVehicleStatuses}" >
                       <input class="custom-control-input gender" required
-                             data-th-field="*{serviceTypeParameterVihicle[__${index.index}__].serviceTypeParameterVehicleStatus}"
-                             data-th-id="${index.index}+${genders}" type="radio"
-                             data-th-checked="${genders==gender}" />
+                             data-th-name="${'serviceTypeParameterVehicles[__${index.index}__].serviceTypeParameterVehicleStatus'}"
+                             data-th-id="${index.index}+${serviceTypeParameterVehicleStatus}+${indexOne.index}"
+                             data-th-checked="${#strings.equals(serviceTypeParameterVehicle.serviceTypeParameterVehicleStatus, serviceTypeParameterVehicleStatus)}"
+                             type="radio" />
                       <label class="custom-control-label"
-                             data-th-for="${index.index}+${genders}"
-                             data-th-text="${genders.gender}" > radio
+                             data-th-for="${index.index}+${serviceTypeParameterVehicleStatus}+${indexOne.index}"
+                             data-th-text="${serviceTypeParameterVehicleStatus.serviceTypeParameterVehicleStatus}" >
+                        radio
                       </label >
                     </div >
                   </td >
