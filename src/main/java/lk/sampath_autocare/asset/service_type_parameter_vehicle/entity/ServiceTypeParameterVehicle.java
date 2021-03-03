@@ -20,17 +20,16 @@ import java.util.List;
 @JsonFilter( "ServiceTypeParameterVehicle" )
 public class ServiceTypeParameterVehicle extends AuditEntity {
 
+  private int meterValue;
+
+  @Enumerated( EnumType.STRING )
+  private ServiceTypeParameterVehicleStatus serviceTypeParameterVehicleStatus;
+
   @ManyToOne
   private ServiceTypeParameter serviceTypeParameter;
 
   @ManyToOne
   private Vehicle vehicle;
-
-  @Enumerated( EnumType.STRING )
-  private ServiceTypeParameterVehicleStatus serviceTypeParameterVehicleStatus;
-
   @Transient
   private List< ServiceType > serviceTypes;
-
-  private int meterValue;
 }

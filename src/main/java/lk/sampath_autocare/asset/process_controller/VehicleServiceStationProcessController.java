@@ -66,17 +66,19 @@ public class VehicleServiceStationProcessController {
     LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(localDate);
     LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(localDate);
     Vehicle vehicle = vehicleService.findById(id);
-    model.addAttribute("ServiceTypeParameterVehicle", serviceTypeParameterVehicleService
-        .findByCreatedAtIsBetweenAndVehicle(form, to, vehicle)
-        .stream()
-        .filter(x -> !x.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.DONE))
-        .collect(Collectors.toList()));
+    vehicle.setServiceTypeParameterVehicles(serviceTypeParameterVehicleService
+                                                .findByCreatedAtIsBetweenAndVehicle(form, to, vehicle)
+                                                .stream()
+                                                .filter(x -> !x.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.DONE))
+                                                .collect(Collectors.toList()));
     model.addAttribute("vehicleDetail", vehicle);
+    model.addAttribute("serviceTypeParameterVehicleStatuses", ServiceTypeParameterVehicleStatus.values());
     model.addAttribute("addStatus", true);
     return "vehicleServiceStation/addVehicleServiceStation";
   }
-  @PostMapping("/save")
-  public String save(@ModelAttribute("vehicle") Vehicle vehicle){
+
+  @PostMapping( "/save" )
+  public String save(@ModelAttribute( "vehicle" ) Vehicle vehicle) {
 
     return "redirect:/vehicleServiceStationProcess";
   }
