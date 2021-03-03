@@ -25,6 +25,7 @@ public class ServiceType extends AuditEntity {
 
     private String name;
 
+    @Column( nullable = false, precision = 10, scale = 2 )
     private BigDecimal price;
 
     @Enumerated(EnumType.STRING)

@@ -113,7 +113,7 @@
                              data-th-name="${'serviceTypeParameterVehicles[__${index.index}__].serviceTypeParameterVehicleStatus'}"
                              data-th-id="${index.index}+${serviceTypeParameterVehicleStatus}+${indexOne.index}"
                              data-th-value="${serviceTypeParameterVehicleStatus}"
-                             data-th-checked="${#strings.equals(serviceTypeParameterVehicle.serviceTypeParameterVehicleStatus, serviceTypeParameterVehicleStatus)}"
+                             data-th-checked="${serviceTypeParameterVehicleStatus == serviceTypeParameterVehicle.serviceTypeParameterVehicleStatus}"
                              type="radio" />
                       <label class="custom-control-label"
                              data-th-for="${index.index}+${serviceTypeParameterVehicleStatus}+${indexOne.index}"

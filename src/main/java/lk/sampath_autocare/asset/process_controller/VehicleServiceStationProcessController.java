@@ -6,6 +6,7 @@ import lk.sampath_autocare.asset.payment.entity.enums.PaymentMethod;
 import lk.sampath_autocare.asset.payment.entity.enums.PaymentStatus;
 import lk.sampath_autocare.asset.payment.service.PaymentService;
 import lk.sampath_autocare.asset.serviceType.entity.ServiceType;
+import lk.sampath_autocare.asset.serviceType.service.ServiceTypeService;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.enums.ServiceTypeParameterVehicleStatus;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.service.ServiceTypeParameterVehicleService;
@@ -20,7 +21,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Controller
@@ -30,6 +30,7 @@ public class VehicleServiceStationProcessController {
   private final DateTimeAgeService dateTimeAgeService;
   private final VehicleService vehicleService;
   private final OperatorService operatorService;
+  private final ServiceTypeService serviceTypeService;
   private final PaymentService paymentService;
   private final MakeAutoGenerateNumberService makeAutoGenerateNumberService;
   private final EmailService emailService;
@@ -37,7 +38,8 @@ public class VehicleServiceStationProcessController {
 
   public VehicleServiceStationProcessController(ServiceTypeParameterVehicleService serviceTypeParameterVehicleService
       , DateTimeAgeService dateTimeAgeService, VehicleService vehicleService, PaymentService paymentService,
-                                                OperatorService operatorService, PaymentService paymentService1,
+                                                OperatorService operatorService,
+                                                ServiceTypeService serviceTypeService, PaymentService paymentService1,
                                                 MakeAutoGenerateNumberService makeAutoGenerateNumberService,
                                                 EmailService emailService,
                                                 TwilioMessageService twilioMessageService) {
@@ -45,6 +47,7 @@ public class VehicleServiceStationProcessController {
     this.dateTimeAgeService = dateTimeAgeService;
     this.vehicleService = vehicleService;
     this.operatorService = operatorService;
+    this.serviceTypeService = serviceTypeService;
     this.paymentService = paymentService1;
     this.makeAutoGenerateNumberService = makeAutoGenerateNumberService;
     this.emailService = emailService;
@@ -64,8 +67,29 @@ public class VehicleServiceStationProcessController {
     LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(toDate);
     Set< Vehicle > vehicles = new LinkedHashSet<>();
 
-    serviceTypeParameterVehicleService.findByCreatedAtIsBetween(form, to).stream().filter(x -> x.getServiceTypeParameterVehicleStatus().equals(serviceTypeParameterVehicleStatus)).collect(Collectors.toList()).forEach(x -> vehicles.add(x.getVehicle()));
-    model.addAttribute("vehicles", new ArrayList<>(vehicles));
+    serviceTypeParameterVehicleService.findByCreatedAtIsBetween(form, to)
+        .stream()
+        .filter(x -> x.getServiceTypeParameterVehicleStatus().equals(serviceTypeParameterVehicleStatus))
+        .collect(Collectors.toList())
+        .forEach(x -> vehicles.add(x.getVehicle()));
+
+    if ( ServiceTypeParameterVehicleStatus.DONE.equals(serviceTypeParameterVehicleStatus) ) {
+      List< Vehicle > vehiclesAllDone = new ArrayList<>();
+      vehicles.forEach(x -> {
+        long count = serviceTypeParameterVehicleService.findByCreatedAtIsBetweenAndVehicle(form, to, x)
+            .stream()
+            .filter(y -> y.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.CHK) || y.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.PEND))
+            .count();
+        if ( count == 0 ) {
+          vehiclesAllDone.add(x);
+        }
+      });
+
+      model.addAttribute("vehicles", vehiclesAllDone);
+    } else {
+      model.addAttribute("vehicles", new ArrayList<>(vehicles));
+    }
+
     return "vehicleServiceStation/vehicleServiceStation";
   }
 
@@ -106,6 +130,7 @@ public class VehicleServiceStationProcessController {
     List< ServiceTypeParameterVehicleStatus > serviceTypeParameterVehicleStatuses = new ArrayList<>();
     serviceTypeParameterVehicleStatuses.add(ServiceTypeParameterVehicleStatus.CHK);
     serviceTypeParameterVehicleStatuses.add(ServiceTypeParameterVehicleStatus.DONE);
+    serviceTypeParameterVehicleStatuses.add(ServiceTypeParameterVehicleStatus.PEND);
     model.addAttribute("serviceTypeParameterVehicleStatuses", serviceTypeParameterVehicleStatuses);
     model.addAttribute("addStatus", true);
     return "vehicleServiceStation/addVehicleServiceStation";
@@ -127,6 +152,7 @@ public class VehicleServiceStationProcessController {
         .stream()
         .filter(x -> x.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.DONE))
         .collect(Collectors.toList());
+
     if ( allParameterSize != jobDoneSize.size() ) {
       serviceTypeParameterVehicles
           .stream()
@@ -137,16 +163,26 @@ public class VehicleServiceStationProcessController {
             serviceTypeParameterVehicleService.persist(x);
           });
     } else {
-      HashSet< ServiceType > serviceTypes = new HashSet<>();
-      jobDoneSize.forEach(x -> serviceTypes.add(x.getServiceType()));
+      HashSet< ServiceType > hashSet = new HashSet<>();
 
-      AtomicReference< BigDecimal > totalAmount = new AtomicReference<>(BigDecimal.ZERO);
-      serviceTypes.forEach(x -> totalAmount.set(operatorService.addition(totalAmount.get(), x.getPrice())));
+      for ( ServiceTypeParameterVehicle serviceTypeParameterVehicle : jobDoneSize ) {
+        ServiceTypeParameterVehicle serviceTypeParameterVehicle1 =
+            serviceTypeParameterVehicleService.findById(serviceTypeParameterVehicle.getId());
+        ServiceType serviceType = serviceTypeService.findById(serviceTypeParameterVehicle1.getId());
+        hashSet.add(serviceType);
+      }
+      List< BigDecimal > totalAmounts = new LinkedList<>();
+      hashSet.forEach(x -> totalAmounts.add(x.getPrice()));
+
+      // sum using stream
+      BigDecimal totalAmount = totalAmounts.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+      System.out.println("Sum (Stream) = " + totalAmount);
+
 
       Payment payment = new Payment();
       payment.setVehicle(vehicleDB);
       payment.setCustomer(vehicleDB.getCustomer());
-      payment.setAmount(totalAmount.get());
+      payment.setAmount(totalAmount);
       payment.setPaymentMethod(PaymentMethod.CASH);
       payment.setPaymentStatus(PaymentStatus.NOTPAID);
 
