@@ -60,7 +60,6 @@
                          id="id" readonly >
                 </div >
               </div >
-
               <!--Interview name-->
               <div class="form-group row" >
                 <label data-th-for="${'name'}" class="col-sm-4 col-form-label " >
@@ -72,24 +71,6 @@
                      data-th-errors="*{name}" >Error Name</p >
                 </div >
               </div >
-              <div class="form-row text-right" >
-                <div class="col-md-4" >
-                  <label class="control-label" for="title" >Service Type Name
-                                                            :</label >
-                </div >
-                <div class="col-md-8" >
-                  <select id="title" data-th-field="*{serviceTypeParameters}"
-                          class="form-control"
-                          tabindex="3" required multiple >
-                    <option value="" disabled >Please select</option >
-                    <option
-                          data-th-each="serviceTypeParamter : ${serviceTypeParameters}"
-                          data-th-text="${serviceTypeParamter.name}"
-                          data-th-value="${serviceTypeParamter.id}" ></option >
-                  </select >
-                </div >
-              </div >
-
               <!--vehicle model list-->
               <div class="form-row text-right" >
                 <label class="col-sm-4 col-form-label " for="vehicleModel" >Vehicle Type
@@ -103,6 +84,24 @@
                           data-th-each="vehicleModel : ${vehicleModels}"
                           data-th-text="${vehicleModel.vehicleModel}"
                           data-th-value="${vehicleModel}" ></option >
+                  </select >
+                </div >
+              </div >
+              <div class="form-row text-right" >
+                <div class="col-md-4" >
+                  <label class="control-label" for="title" >Service Type Name
+                                                            :</label >
+                </div >
+                <div class="col-md-8" >
+                  <select id="title" data-th-field="*{serviceTypeParameters}"
+                          class="form-control"
+                          tabindex="3" required multiple >
+                    <!--todo need to configure according to vehicle model-->
+                    <!--<option value="" disabled >Please select</option >
+                    <option
+                          data-th-each="serviceTypeParamter : ${serviceTypeParameters}"
+                          data-th-text="${serviceTypeParamter.name}"
+                          data-th-value="${serviceTypeParamter.id}" ></option >-->
                   </select >
                 </div >
               </div >
@@ -144,5 +143,8 @@
 <div data-th-replace="~{fragments/footer :: footerFragment}" ></div >
 <!-- script Fragment -->
 <div data-th-replace="~{fragments/script :: scriptFragment}" ></div >
+<!--todo : according to vehicle model need to show its parameter -->
+<script >
+</script >
 </body >
 </html >

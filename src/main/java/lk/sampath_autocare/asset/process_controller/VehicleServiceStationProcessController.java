@@ -1,24 +1,26 @@
 package lk.sampath_autocare.asset.process_controller;
 
 import lk.sampath_autocare.asset.common_asset.model.TwoDate;
+import lk.sampath_autocare.asset.payment.entity.Payment;
+import lk.sampath_autocare.asset.payment.entity.enums.PaymentMethod;
+import lk.sampath_autocare.asset.payment.entity.enums.PaymentStatus;
+import lk.sampath_autocare.asset.payment.service.PaymentService;
+import lk.sampath_autocare.asset.serviceType.entity.ServiceType;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.enums.ServiceTypeParameterVehicleStatus;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.service.ServiceTypeParameterVehicleService;
 import lk.sampath_autocare.asset.vehicle.entity.Vehicle;
 import lk.sampath_autocare.asset.vehicle.service.VehicleService;
-import lk.sampath_autocare.util.service.DateTimeAgeService;
-import lk.sampath_autocare.util.service.EmailService;
-import lk.sampath_autocare.util.service.TwilioMessageService;
+import lk.sampath_autocare.util.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Controller
@@ -27,15 +29,24 @@ public class VehicleServiceStationProcessController {
   private final ServiceTypeParameterVehicleService serviceTypeParameterVehicleService;
   private final DateTimeAgeService dateTimeAgeService;
   private final VehicleService vehicleService;
+  private final OperatorService operatorService;
+  private final PaymentService paymentService;
+  private final MakeAutoGenerateNumberService makeAutoGenerateNumberService;
   private final EmailService emailService;
   private final TwilioMessageService twilioMessageService;
 
   public VehicleServiceStationProcessController(ServiceTypeParameterVehicleService serviceTypeParameterVehicleService
-      , DateTimeAgeService dateTimeAgeService, VehicleService vehicleService, EmailService emailService,
+      , DateTimeAgeService dateTimeAgeService, VehicleService vehicleService, PaymentService paymentService,
+                                                OperatorService operatorService, PaymentService paymentService1,
+                                                MakeAutoGenerateNumberService makeAutoGenerateNumberService,
+                                                EmailService emailService,
                                                 TwilioMessageService twilioMessageService) {
     this.serviceTypeParameterVehicleService = serviceTypeParameterVehicleService;
     this.dateTimeAgeService = dateTimeAgeService;
     this.vehicleService = vehicleService;
+    this.operatorService = operatorService;
+    this.paymentService = paymentService1;
+    this.makeAutoGenerateNumberService = makeAutoGenerateNumberService;
     this.emailService = emailService;
     this.twilioMessageService = twilioMessageService;
   }
@@ -102,6 +113,7 @@ public class VehicleServiceStationProcessController {
 
   @PostMapping( "/save" )
   public String save(@ModelAttribute( "vehicle" ) Vehicle vehicle) {
+    Vehicle vehicleDB = vehicleService.findById(vehicle.getId());
     vehicle.getServiceTypeParameterVehicles().forEach(serviceTypeParameterVehicleService::persist);
 
     LocalDate localDate = LocalDate.now();
@@ -111,11 +123,11 @@ public class VehicleServiceStationProcessController {
     List< ServiceTypeParameterVehicle > serviceTypeParameterVehicles = serviceTypeParameterVehicleService
         .findByCreatedAtIsBetweenAndVehicle(form, to, vehicle);
     int allParameterSize = serviceTypeParameterVehicles.size();
-    int jobDoneSize = (int) serviceTypeParameterVehicles
+    List< ServiceTypeParameterVehicle > jobDoneSize = serviceTypeParameterVehicles
         .stream()
         .filter(x -> x.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.DONE))
-        .count();
-    if ( allParameterSize != jobDoneSize ) {
+        .collect(Collectors.toList());
+    if ( allParameterSize != jobDoneSize.size() ) {
       serviceTypeParameterVehicles
           .stream()
           .filter(x -> x.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.CHK))
@@ -125,6 +137,27 @@ public class VehicleServiceStationProcessController {
             serviceTypeParameterVehicleService.persist(x);
           });
     } else {
+      HashSet< ServiceType > serviceTypes = new HashSet<>();
+      jobDoneSize.forEach(x -> serviceTypes.add(x.getServiceType()));
+
+      AtomicReference< BigDecimal > totalAmount = new AtomicReference<>(BigDecimal.ZERO);
+      serviceTypes.forEach(x -> totalAmount.set(operatorService.addition(totalAmount.get(), x.getPrice())));
+
+      Payment payment = new Payment();
+      payment.setVehicle(vehicleDB);
+      payment.setCustomer(vehicleDB.getCustomer());
+      payment.setAmount(totalAmount.get());
+      payment.setPaymentMethod(PaymentMethod.CASH);
+      payment.setPaymentStatus(PaymentStatus.NOTPAID);
+
+      Payment lastPayment = paymentService.lastPayment();
+      if ( lastPayment == null ) {
+        payment.setCode("SAP" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
+      } else {
+        String previousCode = lastPayment.getCode().substring(3);
+        payment.setCode("SAP" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
+      }
+      paymentService.persist(payment);
       //todo-> need to send email and message to customer
       String message = "Your Vehicle's Service is completed";
       //emailService.sendEmail();
@@ -147,7 +180,6 @@ public class VehicleServiceStationProcessController {
     model.addAttribute("addStatusPayment", true);
     return common(model, ServiceTypeParameterVehicleStatus.PAID, twoDate.getStartDate(), twoDate.getEndDate());
   }
-
 
 
 }

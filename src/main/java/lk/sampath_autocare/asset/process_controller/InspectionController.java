@@ -99,6 +99,7 @@ public class InspectionController {
     for ( ServiceType serviceType : serviceTypeParameterVehicle.getServiceTypes() ) {
       serviceType.getServiceTypeParameters().forEach(x -> {
         ServiceTypeParameterVehicle serviceTypeParameterVehicleDB = new ServiceTypeParameterVehicle();
+        serviceTypeParameterVehicleDB.setServiceType(serviceType);
         serviceTypeParameterVehicleDB.setServiceTypeParameter(x);
         serviceTypeParameterVehicleDB.setVehicle(vehicleService.findById(serviceTypeParameterVehicle.getVehicle().getId()));
         serviceTypeParameterVehicleDB.setMeterValue(serviceTypeParameterVehicle.getMeterValue());
