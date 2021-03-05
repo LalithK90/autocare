@@ -6,9 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ServiceTypeParameterVehicleStatus {
-CHK("Checked"),
-  PEND("Pending"),
-  DONE("Done");
+  CHK("Checked"),
+  DONE("Done"),
+  PEND("Pending");
 
-private final String serviceTypeParameterVehicleStatus;
+  private final String serviceTypeParameterVehicleStatus;
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" >
 <head data-th-replace="~{fragments/header :: headerFragment}" >
   <link data-th-href="@{/css/addCustomerCss.css}" media="all" rel="stylesheet" type="text/css" />
   <meta charset="UTF-8" >
@@ -101,18 +101,18 @@
                            data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].serviceTypeParameter.id}" />
                     <input type="hidden"
                            data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].vehicle.id}" />
+                    <input type="hidden"
+                           data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].id}" />
                   </td >
-                  <td>
-                    <input type="text" class="form-control"
-                           data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].serviceTypeParameter.serviceSection.serviceSection}"
-                           readonly />
-                  </td>
+                  <td data-th-text="${serviceTypeParameterVehicle.serviceTypeParameter.serviceSection.serviceSection}" >
+                  </td >
                   <td >
                     <div class="custom-control custom-checkbox custom-control-inline "
                          data-th-each="serviceTypeParameterVehicleStatus,indexOne : ${serviceTypeParameterVehicleStatuses}" >
                       <input class="custom-control-input gender" required
                              data-th-name="${'serviceTypeParameterVehicles[__${index.index}__].serviceTypeParameterVehicleStatus'}"
                              data-th-id="${index.index}+${serviceTypeParameterVehicleStatus}+${indexOne.index}"
+                             data-th-value="${serviceTypeParameterVehicleStatus}"
                              data-th-checked="${#strings.equals(serviceTypeParameterVehicle.serviceTypeParameterVehicleStatus, serviceTypeParameterVehicleStatus)}"
                              type="radio" />
                       <label class="custom-control-label"
