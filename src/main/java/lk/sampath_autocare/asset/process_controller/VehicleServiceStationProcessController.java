@@ -61,12 +61,14 @@ public class VehicleServiceStationProcessController {
   @GetMapping( "/done" )
   public String getServiceTypeParameterVehicleStatusDone(Model model) {
     model.addAttribute("addStatus", false);
+    model.addAttribute("addStatusPayment", true);
     return common(model, ServiceTypeParameterVehicleStatus.DONE, LocalDate.now(), LocalDate.now());
   }
 
   @PostMapping( "/done/search" )
   public String getServiceTypeParameterVehicleStatusDoneSearch(@ModelAttribute TwoDate twoDate, Model model) {
     model.addAttribute("addStatus", false);
+    model.addAttribute("addStatusPayment", true);
     return common(model, ServiceTypeParameterVehicleStatus.DONE, twoDate.getStartDate(), twoDate.getEndDate());
   }
 
@@ -90,7 +92,10 @@ public class VehicleServiceStationProcessController {
 
     model.addAttribute("vehicleDetail", vehicle);
     model.addAttribute("vehicle", vehicle);
-    model.addAttribute("serviceTypeParameterVehicleStatuses", ServiceTypeParameterVehicleStatus.values());
+    List< ServiceTypeParameterVehicleStatus > serviceTypeParameterVehicleStatuses = new ArrayList<>();
+    serviceTypeParameterVehicleStatuses.add(ServiceTypeParameterVehicleStatus.CHK);
+    serviceTypeParameterVehicleStatuses.add(ServiceTypeParameterVehicleStatus.DONE);
+    model.addAttribute("serviceTypeParameterVehicleStatuses", serviceTypeParameterVehicleStatuses);
     model.addAttribute("addStatus", true);
     return "vehicleServiceStation/addVehicleServiceStation";
   }
@@ -119,7 +124,7 @@ public class VehicleServiceStationProcessController {
             x.setServiceTypeParameterVehicleStatus(ServiceTypeParameterVehicleStatus.PEND);
             serviceTypeParameterVehicleService.persist(x);
           });
-    }else {
+    } else {
       //todo-> need to send email and message to customer
       String message = "Your Vehicle's Service is completed";
       //emailService.sendEmail();
@@ -128,4 +133,21 @@ public class VehicleServiceStationProcessController {
 
     return "redirect:/vehicleServiceStationProcess";
   }
+
+  @GetMapping( "/paid" )
+  public String getServiceTypeParameterVehicleStatusPaid(Model model) {
+    model.addAttribute("addStatus", false);
+    model.addAttribute("addStatusPayment", true);
+    return common(model, ServiceTypeParameterVehicleStatus.PAID, LocalDate.now(), LocalDate.now());
+  }
+
+  @PostMapping( "/paid/search" )
+  public String getServiceTypeParameterVehicleStatusPaidSearch(@ModelAttribute TwoDate twoDate, Model model) {
+    model.addAttribute("addStatus", false);
+    model.addAttribute("addStatusPayment", true);
+    return common(model, ServiceTypeParameterVehicleStatus.PAID, twoDate.getStartDate(), twoDate.getEndDate());
+  }
+
+
+
 }

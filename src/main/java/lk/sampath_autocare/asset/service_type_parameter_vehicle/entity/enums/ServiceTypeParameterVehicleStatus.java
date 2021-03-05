@@ -8,7 +8,8 @@ import lombok.Getter;
 public enum ServiceTypeParameterVehicleStatus {
   CHK("Checked"),
   DONE("Done"),
-  PEND("Pending");
+  PEND("Pending"),
+  PAID("Paid");
 
   private final String serviceTypeParameterVehicleStatus;
 }
