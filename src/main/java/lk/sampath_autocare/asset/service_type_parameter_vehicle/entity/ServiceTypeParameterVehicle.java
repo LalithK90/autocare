@@ -31,7 +31,7 @@ public class ServiceTypeParameterVehicle extends AuditEntity {
   @ManyToOne
   private Vehicle vehicle;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne
   private ServiceType serviceType;
 
   @Transient

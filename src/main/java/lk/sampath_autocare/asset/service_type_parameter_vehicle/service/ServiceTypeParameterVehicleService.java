@@ -2,8 +2,10 @@ package lk.sampath_autocare.asset.service_type_parameter_vehicle.service;
 
 
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
+import lk.sampath_autocare.asset.serviceType.entity.ServiceType;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.dao.ServiceTypeParameterVehicleDao;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
+import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.enums.ServiceTypeParameterVehicleStatus;
 import lk.sampath_autocare.asset.vehicle.entity.Vehicle;
 import lk.sampath_autocare.util.interfaces.AbstractService;
 import org.springframework.data.domain.Example;
@@ -15,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class ServiceTypeParameterVehicleService implements AbstractService< ServiceTypeParameterVehicle, Integer> {
+public class ServiceTypeParameterVehicleService implements AbstractService< ServiceTypeParameterVehicle, Integer > {
   private final ServiceTypeParameterVehicleDao serviceTypeParameterVehicleDao;
 
   public ServiceTypeParameterVehicleService(ServiceTypeParameterVehicleDao serviceTypeParameterVehicleDao) {
@@ -23,7 +25,7 @@ public class ServiceTypeParameterVehicleService implements AbstractService< Serv
   }
 
 
-  public List<ServiceTypeParameterVehicle> findAll() {
+  public List< ServiceTypeParameterVehicle > findAll() {
     return serviceTypeParameterVehicleDao.findAll();
   }
 
@@ -43,21 +45,28 @@ public class ServiceTypeParameterVehicleService implements AbstractService< Serv
     return true;
   }
 
-  public List<ServiceTypeParameterVehicle> search(ServiceTypeParameterVehicle serviceTypeParameterVehicle) {
+  public List< ServiceTypeParameterVehicle > search(ServiceTypeParameterVehicle serviceTypeParameterVehicle) {
 
     ExampleMatcher matcher = ExampleMatcher
         .matching()
         .withIgnoreCase()
         .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-    Example<ServiceTypeParameterVehicle> labTestParameterExample = Example.of(serviceTypeParameterVehicle, matcher);
+    Example< ServiceTypeParameterVehicle > labTestParameterExample = Example.of(serviceTypeParameterVehicle, matcher);
     return serviceTypeParameterVehicleDao.findAll(labTestParameterExample);
   }
 
-  public List<ServiceTypeParameterVehicle> findByCreatedAtIsBetween(LocalDateTime form, LocalDateTime to) {
-  return serviceTypeParameterVehicleDao.findByCreatedAtIsBetween(form,to);
+  public List< ServiceTypeParameterVehicle > findByCreatedAtIsBetween(LocalDateTime form, LocalDateTime to) {
+    return serviceTypeParameterVehicleDao.findByCreatedAtIsBetween(form, to);
   }
 
-  public List<ServiceTypeParameterVehicle> findByCreatedAtIsBetweenAndVehicle(LocalDateTime form, LocalDateTime to, Vehicle vehicle) {
-    return serviceTypeParameterVehicleDao.findByCreatedAtIsBetweenAndVehicle(form,to,vehicle);
+  public List< ServiceTypeParameterVehicle > findByCreatedAtIsBetweenAndVehicle(LocalDateTime form, LocalDateTime to,
+                                                                                Vehicle vehicle) {
+    return serviceTypeParameterVehicleDao.findByCreatedAtIsBetweenAndVehicle(form, to, vehicle);
+  }
+
+  public List< ServiceTypeParameterVehicle > findByVehicleAndServiceTypeAndServiceTypeParameterVehicleStatus(Vehicle vehicle, ServiceType serviceType, ServiceTypeParameterVehicleStatus serviceTypeParameterVehicleStatus) {
+    return serviceTypeParameterVehicleDao.findByVehicleAndServiceTypeAndServiceTypeParameterVehicleStatus(vehicle,
+                                                                                                          serviceType
+        , serviceTypeParameterVehicleStatus);
   }
 }

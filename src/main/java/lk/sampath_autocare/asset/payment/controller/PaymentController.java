@@ -8,6 +8,9 @@ import lk.sampath_autocare.asset.payment.entity.Payment;
 import lk.sampath_autocare.asset.payment.entity.enums.PaymentMethod;
 import lk.sampath_autocare.asset.payment.entity.enums.PaymentStatus;
 import lk.sampath_autocare.asset.payment.service.PaymentService;
+import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
+import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.enums.ServiceTypeParameterVehicleStatus;
+import lk.sampath_autocare.asset.service_type_parameter_vehicle.service.ServiceTypeParameterVehicleService;
 import lk.sampath_autocare.asset.vehicle.service.VehicleService;
 import lk.sampath_autocare.util.service.DateTimeAgeService;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -26,15 +30,18 @@ public class PaymentController {
   private final VehicleService vehicleService;
   private final DateTimeAgeService dateTimeAgeService;
   private final DiscountRatioService discountRatioService;
+  private final ServiceTypeParameterVehicleService serviceTypeParameterVehicleService;
 
   public PaymentController(PaymentService paymentService, CustomerService customerService,
                            VehicleService vehicleService, DateTimeAgeService dateTimeAgeService,
-                           DiscountRatioService discountRatioService) {
+                           DiscountRatioService discountRatioService,
+                           ServiceTypeParameterVehicleService serviceTypeParameterVehicleService) {
     this.paymentService = paymentService;
     this.customerService = customerService;
     this.vehicleService = vehicleService;
     this.dateTimeAgeService = dateTimeAgeService;
     this.discountRatioService = discountRatioService;
+    this.serviceTypeParameterVehicleService = serviceTypeParameterVehicleService;
   }
 
   @GetMapping
@@ -128,9 +135,23 @@ public class PaymentController {
     return "payment/addPayment";
   }
 
-  @PostMapping("/add")
-  public String persistPayment(@ModelAttribute Payment payment, BindingResult bindingResult){
-    //todo
+  @PostMapping( "/add" )
+  public String persistPayment(@ModelAttribute Payment payment, BindingResult bindingResult) {
+    if ( bindingResult.hasErrors() ) {
+      return "redirect:/payment/pay/" + payment.getId();
+    }
+    Payment paymentDb = paymentService.persist(payment);
+
+    serviceTypeParameterVehicleService
+        .findByVehicleAndServiceTypeAndServiceTypeParameterVehicleStatus(paymentDb.getVehicle(),
+                                                                         paymentDb.getServiceType(),
+                                                                         ServiceTypeParameterVehicleStatus.DONE)
+        .forEach(x -> {
+          x.setServiceTypeParameterVehicleStatus(ServiceTypeParameterVehicleStatus.PAID);
+          serviceTypeParameterVehicleService.persist(x);
+        });
+
+
     return "redirect:/payment/notPaid";
   }
 

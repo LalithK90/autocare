@@ -35,7 +35,6 @@ public class ServiceType extends AuditEntity {
     @Enumerated( EnumType.STRING)
     private LiveDead liveDead;
 
-
     @ManyToMany
     @JoinTable(name = "service_type_service_type_parameter",
             joinColumns = @JoinColumn(name = "service_type_id"),
