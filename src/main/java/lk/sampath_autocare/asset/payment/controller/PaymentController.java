@@ -3,13 +3,16 @@ package lk.sampath_autocare.asset.payment.controller;
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.common_asset.model.TwoDate;
 import lk.sampath_autocare.asset.customer.service.CustomerService;
+import lk.sampath_autocare.asset.discount_ratio.service.DiscountRatioService;
 import lk.sampath_autocare.asset.payment.entity.Payment;
+import lk.sampath_autocare.asset.payment.entity.enums.PaymentMethod;
 import lk.sampath_autocare.asset.payment.entity.enums.PaymentStatus;
 import lk.sampath_autocare.asset.payment.service.PaymentService;
 import lk.sampath_autocare.asset.vehicle.service.VehicleService;
 import lk.sampath_autocare.util.service.DateTimeAgeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -22,13 +25,16 @@ public class PaymentController {
   private final CustomerService customerService;
   private final VehicleService vehicleService;
   private final DateTimeAgeService dateTimeAgeService;
+  private final DiscountRatioService discountRatioService;
 
   public PaymentController(PaymentService paymentService, CustomerService customerService,
-                           VehicleService vehicleService, DateTimeAgeService dateTimeAgeService) {
+                           VehicleService vehicleService, DateTimeAgeService dateTimeAgeService,
+                           DiscountRatioService discountRatioService) {
     this.paymentService = paymentService;
     this.customerService = customerService;
     this.vehicleService = vehicleService;
     this.dateTimeAgeService = dateTimeAgeService;
+    this.discountRatioService = discountRatioService;
   }
 
   @GetMapping
@@ -114,11 +120,18 @@ public class PaymentController {
   @GetMapping( "/pay/{id}" )
   public String pay(@PathVariable( "id" ) Integer id, Model model) {
     Payment payment = paymentService.findById(id);
+    model.addAttribute("paymentMethods", PaymentMethod.values());
+    model.addAttribute("discountRatios", discountRatioService.findAll());
     model.addAttribute("payment", payment);
     model.addAttribute("customerDetail", customerService.findById(payment.getCustomer().getId()));
     model.addAttribute("vehicleDetail", vehicleService.findById(payment.getVehicle().getId()));
     return "payment/addPayment";
   }
 
+  @PostMapping("/add")
+  public String persistPayment(@ModelAttribute Payment payment, BindingResult bindingResult){
+    //todo
+    return "redirect:/payment/notPaid";
+  }
 
 }

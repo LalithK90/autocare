@@ -183,6 +183,7 @@ public class VehicleServiceStationProcessController {
       payment.setVehicle(vehicleDB);
       payment.setCustomer(vehicleDB.getCustomer());
       payment.setAmount(totalAmount);
+      payment.setServiceType(hashSet.iterator().next());
       payment.setPaymentMethod(PaymentMethod.CASH);
       payment.setPaymentStatus(PaymentStatus.NOTPAID);
 
