@@ -151,7 +151,6 @@ public class PaymentController {
           serviceTypeParameterVehicleService.persist(x);
         });
 
-
     return "redirect:/payment/notPaid";
   }
 
