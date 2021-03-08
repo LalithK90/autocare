@@ -2,24 +2,25 @@ package lk.sampath_autocare.asset.payment.controller;
 
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.common_asset.model.TwoDate;
+import lk.sampath_autocare.asset.customer.entity.Customer;
 import lk.sampath_autocare.asset.customer.service.CustomerService;
 import lk.sampath_autocare.asset.discount_ratio.service.DiscountRatioService;
 import lk.sampath_autocare.asset.payment.entity.Payment;
 import lk.sampath_autocare.asset.payment.entity.enums.PaymentMethod;
 import lk.sampath_autocare.asset.payment.entity.enums.PaymentStatus;
 import lk.sampath_autocare.asset.payment.service.PaymentService;
-import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.enums.ServiceTypeParameterVehicleStatus;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.service.ServiceTypeParameterVehicleService;
 import lk.sampath_autocare.asset.vehicle.service.VehicleService;
 import lk.sampath_autocare.util.service.DateTimeAgeService;
+import lk.sampath_autocare.util.service.EmailService;
+import lk.sampath_autocare.util.service.TwilioMessageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -29,17 +30,21 @@ public class PaymentController {
   private final CustomerService customerService;
   private final VehicleService vehicleService;
   private final DateTimeAgeService dateTimeAgeService;
+  private final EmailService emailService;
+  private final TwilioMessageService twilioMessageService;
   private final DiscountRatioService discountRatioService;
   private final ServiceTypeParameterVehicleService serviceTypeParameterVehicleService;
 
   public PaymentController(PaymentService paymentService, CustomerService customerService,
                            VehicleService vehicleService, DateTimeAgeService dateTimeAgeService,
-                           DiscountRatioService discountRatioService,
+                           EmailService emailService, TwilioMessageService twilioMessageService, DiscountRatioService discountRatioService,
                            ServiceTypeParameterVehicleService serviceTypeParameterVehicleService) {
     this.paymentService = paymentService;
     this.customerService = customerService;
     this.vehicleService = vehicleService;
     this.dateTimeAgeService = dateTimeAgeService;
+    this.emailService = emailService;
+    this.twilioMessageService = twilioMessageService;
     this.discountRatioService = discountRatioService;
     this.serviceTypeParameterVehicleService = serviceTypeParameterVehicleService;
   }
@@ -141,6 +146,17 @@ public class PaymentController {
       return "redirect:/payment/pay/" + payment.getId();
     }
     Payment paymentDb = paymentService.persist(payment);
+    Customer customer = customerService.findById(paymentDb.getCustomer().getId());
+//todo email and message
+    if (customer.getEmail() != null){
+      String message = "Thanks for our payment";
+      //emailService.sendEmail();
+    }
+    if (customer.getMobile() != null){
+      String message = "Thanks for our payment";
+     // twilioMessageService.sendSMS();
+    }
+
 
     serviceTypeParameterVehicleService
         .findByVehicleAndServiceTypeAndServiceTypeParameterVehicleStatus(paymentDb.getVehicle(),
