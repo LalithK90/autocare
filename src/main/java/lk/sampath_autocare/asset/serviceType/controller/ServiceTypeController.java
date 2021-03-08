@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.serviceType.entity.ServiceType;
 import lk.sampath_autocare.asset.serviceType.service.ServiceTypeService;
+import lk.sampath_autocare.asset.service_type_parameter.controller.ServiceTypeParameterController;
 import lk.sampath_autocare.asset.service_type_parameter.service.ServiceTypeParameterService;
 import lk.sampath_autocare.asset.vehicle.entity.Enum.VehicleModel;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -34,9 +36,15 @@ public class ServiceTypeController {
         model.addAttribute("addStatus", booleanValue);
         model.addAttribute("serviceType", serviceType);
         model.addAttribute("vehicleModels", VehicleModel.values());
-        model.addAttribute("serviceTypeParameters", serviceTypeParameterService.findAll() .stream()
+        model.addAttribute("serviceTypeParameters", serviceTypeParameterService.findAll()
+            .stream()
             .filter(x -> LiveDead.ACTIVE.equals(x.getLiveDead()))
             .collect(Collectors.toList()));
+        //todo
+        model.addAttribute("serviceTypeParameterUrl",MvcUriComponentsBuilder
+            .fromMethodName(ServiceTypeParameterController.class, "byServiceTypeParameter", "")
+            .build()
+            .toString());
         return "serviceType/addServiceType";
     }
 

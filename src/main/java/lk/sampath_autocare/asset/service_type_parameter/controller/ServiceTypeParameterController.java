@@ -1,17 +1,18 @@
 package lk.sampath_autocare.asset.service_type_parameter.controller;
 
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lk.sampath_autocare.asset.service_type_parameter.entity.ServiceTypeParameter;
 import lk.sampath_autocare.asset.service_type_parameter.entity.enums.ServiceSection;
 import lk.sampath_autocare.asset.service_type_parameter.service.ServiceTypeParameterService;
 import lk.sampath_autocare.asset.vehicle.entity.Enum.VehicleModel;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -69,5 +70,19 @@ public class ServiceTypeParameterController {
     public String delete(@PathVariable Integer id, Model model) {
         serviceTypeParameterService.delete(id);
         return "redirect:/serviceTypeParameter";
+    }
+    @GetMapping( "/{vehicleModel}" )
+    @ResponseBody
+    public MappingJacksonValue byServiceTypeParameter(@PathVariable VehicleModel vehicleModel){
+
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(serviceTypeParameterService.findByVehicleModel(vehicleModel));
+
+        SimpleBeanPropertyFilter simpleBeanPropertyFilterOne = SimpleBeanPropertyFilter
+            .filterOutAllExcept("id", "name");
+
+        FilterProvider filters = new SimpleFilterProvider()
+            .addFilter("ServiceTypeParameter", simpleBeanPropertyFilterOne);
+        mappingJacksonValue.setFilters(filters);
+        return mappingJacksonValue;
     }
 }
