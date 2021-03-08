@@ -5,12 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DistrictList {
-
+public class ParameterCountPrice {
     private String name;
-    private String district;
+    private Integer count;
+    private BigDecimal amount;
+    private BigDecimal discountAmount;
+    private BigDecimal totalAmount;
 }

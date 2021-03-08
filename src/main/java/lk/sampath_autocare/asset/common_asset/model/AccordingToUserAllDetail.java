@@ -1,0 +1,22 @@
+package lk.sampath_autocare.asset.common_asset.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class AccordingToUserAllDetail {
+  private String employeeName;
+  private List< NameCount > paidServiceTypeAndCounts;
+  List< ParameterCountPrice > paymentTypeCountAndTotalAmounts;
+  private List< NameCount > allNotPaidServiceTypeAndCounts;
+  private List< ParameterCountPrice > allNotPaidTypeCountAndTotalAmounts;
+  private List< NameCount > allCancelPaidServiceTypeAndCounts;
+  private List< ParameterCountPrice > allCancelTypeCountAndTotalAmounts;
+}
