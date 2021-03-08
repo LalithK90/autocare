@@ -94,8 +94,10 @@ public class ReportController {
       NameCount serviceTypeAndCount = new NameCount();
       List< ServiceType > serviceTypes = new ArrayList<>();
       payments.forEach(x -> {
-        serviceTypes.add(serviceTypeService.findById(x.getServiceType().getId()));
-
+        ServiceType serviceType = serviceTypeService.findById(x.getServiceType().getId());
+        if (serviceType.getVehicleModel().equals(value) ) {
+          serviceTypes.add(serviceType);
+        }
       });
       serviceTypeAndCount.setName(value.getVehicleModel());
       serviceTypeAndCount.setCount(serviceTypes.size());
