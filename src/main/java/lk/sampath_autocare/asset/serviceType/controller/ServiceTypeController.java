@@ -40,7 +40,6 @@ public class ServiceTypeController {
             .stream()
             .filter(x -> LiveDead.ACTIVE.equals(x.getLiveDead()))
             .collect(Collectors.toList()));
-        //todo
         model.addAttribute("serviceTypeParameterUrl",MvcUriComponentsBuilder
             .fromMethodName(ServiceTypeParameterController.class, "byServiceTypeParameter", "")
             .build()

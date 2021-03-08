@@ -18,71 +18,75 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/serviceTypeParameter")
+@RequestMapping( "/serviceTypeParameter" )
 public class ServiceTypeParameterController {
-    private final ServiceTypeParameterService serviceTypeParameterService;
+  private final ServiceTypeParameterService serviceTypeParameterService;
 
-    public ServiceTypeParameterController(ServiceTypeParameterService serviceTypeParameterService) {
-        this.serviceTypeParameterService = serviceTypeParameterService;
+  public ServiceTypeParameterController(ServiceTypeParameterService serviceTypeParameterService) {
+    this.serviceTypeParameterService = serviceTypeParameterService;
+  }
+
+  private String commonThing(Model model, Boolean booleanValue, ServiceTypeParameter serviceTypeParameter) {
+    model.addAttribute("addStatus", booleanValue);
+    model.addAttribute("serviceTypeParameter", serviceTypeParameter);
+    model.addAttribute("vehicleModels", VehicleModel.values());
+    model.addAttribute("serviceSections", ServiceSection.values());
+    return "serviceTypeParameter/addServiceTypeParameter";
+  }
+
+
+  @GetMapping
+  public String findAll(Model model) {
+    model.addAttribute("serviceTypeParameters", serviceTypeParameterService.findAll());
+    return "serviceTypeParameter/serviceTypeParameter";
+  }
+
+  @GetMapping( "/add" )
+  public String addForm(Model model) {
+    return commonThing(model, false, new ServiceTypeParameter());
+  }
+
+  @GetMapping( "/{id}" )
+  public String findById(@PathVariable Integer id, Model model) {
+    model.addAttribute("serviceTypeParameterDetail", serviceTypeParameterService.findById(id));
+    return "serviceTypeParameter/serviceTypeParameter-detail";
+  }
+
+  @GetMapping( "/edit/{id}" )
+  public String edit(@PathVariable Integer id, Model model) {
+    return commonThing(model, true, serviceTypeParameterService.findById(id));
+  }
+
+  @PostMapping( value = {"/save", "/update"} )
+  public String persist(@Valid ServiceTypeParameter serviceTypeParameter, BindingResult bindingResult,
+                        RedirectAttributes redirectAttributes, Model model) throws Exception {
+    if ( bindingResult.hasErrors() ) {
+      return commonThing(model, true, serviceTypeParameter);
     }
+    redirectAttributes.addFlashAttribute("serviceTypeParameterDetail",
+                                         serviceTypeParameterService.persist(serviceTypeParameter));
+    return "redirect:/serviceTypeParameter";
+  }
 
-    private String commonThing(Model model, Boolean booleanValue, ServiceTypeParameter serviceTypeParameter) {
-        model.addAttribute("addStatus", booleanValue);
-        model.addAttribute("serviceTypeParameter", serviceTypeParameter);
-        model.addAttribute("vehicleModels", VehicleModel.values());
-        model.addAttribute("serviceSections", ServiceSection.values());
-        return "serviceTypeParameter/addServiceTypeParameter";
-    }
+  @GetMapping( "/delete/{id}" )
+  public String delete(@PathVariable Integer id) {
+    serviceTypeParameterService.delete(id);
+    return "redirect:/serviceTypeParameter";
+  }
 
+  @GetMapping( "/parameter/{vehicleModel}" )
+  @ResponseBody
+  public MappingJacksonValue byServiceTypeParameter(@PathVariable String vehicleModel) {
 
-    @GetMapping
-    public String findAll(Model model) {
-        model.addAttribute("serviceTypeParameters", serviceTypeParameterService.findAll());
-        return "serviceTypeParameter/serviceTypeParameter";
-    }
+    MappingJacksonValue mappingJacksonValue =
+        new MappingJacksonValue(serviceTypeParameterService.findByVehicleModel(VehicleModel.valueOf(vehicleModel)));
 
-    @GetMapping("/add")
-    public String addForm(Model model) {
-        return commonThing(model, false, new ServiceTypeParameter());
-    }
+    SimpleBeanPropertyFilter simpleBeanPropertyFilterOne = SimpleBeanPropertyFilter
+        .filterOutAllExcept("id", "name");
 
-    @GetMapping("/{id}")
-    public String findById(@PathVariable Integer id, Model model) {
-        model.addAttribute("serviceTypeParameterDetail", serviceTypeParameterService.findById(id));
-        return "serviceTypeParameter/serviceTypeParameter-detail";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Integer id, Model model) {
-        return commonThing(model, true, serviceTypeParameterService.findById(id));
-    }
-
-    @PostMapping(value = {"/save", "/update"})
-    public String persist(@Valid ServiceTypeParameter serviceTypeParameter, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) throws Exception {
-        if (bindingResult.hasErrors()) {
-            return commonThing(model, true, serviceTypeParameter);
-        }
-        redirectAttributes.addFlashAttribute("serviceTypeParameterDetail", serviceTypeParameterService.persist(serviceTypeParameter));
-        return "redirect:/serviceTypeParameter";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id, Model model) {
-        serviceTypeParameterService.delete(id);
-        return "redirect:/serviceTypeParameter";
-    }
-    @GetMapping( "/{vehicleModel}" )
-    @ResponseBody
-    public MappingJacksonValue byServiceTypeParameter(@PathVariable VehicleModel vehicleModel){
-
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(serviceTypeParameterService.findByVehicleModel(vehicleModel));
-
-        SimpleBeanPropertyFilter simpleBeanPropertyFilterOne = SimpleBeanPropertyFilter
-            .filterOutAllExcept("id", "name");
-
-        FilterProvider filters = new SimpleFilterProvider()
-            .addFilter("ServiceTypeParameter", simpleBeanPropertyFilterOne);
-        mappingJacksonValue.setFilters(filters);
-        return mappingJacksonValue;
-    }
+    FilterProvider filters = new SimpleFilterProvider()
+        .addFilter("ServiceTypeParameter", simpleBeanPropertyFilterOne);
+    mappingJacksonValue.setFilters(filters);
+    return mappingJacksonValue;
+  }
 }
