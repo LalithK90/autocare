@@ -14,7 +14,7 @@ import java.util.List;
 public class AccordingToUserAllDetail {
   private String employeeName;
   private List< NameCount > paidServiceTypeAndCounts;
-  List< ParameterCountPrice > paymentTypeCountAndTotalAmounts;
+  private List< ParameterCountPrice > paymentTypeCountAndTotalAmounts;
   private List< NameCount > allNotPaidServiceTypeAndCounts;
   private List< ParameterCountPrice > allNotPaidTypeCountAndTotalAmounts;
   private List< NameCount > allCancelPaidServiceTypeAndCounts;
