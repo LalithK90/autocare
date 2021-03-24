@@ -89,14 +89,14 @@
     <div class="form-group" id="formButton">
       <div class=" form-group text-center col-sm-10">
         <!--Back Button-->
-        <a class="btn btn-dark"  tabindex="10" href="/vehicle">
+        <a class="btn btn-dark"  tabindex="10" href="/discountRatio">
           <i class="fas fa-arrow-circle-left" style="font-size: 20px"></i>&nbsp;&nbsp;Back
         </a>
         <!--Save Button-->
         <button type="submit" class="btn btn-primary">
-          <i data-th-class="${addStatus==false?'fa fa-save mr-1':'fa fa-thumbs-up mr-1'}"></i>
+          <i data-th-class="${addStatus==true?'fa fa-save mr-1':'fa fa-thumbs-up mr-1'}"></i>
           <span
-                data-th-text="${addStatus==false?'Save' : 'Update'}"></span>
+                data-th-text="${addStatus==true?'Save' : 'Update'}"></span>
         </button>
         <!--Cancel Button-->
         <button class="btn btn-warning ml-5" type="reset" tabindex="9">
