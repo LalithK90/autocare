@@ -133,7 +133,9 @@ public class PaymentController {
   public String pay(@PathVariable( "id" ) Integer id, Model model) {
     Payment payment = paymentService.findById(id);
     model.addAttribute("paymentMethods", PaymentMethod.values());
-    model.addAttribute("discountRatios", discountRatioService.findAll());
+    model.addAttribute("discountRatios", discountRatioService.findAll().stream()
+        .filter(x -> x.getDiscountRatioStatus().equals(DiscountRatioStatus.ACTIVE) && x.getLiveDead().equals(LiveDead.ACTIVE))
+        .collect(Collectors.toList()));
     model.addAttribute("payment", payment);
     model.addAttribute("customerDetail", customerService.findById(payment.getCustomer().getId()));
     model.addAttribute("vehicleDetail", vehicleService.findById(payment.getVehicle().getId()));
