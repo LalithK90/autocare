@@ -63,6 +63,7 @@
                            required style="text-transform:uppercase" >
                     <p class="text-danger" data-th-if="${#fields.hasErrors('registrationNumber')}"
                        data-th-errors="*{registrationNumber}">Error Name</p>
+                    <input type="text" data-th-field="*{liveDead}" hidden >
                 </div>
             </div>
             <!--customer-->

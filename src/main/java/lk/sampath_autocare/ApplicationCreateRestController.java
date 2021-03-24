@@ -2,6 +2,7 @@ package lk.sampath_autocare;
 
 import lk.sampath_autocare.asset.common_asset.model.Enum.CivilStatus;
 import lk.sampath_autocare.asset.common_asset.model.Enum.Gender;
+import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.common_asset.model.Enum.Title;
 import lk.sampath_autocare.asset.employee.entity.Employee;
 import lk.sampath_autocare.asset.employee.entity.enums.Designation;
@@ -51,6 +52,7 @@ public class ApplicationCreateRestController {
         employee.setMobileOne("0750000000");
         employee.setTitle(Title.DR);
         employee.setGender(Gender.MALE);
+        employee.setLiveDead(LiveDead.STOP);
         employee.setDesignation(Designation.CASHIER);
         employee.setCivilStatus(CivilStatus.UNMARRIED);
         employee.setEmployeeStatus(EmployeeStatus.WORKING);
