@@ -14,7 +14,7 @@ import lk.sampath_autocare.asset.payment.service.PaymentService;
 import lk.sampath_autocare.asset.serviceType.entity.ServiceType;
 import lk.sampath_autocare.asset.serviceType.service.ServiceTypeService;
 import lk.sampath_autocare.asset.user.service.UserService;
-import lk.sampath_autocare.asset.vehicle.entity.Enum.VehicleModel;
+import lk.sampath_autocare.asset.vehicle.entity.enums.VehicleModel;
 import lk.sampath_autocare.util.service.DateTimeAgeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

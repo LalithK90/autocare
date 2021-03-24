@@ -9,7 +9,7 @@ import lk.sampath_autocare.asset.serviceType.entity.ServiceType;
 import lk.sampath_autocare.asset.serviceType.service.ServiceTypeService;
 import lk.sampath_autocare.asset.service_type_parameter.controller.ServiceTypeParameterController;
 import lk.sampath_autocare.asset.service_type_parameter.service.ServiceTypeParameterService;
-import lk.sampath_autocare.asset.vehicle.entity.Enum.VehicleModel;
+import lk.sampath_autocare.asset.vehicle.entity.enums.VehicleModel;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

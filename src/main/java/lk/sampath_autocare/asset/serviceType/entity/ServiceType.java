@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.payment.entity.Payment;
 import lk.sampath_autocare.asset.service_type_parameter.entity.ServiceTypeParameter;
-import lk.sampath_autocare.asset.vehicle.entity.Enum.VehicleModel;
+import lk.sampath_autocare.asset.vehicle.entity.enums.VehicleModel;
 import lk.sampath_autocare.util.audit.AuditEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

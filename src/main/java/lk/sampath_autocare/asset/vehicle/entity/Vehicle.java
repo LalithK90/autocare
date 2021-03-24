@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.customer.entity.Customer;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
-import lk.sampath_autocare.asset.vehicle.entity.Enum.VehicleModel;
+import lk.sampath_autocare.asset.vehicle.entity.enums.GearType;
+import lk.sampath_autocare.asset.vehicle.entity.enums.VehicleModel;
 import lk.sampath_autocare.util.audit.AuditEntity;
 import lombok.*;
 
@@ -36,7 +37,8 @@ public class Vehicle extends AuditEntity {
 
     private String manufacturedYear;
 
-    private String gearNumber;
+    @Enumerated(EnumType.STRING)
+    private GearType gearType;
 
     @Enumerated(EnumType.STRING)
     private LiveDead liveDead;

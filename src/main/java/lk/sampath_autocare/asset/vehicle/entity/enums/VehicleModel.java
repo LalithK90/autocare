@@ -1,4 +1,4 @@
-package lk.sampath_autocare.asset.vehicle.entity.Enum;
+package lk.sampath_autocare.asset.vehicle.entity.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

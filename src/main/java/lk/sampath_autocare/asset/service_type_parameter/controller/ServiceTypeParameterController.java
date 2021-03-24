@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lk.sampath_autocare.asset.service_type_parameter.entity.ServiceTypeParameter;
 import lk.sampath_autocare.asset.service_type_parameter.entity.enums.ServiceSection;
 import lk.sampath_autocare.asset.service_type_parameter.service.ServiceTypeParameterService;
-import lk.sampath_autocare.asset.vehicle.entity.Enum.VehicleModel;
+import lk.sampath_autocare.asset.vehicle.entity.enums.VehicleModel;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
