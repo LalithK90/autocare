@@ -1,20 +1,24 @@
 package lk.sampath_autocare.asset.process_controller;
 
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
-import lk.sampath_autocare.asset.customer.service.CustomerService;
 import lk.sampath_autocare.asset.serviceType.controller.ServiceTypeController;
+import lk.sampath_autocare.asset.serviceType.entity.ServiceType;
 import lk.sampath_autocare.asset.serviceType.service.ServiceTypeService;
-import lk.sampath_autocare.asset.service_type_parameter.service.ServiceTypeParameterService;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
+import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.enums.ServiceTypeParameterVehicleStatus;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.service.ServiceTypeParameterVehicleService;
-import lk.sampath_autocare.asset.user.entity.User;
 import lk.sampath_autocare.asset.vehicle.entity.Vehicle;
 import lk.sampath_autocare.asset.vehicle.service.VehicleService;
+import lk.sampath_autocare.util.service.DateTimeAgeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,20 +26,18 @@ import java.util.stream.Collectors;
 @RequestMapping( "/inspection" )
 public class InspectionController {
   private final VehicleService vehicleService;
-  private final CustomerService customerService;
   private final ServiceTypeService serviceTypeService;
-  private final ServiceTypeParameterService serviceTypeParameterService;
   private final ServiceTypeParameterVehicleService serviceTypeParameterVehicleService;
+  private final DateTimeAgeService dateTimeAgeService;
 
-  public InspectionController(VehicleService vehicleService, CustomerService customerService,
+  public InspectionController(VehicleService vehicleService,
                               ServiceTypeService serviceTypeService,
-                              ServiceTypeParameterService serviceTypeParameterService,
-                              ServiceTypeParameterVehicleService serviceTypeParameterVehicleService) {
+                              ServiceTypeParameterVehicleService serviceTypeParameterVehicleService,
+                              DateTimeAgeService dateTimeAgeService) {
     this.vehicleService = vehicleService;
-    this.customerService = customerService;
     this.serviceTypeService = serviceTypeService;
-    this.serviceTypeParameterService = serviceTypeParameterService;
     this.serviceTypeParameterVehicleService = serviceTypeParameterVehicleService;
+    this.dateTimeAgeService = dateTimeAgeService;
   }
 
   @GetMapping
@@ -85,5 +87,31 @@ public class InspectionController {
     model.addAttribute("customerDetail", vehicle.getCustomer());
     model.addAttribute("serviceTypeParameterVehicle", new ServiceTypeParameterVehicle());
     return "inspection/inspectionForm";
+  }
+
+  @PostMapping( "/save" )
+  public String save(@Valid @ModelAttribute( "serviceTypeParameterVehicle" ) ServiceTypeParameterVehicle serviceTypeParameterVehicle, BindingResult bindingResult, Model model) {
+
+    if ( bindingResult.hasErrors() ) {
+      return "redirect:/inspection";
+    }
+
+    for ( ServiceType serviceType : serviceTypeParameterVehicle.getServiceTypes() ) {
+      serviceType.getServiceTypeParameters().forEach(x -> {
+        ServiceTypeParameterVehicle serviceTypeParameterVehicleDB = new ServiceTypeParameterVehicle();
+        serviceTypeParameterVehicleDB.setServiceType(serviceType);
+        serviceTypeParameterVehicleDB.setServiceTypeParameter(x);
+        serviceTypeParameterVehicleDB.setVehicle(vehicleService.findById(serviceTypeParameterVehicle.getVehicle().getId()));
+        serviceTypeParameterVehicleDB.setMeterValue(serviceTypeParameterVehicle.getMeterValue());
+        //this service type parameter already save or not in db
+        if ( serviceTypeParameterVehicleService.search(serviceTypeParameterVehicleDB)
+            .stream().noneMatch(y -> y.getCreatedAt().toLocalDate().equals(LocalDate.now())) ) {
+          serviceTypeParameterVehicleDB.setServiceTypeParameterVehicleStatus(ServiceTypeParameterVehicleStatus.CHK);
+          serviceTypeParameterVehicleService.persist(serviceTypeParameterVehicleDB);
+        }
+      });
+    }
+
+    return "redirect:/inspection";
   }
 }

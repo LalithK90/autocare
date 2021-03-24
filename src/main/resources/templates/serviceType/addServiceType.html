@@ -7,7 +7,7 @@
 </head >
 <body >
 <nav data-th-replace="~{fragments/navBar :: navBarFragment}" ></nav >
-<link  data-th-href="@{/css/addServiceTypeCss.css}" media="all" rel="stylesheet" type="text/css" />
+<link data-th-href="@{/css/addServiceTypeCss.css}" media="all" rel="stylesheet" type="text/css" />
 
 <div class="container-fluid  form-Border" id="topicBack" >
   <div class="row text-left " >
@@ -58,9 +58,9 @@
                 <div class="col-sm-8" >
                   <input type="text" class="form-control" data-th-field="*{id}"
                          id="id" readonly >
+                  <input type="text" data-th-field="*{liveDead}" hidden >
                 </div >
               </div >
-
               <!--Interview name-->
               <div class="form-group row" >
                 <label data-th-for="${'name'}" class="col-sm-4 col-form-label " >
@@ -72,24 +72,6 @@
                      data-th-errors="*{name}" >Error Name</p >
                 </div >
               </div >
-              <div class="form-row text-right" >
-                <div class="col-md-4" >
-                  <label class="control-label" for="title" >Service Type Name
-                                                            :</label >
-                </div >
-                <div class="col-md-8" >
-                  <select id="title" data-th-field="*{serviceTypeParameters}"
-                          class="form-control"
-                          tabindex="3" required multiple >
-                    <option value="" disabled >Please select</option >
-                    <option
-                          data-th-each="serviceTypeParamter : ${serviceTypeParameters}"
-                          data-th-text="${serviceTypeParamter.name}"
-                          data-th-value="${serviceTypeParamter.id}" ></option >
-                  </select >
-                </div >
-              </div >
-
               <!--vehicle model list-->
               <div class="form-row text-right" >
                 <label class="col-sm-4 col-form-label " for="vehicleModel" >Vehicle Type
@@ -98,7 +80,7 @@
                   <select id="vehicleModel" data-th-field="*{vehicleModel}"
                           class="form-control"
                           tabindex="3" required >
-                    <option value="" disabled >Please select</option >
+                    <option value="">Please select</option >
                     <option
                           data-th-each="vehicleModel : ${vehicleModels}"
                           data-th-text="${vehicleModel.vehicleModel}"
@@ -106,17 +88,29 @@
                   </select >
                 </div >
               </div >
+              <div class="form-row text-right" >
+                <div class="col-md-4" >
+                  <label class="control-label" for="serviceTypeParameters" >Service Type Name
+                                                            :</label >
+                </div >
+                <div class="col-md-8" >
+                  <select id="serviceTypeParameters" data-th-field="*{serviceTypeParameters}"
+                          class="form-control"
+                          tabindex="3" required multiple >
+                  </select >
+                </div >
+              </div >
               <!--price-->
               <div class="form-group row" >
-                <label  data-th-for="${'price'}" class="col-sm-2 col-form-label " >
+                <label data-th-for="${'price'}" class="col-sm-2 col-form-label " >
                   Price </label >
                 <div class="col-sm-10" >
                   <input type="text" class="form-control"
-                          data-th-field="*{price}"
+                         data-th-field="*{price}"
                          required >
                   <p class="text-danger"
-                      data-th-if="${#fields.hasErrors('price')}"
-                      data-th-errors="*{price}" >Error Name</p >
+                     data-th-if="${#fields.hasErrors('price')}"
+                     data-th-errors="*{price}" >Error Name</p >
                 </div >
               </div >
 
@@ -135,8 +129,6 @@
           </form >
         </div >
       </div >
-
-
     </div >
   </div >
 </div >
@@ -144,5 +136,18 @@
 <div data-th-replace="~{fragments/footer :: footerFragment}" ></div >
 <!-- script Fragment -->
 <div data-th-replace="~{fragments/script :: scriptFragment}" ></div >
+<script >
+    $("#vehicleModel").bind("change", function () {
+        if ($(this).val()) {
+            let url = "[[${serviceTypeParameterUrl}]]" + $(this).val();
+            $("#serviceTypeParameters").empty();
+            $.getJSON(url, function (val) {
+                $.each(val, function () {
+                    $("#serviceTypeParameters").append(`<option value="${this.id}">${this.name}</option>`);
+                });
+            });
+        }
+    });
+</script >
 </body >
 </html >

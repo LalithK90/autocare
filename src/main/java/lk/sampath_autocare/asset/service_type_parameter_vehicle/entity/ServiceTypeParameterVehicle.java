@@ -19,6 +19,11 @@ import java.util.List;
 @NoArgsConstructor
 @JsonFilter( "ServiceTypeParameterVehicle" )
 public class ServiceTypeParameterVehicle extends AuditEntity {
+  @Column( nullable = false )
+  private int meterValue;
+
+  @Enumerated( EnumType.STRING )
+  private ServiceTypeParameterVehicleStatus serviceTypeParameterVehicleStatus;
 
   @ManyToOne
   private ServiceTypeParameter serviceTypeParameter;
@@ -26,15 +31,9 @@ public class ServiceTypeParameterVehicle extends AuditEntity {
   @ManyToOne
   private Vehicle vehicle;
 
-  @Enumerated( EnumType.STRING )
-  private ServiceTypeParameterVehicleStatus serviceTypeParameterVehicleStatus;
-
-  @Enumerated( EnumType.STRING)
-  private LiveDead liveDead;
+  @ManyToOne
+  private ServiceType serviceType;
 
   @Transient
   private List< ServiceType > serviceTypes;
-
-  @Transient
-  private int meterValue;
 }

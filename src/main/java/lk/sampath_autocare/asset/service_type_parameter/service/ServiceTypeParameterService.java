@@ -4,6 +4,7 @@ package lk.sampath_autocare.asset.service_type_parameter.service;
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.service_type_parameter.dao.ServiceTypeParameterDao;
 import lk.sampath_autocare.asset.service_type_parameter.entity.ServiceTypeParameter;
+import lk.sampath_autocare.asset.vehicle.entity.enums.VehicleModel;
 import lk.sampath_autocare.util.interfaces.AbstractService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -50,4 +51,8 @@ private final ServiceTypeParameterDao serviceTypeParameterDao;
         Example<ServiceTypeParameter> labTestParameterExample = Example.of(serviceTypeParameter, matcher);
         return serviceTypeParameterDao.findAll(labTestParameterExample);
     }
+
+  public List<ServiceTypeParameter> findByVehicleModel(VehicleModel vehicleModel) {
+        return serviceTypeParameterDao.findByVehicleModel(vehicleModel);
+  }
 }
