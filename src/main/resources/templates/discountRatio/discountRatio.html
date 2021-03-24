@@ -43,12 +43,13 @@
           <th > Modify</th >
         </tr >
         </thead >
+
         <tbody >
         <tr  data-th-each="discountRatio, rowCount : ${discountRatios}" >
           <th  data-th-text="${rowCount.count}" ></th >
           <th  data-th-text="${discountRatio.name}" ></th >
           <th  data-th-text="${discountRatio.amount}" ></th >
-          <th  data-th-text="${discountRatio.liveDead.liveDeath}" ></th >
+          <th  data-th-text="${discountRatio.discountRatioStatus.discountRatioStatus}" ></th >
           <th >
             <a id="discountRatioEdit"  data-th-href="${'/discountRatio/edit/' + discountRatio.id}"
                class="btn btn-primary btn-sm" ><i class="fa fa-edit" ></i >&nbsp;Edit</a >
