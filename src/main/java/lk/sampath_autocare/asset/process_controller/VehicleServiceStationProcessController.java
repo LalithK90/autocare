@@ -65,6 +65,7 @@ public class VehicleServiceStationProcessController {
 
     LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(fromDate);
     LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(toDate);
+
     Set< Vehicle > vehicles = new LinkedHashSet<>();
 
     serviceTypeParameterVehicleService.findByCreatedAtIsBetween(form, to)
