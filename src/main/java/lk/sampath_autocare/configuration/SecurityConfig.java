@@ -126,3 +126,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 }
 
+/*
+customer - in officer,manager
+discount ratio -cashier,manager
+employee - admin,manager
+inspection - in officer,manager
+payment - cashier,manager
+report - manager,employee,in officer,cashier,technician,admin
+role -manager,,employee,in officer,cashier,technician,admin
+servicetype - manager,in officer,technician
+servicetype parameter-manager.ino fficer,technician
+user - manager
+vehicle -manager,in officer
+*/

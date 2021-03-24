@@ -142,12 +142,11 @@ public class VehicleServiceStationProcessController {
     Vehicle vehicleDB = vehicleService.findById(vehicle.getId());
     vehicle.getServiceTypeParameterVehicles().forEach(serviceTypeParameterVehicleService::persist);
 
-    LocalDate localDate = LocalDate.now();
-    LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(localDate);
-    LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(localDate);
 
     List< ServiceTypeParameterVehicle > serviceTypeParameterVehicles = serviceTypeParameterVehicleService
-        .findByCreatedAtIsBetweenAndVehicle(form, to, vehicle);
+        .findByCreatedAtIsBetweenAndVehicle(dateTimeAgeService.dateTimeToLocalDateStartInDay(LocalDate.now()),
+                                            dateTimeAgeService.dateTimeToLocalDateEndInDay(LocalDate.now()), vehicle);
+
     int allParameterSize = serviceTypeParameterVehicles.size();
     List< ServiceTypeParameterVehicle > jobDoneSize = serviceTypeParameterVehicles
         .stream()
@@ -163,43 +162,46 @@ public class VehicleServiceStationProcessController {
             x.setServiceTypeParameterVehicleStatus(ServiceTypeParameterVehicleStatus.PEND);
             serviceTypeParameterVehicleService.persist(x);
           });
-    } else {
-      HashSet< ServiceType > hashSet = new HashSet<>();
+    }
+
+    if ( allParameterSize == jobDoneSize.size() ){
+      ArrayList< ServiceType > arrayList = new ArrayList<>();
 
       for ( ServiceTypeParameterVehicle serviceTypeParameterVehicle : jobDoneSize ) {
-        ServiceTypeParameterVehicle serviceTypeParameterVehicle1 =
-            serviceTypeParameterVehicleService.findById(serviceTypeParameterVehicle.getId());
-        ServiceType serviceType = serviceTypeService.findById(serviceTypeParameterVehicle1.getId());
-        hashSet.add(serviceType);
+        ServiceType serviceType = serviceTypeService.findById(serviceTypeParameterVehicle.getServiceType().getId());
+        arrayList.add(serviceType);
       }
-      List< BigDecimal > totalAmounts = new LinkedList<>();
-      hashSet.forEach(x -> totalAmounts.add(x.getPrice()));
-
-      // sum using stream
-      BigDecimal totalAmount = totalAmounts.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
-      System.out.println("Sum (Stream) = " + totalAmount);
 
 
-      Payment payment = new Payment();
-      payment.setVehicle(vehicleDB);
-      payment.setCustomer(vehicleDB.getCustomer());
-      payment.setAmount(totalAmount);
-      payment.setServiceType(hashSet.iterator().next());
-      payment.setPaymentMethod(PaymentMethod.CASH);
-      payment.setPaymentStatus(PaymentStatus.NOTPAID);
+      for ( ServiceType serviceType : arrayList.stream().distinct().collect(Collectors.toList()) ) {
 
-      Payment lastPayment = paymentService.lastPayment();
-      if ( lastPayment == null ) {
-        payment.setCode("SAP" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
-      } else {
-        String previousCode = lastPayment.getCode().substring(3);
-        payment.setCode("SAP" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
+        Payment payment = new Payment();
+        payment.setVehicle(vehicleDB);
+        payment.setAmount(serviceType.getPrice());
+        payment.setTotalAmount(BigDecimal.ZERO);
+        payment.setDiscountAmount(BigDecimal.ZERO);
+        payment.setAmountTendered(BigDecimal.ZERO);
+        payment.setBalance(BigDecimal.ZERO);
+        payment.setCustomer(vehicleDB.getCustomer());
+        payment.setServiceType(serviceType);
+        payment.setPaymentMethod(PaymentMethod.CASH);
+        payment.setPaymentStatus(PaymentStatus.NOTPAID);
+
+        Payment lastPayment = paymentService.lastPayment();
+
+        if ( lastPayment == null ) {
+          payment.setCode("SAP" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
+        } else {
+          String previousCode = lastPayment.getCode().substring(3);
+          payment.setCode("SAP" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
+        }
+        paymentService.persist(payment);
+        //todo-> need to send email and message to customer
+        String message = "Your Vehicle's Service is completed";
+        //emailService.sendEmail();
+        //twilioMessageService.sendSMS();
       }
-      paymentService.persist(payment);
-      //todo-> need to send email and message to customer
-      String message = "Your Vehicle's Service is completed";
-      //emailService.sendEmail();
-      //twilioMessageService.sendSMS();
+
     }
 
     return "redirect:/vehicleServiceStationProcess";
