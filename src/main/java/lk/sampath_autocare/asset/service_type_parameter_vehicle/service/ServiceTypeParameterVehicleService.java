@@ -40,7 +40,6 @@ public class ServiceTypeParameterVehicleService implements AbstractService< Serv
 
   public boolean delete(Integer id) {
     ServiceTypeParameterVehicle serviceTypeParameterVehicle = serviceTypeParameterVehicleDao.getOne(id);
-
     serviceTypeParameterVehicleDao.save(serviceTypeParameterVehicle);
     return true;
   }

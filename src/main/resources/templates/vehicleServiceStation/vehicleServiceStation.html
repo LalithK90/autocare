@@ -7,7 +7,7 @@
 <body >
 <nav data-th-replace="~{fragments/navBar :: navBarFragment}" ></nav >
 
-<div class="container-fluid form-Border" >
+<div class="container-fluid   " >
   <div class="row text-center   " >
     <div class="col text-left" >
       <a class="btn" id="btnAdd" href="/vehicle/add" >
@@ -41,7 +41,7 @@
     <div class="col" ></div >
   </div >
 </div >
-<div class="container-fluid formBorder" >
+<div class="container-fluid    " >
   <div class="form-row" >
     <div class="col-md-3 text-center" >
       <a href="/vehicleServiceStationProcess" >
@@ -120,9 +120,10 @@
             </a >
           </th >
           <th data-th-if="${addStatusPayment}" >
-            <a data-th-href="${'/vehicle/view/' + vehicle.id}"
-               class="btn btn-primary btn-sm mr-2 p-2" >Details
-            </a >
+            <form action="/vehicleServiceStationProcess/printView" method="post">
+
+              <button type="submit" class="btn btn-primary btn-sm mr-2 p-2">Details</button>
+            </form >
           </th >
         </tr >
         </tbody >

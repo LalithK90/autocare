@@ -66,7 +66,7 @@ public class VehicleServiceStationProcessController {
     LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(fromDate);
     LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(toDate);
 
-    Set< Vehicle > vehicles = new LinkedHashSet<>();
+    List< Vehicle > vehicles = new ArrayList<>();
 
     serviceTypeParameterVehicleService.findByCreatedAtIsBetween(form, to)
         .stream()
@@ -88,7 +88,7 @@ public class VehicleServiceStationProcessController {
 
       model.addAttribute("vehicles", vehiclesAllDone);
     } else {
-      model.addAttribute("vehicles", new ArrayList<>(vehicles));
+      model.addAttribute("vehicles", vehicles);
     }
 
     return "vehicleServiceStation/vehicleServiceStation";
@@ -98,6 +98,9 @@ public class VehicleServiceStationProcessController {
   public String getServiceTypeParameterVehicleStatusDone(Model model) {
     model.addAttribute("addStatus", false);
     model.addAttribute("addStatusPayment", true);
+    model.addAttribute("serviceTypeParameterVehicleStatus",ServiceTypeParameterVehicleStatus.DONE);
+    model.addAttribute("fromDate", LocalDate.now());
+    model.addAttribute("toDate", LocalDate.now());
     return common(model, ServiceTypeParameterVehicleStatus.DONE, LocalDate.now(), LocalDate.now());
   }
 
@@ -105,6 +108,9 @@ public class VehicleServiceStationProcessController {
   public String getServiceTypeParameterVehicleStatusDoneSearch(@ModelAttribute TwoDate twoDate, Model model) {
     model.addAttribute("addStatus", false);
     model.addAttribute("addStatusPayment", true);
+    model.addAttribute("serviceTypeParameterVehicleStatus",ServiceTypeParameterVehicleStatus.DONE);
+    model.addAttribute("fromDate", twoDate.getStartDate());
+    model.addAttribute("toDate", twoDate.getEndDate());
     return common(model, ServiceTypeParameterVehicleStatus.DONE, twoDate.getStartDate(), twoDate.getEndDate());
   }
 
@@ -221,5 +227,12 @@ public class VehicleServiceStationProcessController {
     return common(model, ServiceTypeParameterVehicleStatus.PAID, twoDate.getStartDate(), twoDate.getEndDate());
   }
 
+
+  @PostMapping("/printView")
+  public String serviceDetailsPrint(@ModelAttribute ServiceTypeParameterVehicle serviceTypeParameterVehicle, Model model){
+    model.addAttribute("vehicleDetail", vehicleService.findById(serviceTypeParameterVehicle.getId()));
+ //todo
+    return "vehicleServiceStation/vehicleServiceStation-detail";
+  }
 
 }
