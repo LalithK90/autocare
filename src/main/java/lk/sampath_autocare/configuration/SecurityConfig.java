@@ -107,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/user/**").hasAnyRole("ADMIN")
                     //vehicle -manager,in officer
                     .antMatchers("/vehicle/**").hasAnyRole("ADMIN")
-
+//todo
 
                     .anyRequest()
                     .authenticated())
