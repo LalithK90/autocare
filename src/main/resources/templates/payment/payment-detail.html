@@ -15,7 +15,7 @@
       </a >
     </div >
     <div class="col" >
-      <h4 class="text-light text-center" >
+      <h4 class="text-center" >
         <strong >
           <span data-th-text="${paymentDetail.code +' Detail'}" ></span >
         </strong >
@@ -73,7 +73,7 @@
           <div class="col-md-4" >
             <label data-th-for="${'paymentMethod'}" >Payment Method:</label >
           </div >
-          <div class="col-md-8 text-left" >
+          <div class="col-md-8" >
             <p data-th-text="${paymentDetail.paymentMethod.paymentMethod}" ></p >
           </div >
         </div >
@@ -143,10 +143,10 @@
     <!-- Card Payment -> Bank and card Number -->
     <div class="form-row text-right" id="bankNameBlock" >
       <!--Bank -->
-      <div class="col-md-6 " >
+      <div class="col-md-6 " data-th-if="${not #strings.isEmpty(paymentDetail.bankName)}">
         <div class="form-row text-right" >
           <div class="col-md-4" >
-            <label class="control-label" for="bankName" >Bank Name Tendered :</label >
+            <label class="control-label" for="bankName" >Bank Name :</label >
           </div >
           <div class="col-md-8" >
             <p id="bankName" data-th-text="${paymentDetail.bankName}" ></p >
@@ -154,7 +154,7 @@
         </div >
       </div >
       <!--card number-->
-      <div class="col-md-6 " >
+      <div class="col-md-6 " data-th-if="${not #strings.isEmpty(paymentDetail.cardNumber)}">
         <div class="form-row text-right" >
           <div class="col-md-4" >
             <label class="control-label" for="cardNumber" >Card Number :</label >
@@ -170,14 +170,98 @@
   <!--customer -->
   <div class="form-group" >
     <!--Customers-->
-    <div data-th-replace="~{customer/customer-detail :: customerDetailsFragment}" ></div >
+    <div class="row" >
+      <!--Left Side-->
+      <div class="form-group col-md-6 col-sm-6 text-left flex-column" >
+        <!--Code-->
+        <div class="form-row text-right" >
+          <div class="col-md-4" >
+            <label class="control-label" for="departmentIdNumber" >Customer Code :</label >
+          </div >
+          <div class="col-md-8" >
+            <p id="departmentIdNumber" data-th-text="${customerDetail.code}" class="display_detail" ></p ></div >
+        </div >
+        <!--Name-->
+        <div class="form-row text-right" >
+          <div class="col-md-4" >
+            <label class="control-label" for="name" >Name :</label >
+          </div >
+          <div class="col-md-8" >
+            <p id="name" data-th-text="${customerDetail.name}"
+               class="display_detail" ></p >
+          </div >
+        </div >
+      </div >
+      <!--Right Side-->
+      <div class="form-group col-md-6 col-sm-6 text-right flex-column" >
+        <!--Mobile-->
+        <div class="form-row text-right" >
+          <div class="col-md-4" >
+            <label class="control-label" for="mobile" >Mobile No :</label >
+          </div >
+          <div class="col-md-8" >
+            <p id="mobile" data-th-text="${customerDetail.mobile}" class="display_detail" ></p >
+          </div >
+        </div >
+        <!--Email-->
+        <div class="form-row text-right" >
+          <div class="col-md-4" >
+            <label class="control-label" for="email" >Email :</label >
+          </div >
+          <div class="col-md-8" >
+            <p id="email" data-th-text="${customerDetail.email}" class="display_detail" ></p >
+          </div >
+        </div >
+      </div >
+    </div >
   </div >
-  <hr >
   <hr >
   <!--vehicle -->
   <div class="form-group" >
     <!--Customers-->
-    <div data-th-replace="~{vehicle/vehicle-detail :: vehicleDetailsFragment}" ></div >
+    <div class="row" >
+      <!--Left Side-->
+      <div class="form-group col-md-6 col-sm-6 text-left flex-column" >
+        <!--rmb register number-->
+        <div class="form-row text-right" >
+          <div class="col-md-4" >
+            <label class="control-label" >Registration Number :</label >
+          </div >
+          <div class="col-md-8" >
+            <p data-th-text="${vehicleDetail.number}" class="display_detail" ></p >
+          </div >
+        </div >
+        <!--system register number-->
+        <div class="form-row text-right" >
+          <div class="col-md-4" >
+            <label class="control-label" >System Registration Number :</label >
+          </div >
+          <div class="col-md-8" >
+            <p data-th-text="${vehicleDetail.registrationNumber}" class="display_detail" ></p >
+          </div >
+        </div >
+      </div >
+      <div class="form-group col-md-6 col-sm-6 text-left flex-column" >
+        <!--vehicle model-->
+        <div class="form-row text-right" >
+          <div class="col-md-4" >
+            <label class="control-label" >Vehicle Model :</label >
+          </div >
+          <div class="col-md-8" >
+            <p data-th-text="${vehicleDetail.vehicleModel.vehicleModel}" class="display_detail" ></p >
+          </div >
+        </div >
+        <!--customer name-->
+        <div class="form-row text-right" >
+          <div class="col-md-4" >
+            <label class="control-label" >Customer Name :</label >
+          </div >
+          <div class="col-md-8" >
+            <p data-th-text="${vehicleDetail.customer.name}" class="display_detail" ></p >
+          </div >
+        </div >
+      </div >
+    </div >
   </div >
   <hr >
   <!--remarks and invoice print or not-->
