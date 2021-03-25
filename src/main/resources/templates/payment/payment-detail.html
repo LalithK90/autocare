@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" >
 <head data-th-replace="~{fragments/header :: headerFragment}" >
   <meta charset="UTF-8" >
   <title >Thymeleaf Springboot </title >
@@ -40,7 +40,7 @@
             <tr >
               <th >Index</th >
               <th >Name</th >
-              <th >Service Section/th >
+              <th >Service Section</th >
             </tr >
             </thead >
             <tbody >
@@ -50,13 +50,6 @@
               <td data-th-text="${serviceTypeParameter.serviceSection.serviceSection}" ></td >
             </tr >
             </tbody >
-            <tfoot >
-            <tr >
-              <th colspan="4" class="text-right" ><label for="total" >Total</label ></th >
-              <th ><p id="total" ></p >
-              </th >
-            </tr >
-            </tfoot >
           </table >
         </div >
       </div >
@@ -182,14 +175,13 @@
   <hr >
   <!--remarks and invoice print or not-->
   <div class="form-group" >
-    <div class="form-row" >
-      <!--Remarks-->
-      <div class="form-row text-right" >
-        <div class="col-md-4" >
-          <label for="remarks" >Remarks :</label ></div >
-        <div class="col-md-8" >
-          <p id="remarks" class="form-control" data-th-utext="${paymentDetail.remarks}" ></p >
-        </div >
+    <!--Remarks-->
+    <div class="form-row text-right" >
+      <div class="col-md-4" >
+        <label for="remarks" >Remarks :</label >
+      </div >
+      <div class="col-md-8" >
+        <p id="remarks" class="form-control" data-th-text="${paymentDetail.remarks}" ></p >
       </div >
     </div >
   </div >
@@ -199,16 +191,16 @@
     <!--Button-->
     <div class="form-group col-md-12 col-sm-12 text-center flex-column " >
       <!--Back Button-->
-      <a class="btn btn-dark" href="/invoice" tabindex="14" >
+      <a class="btn btn-dark" href="/payment" tabindex="14" >
         <i class="fas fa-arrow-circle-left" style="font-size: 20px" ></i >&nbsp;&nbsp;Back
       </a >
     </div >
   </div >
 </div >
 <!--footer include-->
-<div data-th-replace="~{fragments/footer :: footerFragment}"></div>
+<div data-th-replace="~{fragments/footer :: footerFragment}" ></div >
 <!--script include-->
-<div data-th-replace="~{fragments/script :: scriptFragment}"></div>
+<div data-th-replace="~{fragments/script :: scriptFragment}" ></div >
 
 
 </body >
