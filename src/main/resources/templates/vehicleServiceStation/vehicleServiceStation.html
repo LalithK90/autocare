@@ -115,13 +115,18 @@
           <th data-th-text="${vehicle.customer.name}" ></th >
           <th data-th-text="${vehicle.manufacturedYear}" ></th >
           <th data-th-if="${addStatus}" >
-            <a data-th-href="${'/vehicleServiceStationProcess/vehicle/' + vehicle.id}"
-               class="btn btn-primary btn-sm mr-2 p-2" >Do Job
-            </a >
+            <form action="/vehicleServiceStationProcess/vehicle" method="post" >
+              <input type="hidden" data-th-name="${'id'}" data-th-value="${vehicle.id}">
+              <input type="date" hidden data-th-name="${'form'}" data-th-value="${#temporals.format(vehicle.createdAt,'yyyy-MM-dd')}">
+              <input type="date" hidden data-th-name="${'to'}" data-th-value="${#temporals.format(vehicle.updatedAt,'yyyy-MM-dd')}">
+              <button type="submit" class="btn btn-primary btn-sm mr-2 p-2">Do Job</button>
+            </form >
           </th >
           <th data-th-if="${addStatusPayment}" >
             <form action="/vehicleServiceStationProcess/printView" method="post">
-
+              <input type="hidden" data-th-name="${'id'}" data-th-value="${vehicle.id}">
+              <input type="date" hidden data-th-name="${'form'}" data-th-value="${#temporals.format(vehicle.createdAt,'yyyy-MM-dd')}">
+              <input type="date" hidden data-th-name="${'to'}" data-th-value="${#temporals.format(vehicle.updatedAt,'yyyy-MM-dd')}">
               <button type="submit" class="btn btn-primary btn-sm mr-2 p-2">Details</button>
             </form >
           </th >
