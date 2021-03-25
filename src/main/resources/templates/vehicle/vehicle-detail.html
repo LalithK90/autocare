@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en"   >
 <head data-th-replace="~{fragments/header :: headerFragment}" >
   <meta charset="UTF-8" >
   <title >Thymeleaf Springboot </title >
 </head >
 <body >
 <nav data-th-replace="~{fragments/navBar :: navBarFragment}" ></nav >
-<div class="container-fluid bg-secondary form-Border" >
-  <div class="row text-center formManagement border-info" >
+<div class="container-fluid  " >
+  <div class="row text-center   " >
     <div class="col" >
       <a class="btn btn-primary" href="/home" >
         <i class="fa fa-home" style="font-size: 20px" ></i > &nbsp; Home
@@ -111,7 +111,30 @@
 </div >
 <!--vehicle service history-->
 <div class="container-fluid">
-
+  <div class="container" >
+    <div class="col" >
+      <table class="table table-hover table-striped" id="myTable" >
+        <thead >
+        <tr >
+          <th >Index</th >
+          <th >Date</th >
+          <th >Meter Value (km)</th >
+          <th >Service Attribute Name</th >
+          <th >Service Section</th >
+        </tr >
+        </thead >
+        <tbody >
+        <tr data-th-each="serviceTypeParameterVehicle, index : ${vehicleDetail.serviceTypeParameterVehicles}" >
+          <td data-th-text="${index.count}" ></td >
+          <td data-th-text="${{serviceTypeParameterVehicle.updatedAt}}" ></td >
+          <td data-th-text="${serviceTypeParameterVehicle.meterValue}" ></td >
+          <td data-th-text="${serviceTypeParameterVehicle.serviceTypeParameter.name}" ></td >
+          <td data-th-text="${serviceTypeParameterVehicle.serviceTypeParameter.serviceSection.serviceSection}" ></td >
+        </tr >
+        </tbody >
+      </table >
+    </div >
+  </div >
 </div>
 <!--footer include-->
 <div data-th-replace="~{fragments/footer :: footerFragment}" ></div >

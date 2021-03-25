@@ -38,7 +38,8 @@ public class PaymentController {
 
   public PaymentController(PaymentService paymentService, CustomerService customerService,
                            VehicleService vehicleService, DateTimeAgeService dateTimeAgeService,
-                           EmailService emailService, TwilioMessageService twilioMessageService, DiscountRatioService discountRatioService,
+                           EmailService emailService, TwilioMessageService twilioMessageService,
+                           DiscountRatioService discountRatioService,
                            ServiceTypeParameterVehicleService serviceTypeParameterVehicleService) {
     this.paymentService = paymentService;
     this.customerService = customerService;
@@ -151,13 +152,13 @@ public class PaymentController {
     Payment paymentDb = paymentService.persist(payment);
     Customer customer = customerService.findById(paymentDb.getCustomer().getId());
 //todo email and message
-    if (customer.getEmail() != null){
+    if ( customer.getEmail() != null ) {
       String message = "Thanks for our payment";
       //emailService.sendEmail();
     }
-    if (customer.getMobile() != null){
+    if ( customer.getMobile() != null ) {
       String message = "Thanks for our payment";
-     // twilioMessageService.sendSMS();
+      // twilioMessageService.sendSMS();
     }
 
 
@@ -171,6 +172,15 @@ public class PaymentController {
         });
 
     return "redirect:/payment/notPaid";
+  }
+
+  @GetMapping( "/{id}" )
+  public String paymentDetail(@PathVariable( "id" ) Integer id, Model model) {
+    Payment payment = paymentService.findById(id);
+    model.addAttribute("paymentDetail", payment);
+    model.addAttribute("customerDetail", payment.getCustomer());
+    model.addAttribute("vehicleDetail", payment.getVehicle());
+    return "payment/payment-detail";
   }
 
 }
