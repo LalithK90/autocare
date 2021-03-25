@@ -219,7 +219,7 @@
           <div class="col-md-6 " >
             <div class="form-row text-right" >
               <div class="col-md-4" >
-                <label class="control-label" for="bankName" >Bank Name Tendered :</label >
+                <label class="control-label" for="bankName" >Bank Name :</label >
               </div >
               <div class="col-md-8" >
                 <input id="bankName" data-th-field="*{bankName}"
@@ -255,10 +255,16 @@
       </div >
       <!--Button-->
       <div class="form-group col-md-12 col-sm-12 text-center flex-column " >
+        <!--Back Button-->
+        <a class="btn btn-dark"  tabindex="10" href="/payment">
+          <i class="fas fa-arrow-circle-left" style="font-size: 20px"></i>&nbsp;&nbsp;Back
+        </a>
+        <!--save button-->
         <button class="btn btn-success" type="submit" tabindex="21" >
           <i class="fa fa-save " style="font-size: 20px" ></i >&nbsp; &nbsp;<span id="submit"
                                                                                   data-th-text="${'Save'}" ></span >
         </button >
+        <!--reset button-->
         <button class="btn btn-warning ml-5" type="reset" tabindex="9" >
           <i class="far fa-times-circle" style="font-size: 20px" ></i >&nbsp;&nbsp;Cancel
         </button >
