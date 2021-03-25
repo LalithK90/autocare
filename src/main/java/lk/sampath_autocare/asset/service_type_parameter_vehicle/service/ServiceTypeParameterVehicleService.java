@@ -61,6 +61,7 @@ public class ServiceTypeParameterVehicleService implements AbstractService< Serv
 
   public List< ServiceTypeParameterVehicle > findByCreatedAtIsBetweenAndVehicle(LocalDateTime form, LocalDateTime to,
                                                                                 Vehicle vehicle) {
+    System.out.println("from "+form.toString()+"  to " +to.toString());
     return serviceTypeParameterVehicleDao.findByCreatedAtIsBetweenAndVehicle(form, to, vehicle);
   }
 
