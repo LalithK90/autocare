@@ -128,7 +128,7 @@
           </th >
           <th data-th-if="${addStatusPayment}" >
             <form action="/vehicleServiceStationProcess/printView" method="post" >
-              <input type="hidden" data-th-name="${'id'}" data-th-value="${vehicle.id}" >
+              <input type="text" data-th-name="${'id'}" data-th-value="${vehicle.id}" hidden >
               <input type="date" hidden data-th-name="${'form'}"
                      data-th-value="${#temporals.format(vehicle.createdAt,'yyyy-MM-dd')}" >
               <input type="date" hidden data-th-name="${'to'}"
