@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,43 +63,51 @@ public class VehicleServiceStationProcessController {
 
   private String common(Model model, ServiceTypeParameterVehicleStatus serviceTypeParameterVehicleStatus,
                         LocalDate fromDate, LocalDate toDate) {
-
-    LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(fromDate);
-    LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(toDate);
-
     List< Vehicle > vehicles = new ArrayList<>();
 
-    serviceTypeParameterVehicleService.findByCreatedAtIsBetween(form, to)
-        .stream()
-        .filter(x -> x.getServiceTypeParameterVehicleStatus().equals(serviceTypeParameterVehicleStatus))
-        .collect(Collectors.toList())
-        .forEach(x -> {
-          Vehicle vehicle = x.getVehicle();
-          vehicle.setCreatedAt(form);
-          vehicle.setUpdatedAt(to);
-          vehicles.add(vehicle);
-        });
+    for ( int i = 0; i < Period.between(fromDate, toDate).getDays(); i++ ) {
+      System.out.println(" i am here");
+      LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(fromDate.plusDays(i));
+      LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(fromDate.plusDays(i));
 
-    if ( ServiceTypeParameterVehicleStatus.DONE.equals(serviceTypeParameterVehicleStatus) ) {
-      List< Vehicle > vehiclesAllDone = new ArrayList<>();
-      vehicles.forEach(x -> {
-        long count = serviceTypeParameterVehicleService.findByCreatedAtIsBetweenAndVehicle(form, to, x)
-            .stream()
-            .filter(y -> y.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.CHK) || y.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.PEND))
-            .count();
-        if ( count == 0 ) {
-          x.setCreatedAt(form);
-          x.setUpdatedAt(to);
-          vehiclesAllDone.add(x);
-        }
-      });
-
-      model.addAttribute("vehicles", vehiclesAllDone);
-    } else {
-      model.addAttribute("vehicles", vehicles);
+      serviceTypeParameterVehicleService.findByCreatedAtIsBetween(form, form)
+          .stream()
+          .filter(x -> x.getServiceTypeParameterVehicleStatus().equals(serviceTypeParameterVehicleStatus))
+          .collect(Collectors.toList())
+          .forEach(x -> {
+            Vehicle vehicle = x.getVehicle();
+            vehicle.setCreatedAt(form);
+            vehicle.setUpdatedAt(to);
+            vehicles.add(vehicle);
+          });
     }
 
+    if ( ServiceTypeParameterVehicleStatus.DONE.equals(serviceTypeParameterVehicleStatus) ) {
+      for ( int k = 0; k < Period.between(fromDate, toDate).getDays(); k++ ) {
+
+        LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(fromDate.plusDays(k));
+        LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(fromDate.plusDays(k));
+        List< Vehicle > vehiclesAllDone = new ArrayList<>();
+        vehicles.forEach(x -> {
+          long count = serviceTypeParameterVehicleService.findByCreatedAtIsBetweenAndVehicle(form, to, x)
+              .stream()
+              .filter(y -> y.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.CHK) || y.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.PEND))
+              .count();
+          if ( count == 0 ) {
+            x.setCreatedAt(form);
+            x.setUpdatedAt(to);
+            vehiclesAllDone.add(x);
+          }
+        });
+        model.addAttribute("vehicles", vehiclesAllDone);
+        return "vehicleServiceStation/vehicleServiceStation";
+      }
+
+    }
+    model.addAttribute("vehicles", vehicles);
     return "vehicleServiceStation/vehicleServiceStation";
+
+
   }
 
   @GetMapping( "/done" )
