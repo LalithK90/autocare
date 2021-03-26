@@ -73,9 +73,8 @@
         <a class="nav-link text-dark dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
            aria-expanded="false" > <i class="fa fa-book-open" ></i > Report</a >
         <div class="dropdown-menu" aria-labelledby="dropdownId" >
-          <a data-sec-authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_IN_OFFICER' ,'ROLE_MANAGER', 'ROLE_TECH',
-        'ROLE_CASHIER')" data-th-href="@{'/report'}" class="nav-link text-dark" > Summary Report</a >
-          <a data-sec-authorize="hasAnyAuthority('ROLE_CASHIER')" data-th-href="@{'/report'}"
+          <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER')" data-th-href="@{'/report'}" class="nav-link text-dark" >All Summary Report</a >
+          <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER','ROLE_CASHIER')" data-th-href="@{'/report/cashier'}"
              class="nav-link text-dark" > Cashier Report</a >
         </div >
       </li >

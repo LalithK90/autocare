@@ -219,7 +219,7 @@ public class ReportController {
         "you.";
     LocalDateTime startDateTime = dateTimeAgeService.dateTimeToLocalDateStartInDay(localDate);
     LocalDateTime endDateTime = dateTimeAgeService.dateTimeToLocalDateEndInDay(localDate);
-    commonPayment(paymentService.findByCreatedAtIsBetweenAndCreatedBy(startDateTime, endDateTime,
+    commonPayment(paymentService.findByCreatedAtIsBetweenAndUpdatedBy(startDateTime, endDateTime,
                                                                        SecurityContextHolder.getContext().getAuthentication().getName()), model);
     model.addAttribute("message", message);
     return "report/cashierReport";
