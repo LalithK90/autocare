@@ -207,6 +207,8 @@ public class ReportController {
     return common(payments, model);
   }
 
+@GetMapping("/cashier")
+public String cashierReport(){
 
-
+}
 }
