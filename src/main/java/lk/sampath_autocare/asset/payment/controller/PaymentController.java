@@ -111,7 +111,7 @@ public class PaymentController {
   }
 
   @PostMapping( "/cancelCustom" )
-  public String cancelPaymentCustome(@ModelAttribute TwoDate twoDate, Model model) {
+  public String cancelPaymentCustom(@ModelAttribute TwoDate twoDate, Model model) {
     model.addAttribute("action", "/payment/cancelCustom");
     LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(twoDate.getStartDate());
     LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(twoDate.getEndDate());
@@ -171,7 +171,7 @@ public class PaymentController {
           serviceTypeParameterVehicleService.persist(x);
         });
 
-    return "redirect:/payment/notPaid";
+    return "redirect:/payment/"+paymentDb.getId();
   }
 
   @GetMapping( "/{id}" )

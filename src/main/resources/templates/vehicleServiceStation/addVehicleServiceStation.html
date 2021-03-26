@@ -87,7 +87,7 @@
                 </thead >
                 <tbody >
                 <tr data-th-each="serviceTypeParameterVehicle, index : ${vehicle.serviceTypeParameterVehicles}" >
-                  <td data-th-text="${index.index}" >
+                  <td data-th-text="${index.count}" >
                   </td >
                   <td >
                     <input type="text" class="form-control"
@@ -132,7 +132,7 @@
           <!--Button-->
           <div class="form-group col-md-12 col-sm-12 text-center flex-column " >
             <!--Back Button-->
-            <a class="btn btn-dark" tabindex="10" href="/customer" >
+            <a class="btn btn-dark" tabindex="10" href="/vehicleServiceStationProcess" >
               <i class="fas fa-arrow-circle-left" style="font-size: 20px" ></i >&nbsp;&nbsp;Back
             </a >
             <!--Save Button-->

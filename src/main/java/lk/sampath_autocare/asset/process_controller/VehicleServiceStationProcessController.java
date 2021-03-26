@@ -72,7 +72,12 @@ public class VehicleServiceStationProcessController {
         .stream()
         .filter(x -> x.getServiceTypeParameterVehicleStatus().equals(serviceTypeParameterVehicleStatus))
         .collect(Collectors.toList())
-        .forEach(x -> vehicles.add(x.getVehicle()));
+        .forEach(x -> {
+          Vehicle vehicle = x.getVehicle();
+          vehicle.setCreatedAt(form);
+          vehicle.setUpdatedAt(to);
+          vehicles.add(vehicle);
+        });
 
     if ( ServiceTypeParameterVehicleStatus.DONE.equals(serviceTypeParameterVehicleStatus) ) {
       List< Vehicle > vehiclesAllDone = new ArrayList<>();
@@ -82,6 +87,8 @@ public class VehicleServiceStationProcessController {
             .filter(y -> y.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.CHK) || y.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.PEND))
             .count();
         if ( count == 0 ) {
+          x.setCreatedAt(form);
+          x.setUpdatedAt(to);
           vehiclesAllDone.add(x);
         }
       });
@@ -98,7 +105,7 @@ public class VehicleServiceStationProcessController {
   public String getServiceTypeParameterVehicleStatusDone(Model model) {
     model.addAttribute("addStatus", false);
     model.addAttribute("addStatusPayment", true);
-    model.addAttribute("serviceTypeParameterVehicleStatus",ServiceTypeParameterVehicleStatus.DONE);
+    model.addAttribute("serviceTypeParameterVehicleStatus", ServiceTypeParameterVehicleStatus.DONE);
     model.addAttribute("fromDate", LocalDate.now());
     model.addAttribute("toDate", LocalDate.now());
     return common(model, ServiceTypeParameterVehicleStatus.DONE, LocalDate.now(), LocalDate.now());
@@ -108,7 +115,7 @@ public class VehicleServiceStationProcessController {
   public String getServiceTypeParameterVehicleStatusDoneSearch(@ModelAttribute TwoDate twoDate, Model model) {
     model.addAttribute("addStatus", false);
     model.addAttribute("addStatusPayment", true);
-    model.addAttribute("serviceTypeParameterVehicleStatus",ServiceTypeParameterVehicleStatus.DONE);
+    model.addAttribute("serviceTypeParameterVehicleStatus", ServiceTypeParameterVehicleStatus.DONE);
     model.addAttribute("fromDate", twoDate.getStartDate());
     model.addAttribute("toDate", twoDate.getEndDate());
     return common(model, ServiceTypeParameterVehicleStatus.DONE, twoDate.getStartDate(), twoDate.getEndDate());
@@ -120,12 +127,12 @@ public class VehicleServiceStationProcessController {
     return common(model, ServiceTypeParameterVehicleStatus.PEND, LocalDate.now(), LocalDate.now());
   }
 
-  @GetMapping( "/vehicle/{id}" )
-  public String finishedServiceParameter(@PathVariable( "id" ) Integer id, Model model) {
-    LocalDate localDate = LocalDate.now();
-    LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(localDate);
-    LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(localDate);
-    Vehicle vehicle = vehicleService.findById(id);
+  @PostMapping( "/vehicle" )
+  public String finishedServiceParameter(@ModelAttribute Vehicle vehicleF, Model model) {
+    LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(vehicleF.getForm());
+    LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(vehicleF.getTo());
+
+    Vehicle vehicle = vehicleService.findById(vehicleF.getId());
     vehicle.setServiceTypeParameterVehicles(serviceTypeParameterVehicleService
                                                 .findByCreatedAtIsBetweenAndVehicle(form, to, vehicle)
                                                 .stream()
@@ -170,7 +177,7 @@ public class VehicleServiceStationProcessController {
           });
     }
 
-    if ( allParameterSize == jobDoneSize.size() ){
+    if ( allParameterSize == jobDoneSize.size() ) {
       ArrayList< ServiceType > arrayList = new ArrayList<>();
 
       for ( ServiceTypeParameterVehicle serviceTypeParameterVehicle : jobDoneSize ) {
@@ -228,11 +235,23 @@ public class VehicleServiceStationProcessController {
   }
 
 
-  @PostMapping("/printView")
-  public String serviceDetailsPrint(@ModelAttribute ServiceTypeParameterVehicle serviceTypeParameterVehicle, Model model){
-    model.addAttribute("vehicleDetail", vehicleService.findById(serviceTypeParameterVehicle.getId()));
- //todo
+  @PostMapping( "/printView" )
+  public String serviceDetailsPrint(@ModelAttribute Vehicle vehicleF, Model model) {
+    LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(vehicleF.getForm());
+    LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(vehicleF.getTo());
+
+    Vehicle vehicle = vehicleService.findById(vehicleF.getId());
+    vehicle.setServiceTypeParameterVehicles(serviceTypeParameterVehicleService
+                                                .findByCreatedAtIsBetweenAndVehicle(form, to, vehicle)
+                                                .stream()
+                                                .filter(x -> x.getServiceTypeParameterVehicleStatus().equals(ServiceTypeParameterVehicleStatus.DONE))
+                                                .collect(Collectors.toList()));
+
+    model.addAttribute("vehicleDetail", vehicle);
+    model.addAttribute("vehicle", vehicle);
+
     return "vehicleServiceStation/vehicleServiceStation-detail";
   }
+
 
 }

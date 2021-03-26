@@ -71,8 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-            http.csrf().disable();
-            http.authorizeRequests().antMatchers("/").permitAll();
+    http.csrf().disable();
+    http.authorizeRequests().antMatchers("/").permitAll();
     // For developing easy to give permission all lin
 
    /* http
@@ -85,7 +85,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     //this is used the normal admin to give access every url mapping
                     .antMatchers("/employee").hasRole("ADMIN")
                     //Need to login for access those are
-                    .antMatchers("/employee/**").hasRole("ADMIN")
+                    //customer - in officer,manager
+                    .antMatchers("/customer/**").hasAnyRole("ADMIN")
+                    //discount ratio -cashier,manager
+                    .antMatchers("/discountRatio/**").hasAnyRole("ADMIN")
+                    //employee - admin,manager
+                    .antMatchers("/employee/**").hasAnyRole("ADMIN")
+                    //inspection - in officer,manager
+                    .antMatchers("/inspection/**").hasAnyRole("ADMIN")
+                    //payment - cashier,manager
+                    .antMatchers("/payment/**").hasAnyRole("ADMIN")
+                    //report - manager,employee,in officer,cashier,technician,admin
+                    .antMatchers("/report/**").hasAnyRole("ADMIN")
+                    //role -manager,,employee,in officer,cashier,technician,admin
+                    .antMatchers("/role/**").hasAnyRole("ADMIN")
+                    //servicetype - manager,in officer,technician
+                    .antMatchers("/serviceType/**").hasAnyRole("ADMIN")
+                    //servicetype parameter-manager.ino fficer,technician
+                    .antMatchers("/serviceTypeParameter/**").hasAnyRole("ADMIN")
+                    //user - manager
+                    .antMatchers("/user/**").hasAnyRole("ADMIN")
+                    //vehicle -manager,in officer
+                    .antMatchers("/vehicle/**").hasAnyRole("ADMIN")
+//todo
 
                     .anyRequest()
                     .authenticated())

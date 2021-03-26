@@ -8,8 +8,10 @@ import lk.sampath_autocare.asset.vehicle.entity.enums.GearType;
 import lk.sampath_autocare.asset.vehicle.entity.enums.VehicleModel;
 import lk.sampath_autocare.util.audit.AuditEntity;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -51,5 +53,9 @@ public class Vehicle extends AuditEntity {
 
     @OneToMany(mappedBy = "vehicle")
     private List< ServiceTypeParameterVehicle > serviceTypeParameterVehicles;
+
+    @Transient
+    @DateTimeFormat( pattern = "yyyy-MM-dd" )
+    private LocalDate to, form;
 
 }

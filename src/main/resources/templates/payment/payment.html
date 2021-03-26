@@ -132,7 +132,7 @@
           <td data-th-text="${payment.paymentStatus.paymentStatus}" ></td >
           <td >
             <a id="customerView" data-th-href="${'/payment/' + payment.id}" class="btn btn-primary btn-sm" ><i
-                  class="fa fa-folder-open" style="font-size: 15px" ></i >&nbsp;View</a >
+                  class="fa fa-folder-open" style="font-size: 15px" ></i >&nbsp;View/Print</a >
             <a  data-th-if="${#strings.equals(payment.paymentStatus, 'NOTPAID')}" data-th-href="${'/payment/pay/' + payment.id}"
                class="btn btn-success btn-sm" ><i class="fa fa-edit"
                                                   style="font-size: 15px" ></i >&nbsp;Pay</a >
