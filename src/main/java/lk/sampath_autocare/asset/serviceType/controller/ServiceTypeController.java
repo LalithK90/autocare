@@ -76,7 +76,7 @@ public class ServiceTypeController {
     @PostMapping(value = {"/save", "/update"})
     public String persist(@Valid @ModelAttribute ServiceType serviceType, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) throws Exception {
         if (bindingResult.hasErrors()) {
-            return commonThing(model, true, serviceType);
+            return commonThing(model, false, serviceType);
         }
         redirectAttributes.addFlashAttribute("serviceTypeDetail", serviceTypeService.persist(serviceType));
         return "redirect:/serviceType";

@@ -51,6 +51,7 @@
                     <th> Number</th>
                     <th> Owner name</th>
                     <th> Manufacture Year</th>
+                    <th>Vehicle Model</th>
                     <th > Modify</th>
                 </tr>
                 </thead>
@@ -60,6 +61,7 @@
                     <th data-th-text="${vehicle.number}"></th>
                     <th data-th-text="${vehicle.customer.name}"></th>
                     <th data-th-text="${vehicle.manufacturedYear}"></th>
+                    <th data-th-text="${vehicle.vehicleModel.vehicleModel}"></th>
                     <th >
                         <a data-th-href="${'/vehicle/view/' + vehicle.id}"
                            class="btn btn-primary btn-sm mr-2 p-2">View

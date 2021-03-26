@@ -64,13 +64,12 @@ public class VehicleServiceStationProcessController {
   private String common(Model model, ServiceTypeParameterVehicleStatus serviceTypeParameterVehicleStatus,
                         LocalDate fromDate, LocalDate toDate) {
     List< Vehicle > vehicles = new ArrayList<>();
-
-    for ( int i = 0; i < Period.between(fromDate, toDate).getDays(); i++ ) {
+    System.out.println(" i am yakooo date "+ Period.between(fromDate, toDate).getDays());
+    for ( int i = 0; i <= Period.between(fromDate, toDate).getDays(); i++ ) {
       System.out.println(" i am here");
       LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(fromDate.plusDays(i));
       LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(fromDate.plusDays(i));
-
-      serviceTypeParameterVehicleService.findByCreatedAtIsBetween(form, form)
+      serviceTypeParameterVehicleService.findByCreatedAtIsBetween(form, to)
           .stream()
           .filter(x -> x.getServiceTypeParameterVehicleStatus().equals(serviceTypeParameterVehicleStatus))
           .collect(Collectors.toList())
@@ -99,12 +98,12 @@ public class VehicleServiceStationProcessController {
             vehiclesAllDone.add(x);
           }
         });
-        model.addAttribute("vehicles", vehiclesAllDone);
+        model.addAttribute("vehicles", vehiclesAllDone.stream().distinct().collect(Collectors.toList()));
         return "vehicleServiceStation/vehicleServiceStation";
       }
 
     }
-    model.addAttribute("vehicles", vehicles);
+    model.addAttribute("vehicles", vehicles.stream().distinct().collect(Collectors.toList()));
     return "vehicleServiceStation/vehicleServiceStation";
 
 
