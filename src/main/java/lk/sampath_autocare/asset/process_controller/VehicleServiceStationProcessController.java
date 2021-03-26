@@ -216,10 +216,16 @@ public class VehicleServiceStationProcessController {
           String previousCode = lastPayment.getCode().substring(3);
           payment.setCode("SAP" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
         }
-        paymentService.persist(payment);
-        //todo-> need to send email and message to customer
-        String message = "Your Vehicle's Service is completed";
-        //emailService.sendEmail();
+        Payment paymentSave = paymentService.persist(payment);
+        if ( paymentSave.getVehicle().getCustomer().getEmail() != null ) {
+          String message = "Your Vehicle's Service is completed.\n" +
+              "Invoice Value \t\t\t\t (Rs.) "+paymentSave.getAmount()+"\n" +
+              "\n\n" +
+              "\t\t Thank you and come again :)\n" +
+              "Sampath Auto care\n" +
+              "All ways care your vehicle";
+          emailService.sendEmail(paymentSave.getVehicle().getCustomer().getEmail(),"Payment Information",message);
+        }
         //twilioMessageService.sendSMS();
       }
 
