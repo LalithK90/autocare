@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @CacheConfig( cacheNames = "payment" )
@@ -25,7 +26,7 @@ public class PaymentService implements AbstractService< Payment, Integer > {
 
 
   public List< Payment > findAll() {
-    return paymentDao.findAll();
+    return paymentDao.findAll().stream().filter(x->x.getLiveDead().equals(LiveDead.ACTIVE)).collect(Collectors.toList());
   }
 
   public Payment findById(Integer id) {

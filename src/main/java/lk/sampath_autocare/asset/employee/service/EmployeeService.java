@@ -29,7 +29,7 @@ public class EmployeeService implements AbstractService< Employee, Integer > {
 
     @Cacheable
     public List< Employee > findAll() {
-        return employeeDao.findAll();
+        return employeeDao.findAll().stream().filter(x->x.getLiveDead().equals(LiveDead.ACTIVE)).collect(Collectors.toList());
     }
 
     @Cacheable
