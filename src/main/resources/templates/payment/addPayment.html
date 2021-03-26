@@ -22,7 +22,7 @@
       </a >
     </div >
     <div class="col" id="topic" >
-         <h4 class="text-center" >
+      <h4 class="text-center" >
         <strong >
                     <span
                           data-th-text="${addStatus==false?'New Service Type Add':'Update Service Type Details'}" ></span >
@@ -85,7 +85,7 @@
       <input type="hidden" data-th-field="*{liveDead}" >
       <input type="hidden" data-th-field="*{code}" >
       <input type="hidden" data-th-field="*{serviceType}" >
-      <input type="hidden" data-th-name="${'paymentStatus'}"  data-th-value="${'PAID'}">
+      <input type="hidden" data-th-name="${'paymentStatus'}" data-th-value="${'PAID'}" >
       <!--Amount-->
       <div class="form-row text-right" >
         <div class="col-md-4" >
@@ -256,9 +256,9 @@
       <!--Button-->
       <div class="form-group col-md-12 col-sm-12 text-center flex-column " >
         <!--Back Button-->
-        <a class="btn btn-dark"  tabindex="10" href="/payment">
-          <i class="fas fa-arrow-circle-left" style="font-size: 20px"></i>&nbsp;&nbsp;Back
-        </a>
+        <a class="btn btn-dark" tabindex="10" href="/payment" >
+          <i class="fas fa-arrow-circle-left" style="font-size: 20px" ></i >&nbsp;&nbsp;Back
+        </a >
         <!--save button-->
         <button class="btn btn-success" type="submit" tabindex="21" >
           <i class="fa fa-save " style="font-size: 20px" ></i >&nbsp; &nbsp;<span id="submit"
@@ -313,7 +313,12 @@
     function discountRatio() {
         let discountRatio = parseFloat($("#discountRatio").find('option:selected').text());
         let total = parseFloat($("#total").val());
-        let discountAmount = total * discountRatio / 100;
+        let discountAmount;
+        if (discountRatio !== 0) {
+            discountAmount = total * discountRatio / 100;
+        } else {
+            discountAmount = 0
+        }
         $("#totalAmount").val(total - discountAmount);
         $("#discountAmount").val(discountAmount);
     }
