@@ -24,6 +24,7 @@ import java.util.List;
 @JsonFilter("ServiceType")
 public class ServiceType extends AuditEntity {
 
+    @Column(unique = true, nullable = false)
     private String name;
 
     @Column( nullable = false, precision = 10, scale = 2 )
