@@ -95,7 +95,7 @@ public class ReportController {
       List< ServiceType > serviceTypes = new ArrayList<>();
       payments.forEach(x -> {
         ServiceType serviceType = serviceTypeService.findById(x.getServiceType().getId());
-        if (serviceType.getVehicleModel().equals(value) ) {
+        if ( serviceType.getVehicleModel().equals(value) ) {
           serviceTypes.add(serviceType);
         }
       });
@@ -207,8 +207,9 @@ public class ReportController {
     return common(payments, model);
   }
 
-@GetMapping("/cashier")
-public String cashierReport(){
+  @GetMapping( "/cashier" )
+  public String cashierReport(Model model) {
 
-}
+    return "report/cashierReport";
+  }
 }

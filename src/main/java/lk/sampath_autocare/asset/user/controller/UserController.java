@@ -50,14 +50,7 @@ public class UserController {
         model.addAttribute("employeeDetailShow", true);
         model.addAttribute("employeeNotFoundShow", false);
         model.addAttribute("roleList", roleService.findAll());
-        /*model.addAttribute("districtUrl", MvcUriComponentsBuilder
-                .fromMethodName(WorkingPlaceRestController.class, "getDistrict", "")
-                .build()
-                .toString());
-        model.addAttribute("stationUrl", MvcUriComponentsBuilder
-                .fromMethodName(WorkingPlaceRestController.class, "getStation", "")
-                .build()
-                .toString());*/
+
         return "user/addUser";
     }
 
@@ -147,7 +140,7 @@ public class UserController {
     @GetMapping( value = "/remove/{id}" )
     public String removeUser(@PathVariable Integer id) {
         // user can not be deleted
-        //userService.delete(id);
+        userService.delete(id);
         return "redirect:/user";
     }
 
