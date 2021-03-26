@@ -75,6 +75,8 @@
         <div class="dropdown-menu" aria-labelledby="dropdownId" >
           <a data-sec-authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_IN_OFFICER' ,'ROLE_MANAGER', 'ROLE_TECH',
         'ROLE_CASHIER')" data-th-href="@{'/report'}" class="nav-link text-dark" > Summary Report</a >
+          <a data-sec-authorize="hasAnyAuthority('ROLE_CASHIER')" data-th-href="@{'/report'}"
+             class="nav-link text-dark" > Cashier Report</a >
         </div >
       </li >
     </ul >

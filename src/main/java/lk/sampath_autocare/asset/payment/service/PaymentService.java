@@ -63,4 +63,8 @@ public class PaymentService implements AbstractService< Payment, Integer > {
   public List< Payment > findByCreatedAtIsBetween(LocalDateTime form, LocalDateTime to) {
     return paymentDao.findByCreatedAtIsBetween(form, to);
   }
+
+  public List<Payment> findByCreatedAtIsBetweenAndCreatedBy(LocalDateTime startDateTime, LocalDateTime endDateTime, String username) {
+  return paymentDao.findByCreatedAtIsBetweenAndCreatedBy(startDateTime,endDateTime,username);
+  }
 }

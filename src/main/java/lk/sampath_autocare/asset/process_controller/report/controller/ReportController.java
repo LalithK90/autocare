@@ -16,6 +16,8 @@ import lk.sampath_autocare.asset.serviceType.service.ServiceTypeService;
 import lk.sampath_autocare.asset.user.service.UserService;
 import lk.sampath_autocare.asset.vehicle.entity.enums.VehicleModel;
 import lk.sampath_autocare.util.service.DateTimeAgeService;
+import lk.sampath_autocare.util.service.OperatorService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Controller
@@ -40,15 +43,17 @@ public class ReportController {
   private final ServiceTypeService serviceTypeService;
   private final UserService userService;
   private final EmployeeService employeeService;
+  private final OperatorService operatorService;
 
   public ReportController(PaymentService paymentService, DateTimeAgeService dateTimeAgeService,
                           ServiceTypeService serviceTypeService, UserService userService,
-                          EmployeeService employeeService) {
+                          EmployeeService employeeService, OperatorService operatorService) {
     this.paymentService = paymentService;
     this.dateTimeAgeService = dateTimeAgeService;
     this.serviceTypeService = serviceTypeService;
     this.userService = userService;
     this.employeeService = employeeService;
+    this.operatorService = operatorService;
   }
 
   private String common(List< Payment > payments, Model model) {
@@ -209,7 +214,43 @@ public class ReportController {
 
   @GetMapping( "/cashier" )
   public String cashierReport(Model model) {
-
+    LocalDate localDate = LocalDate.now();
+    String message = "This report is belongs to " + localDate.toString() + " and \n congratulation all are done by " +
+        "you.";
+    LocalDateTime startDateTime = dateTimeAgeService.dateTimeToLocalDateStartInDay(localDate);
+    LocalDateTime endDateTime = dateTimeAgeService.dateTimeToLocalDateEndInDay(localDate);
+    commonPayment(paymentService.findByCreatedAtIsBetweenAndCreatedBy(startDateTime, endDateTime,
+                                                                       SecurityContextHolder.getContext().getAuthentication().getName()), model);
+    model.addAttribute("message", message);
     return "report/cashierReport";
+  }
+
+  private void commonPayment(List< Payment > payments, Model model) {
+    // invoice count
+    int invoiceTotalCount = payments.size();
+    model.addAttribute("invoiceTotalCount", invoiceTotalCount);
+    //|-> card
+    List< Payment > invoiceCards =
+        payments.stream().filter(x -> x.getPaymentMethod().equals(PaymentMethod.CREDIT)).collect(Collectors.toList());
+    int invoiceCardCount = invoiceCards.size();
+    AtomicReference< BigDecimal > invoiceCardAmount = new AtomicReference<>(BigDecimal.ZERO);
+    invoiceCards.forEach(x -> {
+      BigDecimal addAmount = operatorService.addition(invoiceCardAmount.get(), x.getTotalAmount());
+      invoiceCardAmount.set(addAmount);
+    });
+    model.addAttribute("invoiceCardCount", invoiceCardCount);
+    model.addAttribute("invoiceCardAmount", invoiceCardAmount.get());
+    //|-> cash
+    List< Payment > invoiceCash =
+        payments.stream().filter(x -> x.getPaymentMethod().equals(PaymentMethod.CASH)).collect(Collectors.toList());
+    int invoiceCashCount = invoiceCash.size();
+    AtomicReference< BigDecimal > invoiceCashAmount = new AtomicReference<>(BigDecimal.ZERO);
+    invoiceCash.forEach(x -> {
+      BigDecimal addAmount = operatorService.addition(invoiceCashAmount.get(), x.getTotalAmount());
+      invoiceCashAmount.set(addAmount);
+    });
+    model.addAttribute("invoiceCashCount", invoiceCashCount);
+    model.addAttribute("invoiceCashAmount", invoiceCashAmount.get());
+
   }
 }
