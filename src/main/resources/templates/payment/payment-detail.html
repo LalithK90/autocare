@@ -65,6 +65,32 @@
   <hr >
   <!--Payment Section-->
   <div class="form-group" >
+    <!--Payment Code and Date"-->
+    <div class="form-row text-right" >
+      <!--payment code-->
+      <div class="col-md-6 " >
+        <div class="form-row text-right" >
+          <div class="col-md-4" >
+            <label data-th-for="${'code'}" >Payment Code:</label >
+          </div >
+          <div class="col-md-8" >
+            <p data-th-text="${paymentDetail.code}" ></p >
+          </div >
+        </div >
+      </div >
+      <!--payment date-->
+      <div class="col-md-6 " >
+        <div class="form-row text-right" >
+          <div class="col-md-4" >
+            <label class="control-label" for="updatedAt" >Paid Date Time :</label >
+          </div >
+          <div class="col-md-8" >
+            <p id="updatedAt"
+               data-th-text="${{paymentDetail.updatedAt}}" ></p >
+          </div >
+        </div >
+      </div >
+    </div >
     <!--Payment method and total amount-->
     <div class="form-row text-right" >
       <!--payment method-->
@@ -91,10 +117,10 @@
         </div >
       </div >
     </div >
-    <div class="form-row" >
+    <div class="form-row text-right" >
       <!--Total Amount-->
       <div class="col-md-6 " >
-        <div class="form-row text-right" >
+        <div class="form-row " >
           <div class="col-md-4" >
             <label class="control-label" for="totalAmount" >Total Amount :</label >
           </div >
