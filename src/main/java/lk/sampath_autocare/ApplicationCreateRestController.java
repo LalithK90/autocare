@@ -43,7 +43,6 @@ public class ApplicationCreateRestController {
             role.setRoleName(s);
             roleService.persist(role);
         }
-
 //Employee
         Employee employee = new Employee();
         employee.setName("Admin User");

@@ -151,10 +151,16 @@ public class PaymentController {
     }
     Payment paymentDb = paymentService.persist(payment);
     Customer customer = customerService.findById(paymentDb.getCustomer().getId());
-//todo email and message
+
     if ( customer.getEmail() != null ) {
-      String message = "Thanks for our payment";
-      //emailService.sendEmail();
+      String message = "YThanks for our payment.\n" +
+          "Invoice Value \t\t\t\t (Rs.) "+paymentDb.getAmount()+"\n" +
+          "Invoice Number \t\t\t\t (Rs.) "+paymentDb.getCode()+"\n" +
+          "\n\n" +
+          "\t\t Thank you and come again :)\n" +
+          "Sampath Auto care\n" +
+          "All ways care your vehicle";
+      emailService.sendEmail(customer.getEmail(),"Payment Confirmation",message);
     }
     if ( customer.getMobile() != null ) {
       String message = "Thanks for our payment";

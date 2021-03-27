@@ -71,44 +71,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().disable();
-    http.authorizeRequests().antMatchers("/").permitAll();
+/*    http.csrf().disable();
+    http.authorizeRequests().antMatchers("/").permitAll();*/
     // For developing easy to give permission all lin
 
-   /* http
+    http
         .authorizeRequests(
             authorizeRequests ->
                 authorizeRequests
                     //Anytime users can access without login
                     //to see actuator details
                     .antMatchers(ALL_PERMIT_URL).permitAll()
-                    //this is used the normal admin to give access every url mapping
-                    .antMatchers("/employee").hasRole("ADMIN")
                     //Need to login for access those are
-                    //customer - in officer,manager
-                    .antMatchers("/customer/**").hasAnyRole("ADMIN")
-                    //discount ratio -cashier,manager
-                    .antMatchers("/discountRatio/**").hasAnyRole("ADMIN")
-                    //employee - admin,manager
-                    .antMatchers("/employee/**").hasAnyRole("ADMIN")
-                    //inspection - in officer,manager
-                    .antMatchers("/inspection/**").hasAnyRole("ADMIN")
-                    //payment - cashier,manager
-                    .antMatchers("/payment/**").hasAnyRole("ADMIN")
-                    //report - manager,employee,in officer,cashier,technician,admin
-                    .antMatchers("/report/**").hasAnyRole("ADMIN")
-                    //role -manager,,employee,in officer,cashier,technician,admin
-                    .antMatchers("/role/**").hasAnyRole("ADMIN")
-                    //servicetype - manager,in officer,technician
-                    .antMatchers("/serviceType/**").hasAnyRole("ADMIN")
-                    //servicetype parameter-manager.ino fficer,technician
-                    .antMatchers("/serviceTypeParameter/**").hasAnyRole("ADMIN")
-                    //user - manager
-                    .antMatchers("/user/**").hasAnyRole("ADMIN")
-                    //vehicle -manager,in officer
-                    .antMatchers("/vehicle/**").hasAnyRole("ADMIN")
-//todo
-
+                    .antMatchers("/customer/**").hasAnyRole("IN_OFFICER", "MANAGER")
+                    .antMatchers("/discountRatio/**").hasAnyRole("CASHIER", "MANAGER")
+                    .antMatchers("/employee/**").hasAnyRole("ADMIN", "MANAGER")
+                    .antMatchers("/inspection/**").hasAnyRole("IN_OFFICER", "MANAGER")
+                    .antMatchers("/payment/**").hasAnyRole("CASHIER", "MANAGER")
+                    .antMatchers("/report/**").hasAnyRole("ADMIN", "IN_OFFICER", "MANAGER", "TECH", "CASHIER")
+                    .antMatchers("/role/**").hasAnyRole("ADMIN", "MANAGER")
+                    .antMatchers("/serviceType/**").hasAnyRole("ADMIN", "MANAGER")
+                    .antMatchers("/serviceTypeParameter/**").hasAnyRole("ADMIN", "MANAGER")
+                    .antMatchers("/user/**").hasAnyRole("ADMIN", "MANAGER")
+                    .antMatchers("/vehicle/**").hasAnyRole("ADMIN", "MANAGER", "IN_OFFICER")
+                    .antMatchers("/inspection/**").hasAnyRole("ADMIN", "MANAGER", "IN_OFFICER")
+                    .antMatchers("/vehicleServiceStationProcess/**").hasAnyRole("ADMIN", "MANAGER", "TECH")
                     .anyRequest()
                     .authenticated())
         // Login form
@@ -144,20 +131,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionRegistry(sessionRegistry()))
         //Cross site disable
         .csrf(AbstractHttpConfigurer::disable)
-        .exceptionHandling();*/
+        .exceptionHandling();
   }
 }
 
-/*
-customer - in officer,manager
-discount ratio -cashier,manager
-employee - admin,manager
-inspection - in officer,manager
-payment - cashier,manager
-report - manager,employee,in officer,cashier,technician,admin
-role -manager,,employee,in officer,cashier,technician,admin
-servicetype - manager,in officer,technician
-servicetype parameter-manager.ino fficer,technician
-user - manager
-vehicle -manager,in officer
-*/
