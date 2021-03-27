@@ -14,15 +14,7 @@ body{
     backdrop-filter: blur(1px);
 }
 #topic{
-    font-size:20px;
-    background-color: rgba(255,255,255,0.1);
-    text-transform: ;
-    text-align-center;
-    position: relative;
-    height: 50px;
-    box-shadow: 0 5px 15px rgba(0,0,0,.5);
-    font-family: "Calibri";
-    backdrop-filter: blur(10px);
+
 }
 #topic:before{
     content: '';
