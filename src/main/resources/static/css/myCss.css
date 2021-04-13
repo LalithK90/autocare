@@ -7,17 +7,38 @@
     --error-color: #fa370d;
 }
 body{
-    /*background-image: url('../img/loginBackground.jpg');*/
+    background-image: url('../img/bg5.jpg');
     background-color: lightblue;
     background-size: cover;
     background-repeat: no-repeat;
 }
-#heading{
+#tableheading{
     font-size:20px;
     background-color: red;
 
 }
+#myTable{
+    background-color:white;
+    border-radius: 10px;
+    text-align: center;
 
+}
+#table>thead{
+    font-size: 20px;
+}
+#tabletopic{
+    font-size: 50px;
+    font-family: Calibri;
+
+}
+#btnAdd{
+    margin: 10px;
+}
+#form{
+    background-color: white;
+    border-radius: 10px;
+
+}
 
 
 

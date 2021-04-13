@@ -32,21 +32,23 @@
   </div >
 </div >
 <!--Form Content - start -->
-<div class="col-sm-12 flex-column " >
-  <form data-th-action="${addStatus==true?'/discountRatio/save':'/discountRatio/update'}"
+<div class="container ">
+  <div class="row">
+<div class="col-sm-12 flex-column" >
+  <form id="form" style="padding-left: 140px;padding-top: 50px;" data-th-action="${addStatus==true?'/discountRatio/save':'/discountRatio/update'}"
         data-th-object="${discountRatio}"
         method="POST" >
 
     <!--Left Side-->
-    <div class="form-group col-md-6 col-sm-6 text-left flex-column" >
+    <div class="form-group col-md-12 text-left flex-column" >
       <input data-th-field="*{id}" data-th-if="${addStatus==false}" hidden type="text" />
       <input type="text" data-th-if="${addStatus==false}" data-th-field="*{liveDead}" hidden >
       <!--Name-->
-      <div class="form-row text-right" >
+      <div class="form-group" >
         <div class="col-md-4" >
           <label class="control-label" for="name" >Name :</label >
         </div >
-        <div class="col-md-8" >
+        <div class="col-md-10" >
           <input class="form-control" data-th-field="*{name}" id="name" required tabindex="4"
                  type="text" />
           <span class="error" data-th-errors="*{name}"
@@ -55,11 +57,11 @@
       </div >
 
       <!--amount-->
-      <div class="form-row text-right" >
+      <div class="form-group" >
         <div class="col-md-4" >
           <label class="control-label" for="name" >Amount (%):</label >
         </div >
-        <div class="col-md-8" >
+        <div class="col-md-10" >
           <input class="form-control" data-th-field="*{amount}" id="amount" required tabindex="4"
                  type="number" min="0" max="100"/>
           <span class="error" data-th-errors="*{amount}"
@@ -114,6 +116,8 @@
     </div >
   </form >
 </div >
+  </div>
+</div>
 
 <div data-th-replace="~{fragments/footer :: footerFragment}" ></div >
 <!--script include-->

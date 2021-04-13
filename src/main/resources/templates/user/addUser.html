@@ -30,17 +30,15 @@
   </div >
 </div >
 <!--Employee find-->
-<div class="container-fluid" id="employeeFindForm" data-th-if="${employeeDetailShow==false}" >
+<div class="container" id="employeeFindForm" data-th-if="${employeeDetailShow==false}" >
   <div class="col-sm-12 flex-column " >
-    <form id="form" method="POST" data-th-action="${'/user/workingPlace'}" data-th-object="${employee}"
+    <form id="form" style="padding-left: 150px;padding-top: 50px;" method="POST" data-th-action="${'/user/workingPlace'}" data-th-object="${employee}"
           enctype="multipart/form-data" >
-      <div class="form-row" >
-        <div class="col-5 flex-column" >
           <div class="form-group" >
             <div class="col-4" >
               <label class="control-label" for="selectParameter" >Parameter :</label >
             </div >
-            <div class="col-8" >
+            <div class="col-10" >
               <select id="selectParameter" class="form-control" tabindex="1" required >
                 <option value="" >Please select</option >
                 <option value="nic" >NIC Number</option >
@@ -49,20 +47,16 @@
               </select >
             </div >
           </div >
-        </div >
-        <div class="col-4 flex-column" >
           <div class="form-group" >
-            <div class="col-5" >
+            <div class="col-4" >
               <label class="control-label" for="valueEmployee" >Value :</label >
             </div >
-            <div class="col-7" >
+            <div class="col-10" >
               <input id="valueEmployee" tabindex="2" class="form-control" type="text" minlength="3"
                      required
                      autofocus />
             </div >
           </div >
-        </div >
-        <div class="col-3 flex-column" >
           <div class="form-group" >
             <div class="" >
               <div class="col-2" >
@@ -75,8 +69,7 @@
               </div >
             </div >
           </div >
-        </div >
-      </div >
+
     </form >
   </div >
 </div >

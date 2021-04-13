@@ -29,10 +29,7 @@
         <!--Home Button-->
         <div class="col text-right">
             <a class="btn" id="btnHome" href="/home" tabindex="2">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+
                 <i class="fa fa-home" style="font-size: 20px"></i> &nbsp;&nbsp;
                 Home
             </a>
@@ -69,7 +66,7 @@
                     <select id="customer" data-th-field="*{customer}"
                             class="form-control"
                             tabindex="3" required >
-                        <option value="" disabled>Please select</option>
+                        <option value="">Please select</option>
                         <option
                                 data-th-each="customer : ${customers}"
                                 data-th-text="${customer.name}"

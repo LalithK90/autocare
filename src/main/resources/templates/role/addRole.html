@@ -39,12 +39,12 @@
         </div>
     </div>
 </div>
-<div class="container    ">
+<div class="container">
     <div class="col-sm-12" id="formBack" >
-        <form id="form" method="POST"  data-th-action="${addStatus==true?'/role/add':'/role/update'}"
+        <form id="form" style="padding-left: 130px;padding-top: 50px;" method="POST"  data-th-action="${addStatus==true?'/role/add':'/role/update'}"
                data-th-object="${role}">
-            <div class="form-group col-md-12 col-sm-12 text-center flex-column">
-                <div class="col-sm-6 col-md-6 offset-2">
+            <div class="form-group col-md-12 col-sm-12  flex-column">
+                <div class="col-sm-10 col-md-10 ">
                     <div id="idHide"  data-th-if="${addStatus==false}" class="form-row text-right">
                         <div class="col-md-4">
                             <label class="control-label" for="id">ID :</label>
@@ -53,7 +53,7 @@
                             <input class="form-control"  data-th-field="*{id}"  id="id" type="text" readonly/>
                         </div>
                     </div>
-                    <div class="form-row text-center">
+                    <div class="form-group ">
                             <label class="control-label" for="roleName">Name :</label>
                             <input id="roleName"  data-th-field="*{roleName}" class="form-control" type="text" required/>
                             <span id="roleNameError"  data-th-errors="*{roleName}"  data-th-if="${#fields.hasErrors('roleName')}" class="error">Error Role Name</span>
