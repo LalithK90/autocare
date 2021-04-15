@@ -39,22 +39,22 @@
   <div class="form-row" >
     <div class="col-md-3 text-center" >
       <a href="/vehicleServiceStationProcess" >
-        <button class="btn btn-primary" >All Checked</button >
+        <button class="btn btn-lg btn-light btn-block" >All Checked</button >
       </a >
     </div >
     <div class="col-md-3 text-center" >
       <a href="/vehicleServiceStationProcess/pending" >
-        <button class="btn btn-info" >Pending</button >
+        <button class="btn btn-lg btn-light btn-block" >Pending</button >
       </a >
     </div >
     <div class="col-md-3 text-center" >
       <a href="/vehicleServiceStationProcess/done" >
-        <button class="btn btn-success" >Finish</button >
+        <button class="btn btn-lg btn-light btn-block" >Finish</button >
       </a >
     </div >
     <div class="col-md-3 text-center" >
       <a href="/vehicleServiceStationProcess/paid" >
-        <button class="btn btn-success" >Paid</button >
+        <button class="btn btn-lg btn-light btn-block" >Paid</button >
       </a >
     </div >
   </div >
@@ -92,7 +92,7 @@
 
   <!--there are vehicles-->
   <div class="container-fluid" id="roleListPresent" data-th-if="${not #lists.isEmpty(vehicles)}" >
-    <div class="table-responsive" >
+    <div class="table-responsive text-center" >
       <table class="table table-borderless table-hover table-striped" id="myTable">
         <thead >
         <tr >
@@ -106,11 +106,11 @@
         </thead >
         <tbody >
         <tr data-th-each="vehicle, rowCount : ${vehicles}" >
-          <th data-th-text="${rowCount.count}" ></th >
-          <th data-th-text="${vehicle.number}" ></th >
-          <th data-th-text="${vehicle.customer.name}" ></th >
-          <th data-th-text="${vehicle.manufacturedYear}" ></th >
-          <th data-th-if="${addStatus}" >
+          <td data-th-text="${rowCount.count}" ></td >
+          <td data-th-text="${vehicle.number}" ></td >
+          <td data-th-text="${vehicle.customer.name}" ></td >
+          <td data-th-text="${vehicle.manufacturedYear}" ></td >
+          <td data-th-if="${addStatus}" >
             <form action="/vehicleServiceStationProcess/vehicle" method="post" >
               <input type="hidden" data-th-name="${'id'}" data-th-value="${vehicle.id}" >
               <input type="date" hidden data-th-name="${'form'}"
@@ -119,8 +119,8 @@
                      data-th-value="${#temporals.format(vehicle.updatedAt,'yyyy-MM-dd')}" >
               <button type="submit" class="btn btn-primary btn-sm mr-2 p-2" >Do Job</button >
             </form >
-          </th >
-          <th data-th-if="${addStatusPayment}" >
+          </td >
+          <td data-th-if="${addStatusPayment}" >
             <form action="/vehicleServiceStationProcess/printView" method="post" >
               <input type="text" data-th-name="${'id'}" data-th-value="${vehicle.id}" hidden >
               <input type="date" hidden data-th-name="${'form'}"
@@ -129,7 +129,7 @@
                      data-th-value="${#temporals.format(vehicle.updatedAt,'yyyy-MM-dd')}" >
               <button type="submit" class="btn btn-primary btn-sm mr-2 p-2" >Details</button >
             </form >
-          </th >
+          </td >
         </tr >
         </tbody >
       </table >

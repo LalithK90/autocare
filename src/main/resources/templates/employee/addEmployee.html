@@ -40,23 +40,23 @@
         <!--Left Side-->
         <div class=" col-md-6 col-sm-6 text-left flex-column" >
           <!--Id-->
-          <div id="idStatus" data-th-if="${addStatus==false}" class="form-row text-right" >
+          <div id="idStatus" data-th-if="${addStatus==false}" class="form-group" >
             <div class="form-group">
             <div class="col-md-4" >
               <label class="control-label" for="id" >ID :</label >
             </div >
-            <div class="col-md-8" >
+            <div class="col-md-10" >
               <input id="id" data-th-field="*{id}" class="form-control" type="text" readonly />
               <input type="text" data-th-field="*{liveDead}" hidden>
             </div >
             </div>
           </div >
           <!--Payrole number-->
-          <div class="form-row text-right" data-th-if="${addStatus==false}">
+          <div class="form-group" data-th-if="${addStatus==false}">
             <div class="col-md-4" >
               <label class="control-label" for="name" >Employee code :</label >
             </div >
-            <div class="col-md-8" >
+            <div class="col-md-10" >
               <input id="code" data-th-field="*{code}" class="form-control" tabindex="4"
                      type="text" required />
               <span id="codeE" data-th-errors="*{code}"
@@ -346,21 +346,17 @@
             </div >
           </div >
         </div >
-        <div class="form-group col-md-12 col-sm-12 text-left flex-column " >
+        <div class="form-group col-md-11 text-right flex-column"  >
           <!--Back Button-->
-          <a class="btn btn-dark"  tabindex="10" href="/employee">
-            <i class="fas fa-arrow-circle-left" style="font-size: 20px"></i>&nbsp;&nbsp;Back
+          <a class="btn btn-dark" id="formbtn" tabindex="10" href="/employee">
+            <i class="fas fa-arrow-circle-left" style="font-size: 20px;"></i>&nbsp;&nbsp;Back
           </a>
-          <!--Button-->
-          <div class="form-group col-md-12 col-sm-12 text-center flex-column " >
-            <button class="btn btn-success" type="submit" tabindex="21" >
-              <i class="fa fa-save " style="font-size: 20px" ></i >&nbsp; &nbsp;<span id="submit"
-                                                                                      data-th-text="${addStatus==true?'Save': 'Update'}" ></span >
-            </button >
-            <button class="btn btn-danger" type="reset" >
-              <i class="fa fa-redo" ></i > <span id="reset" >Reset</span >
-            </button >
-          </div >
+          <button class="btn btn-info" id="formbtn" type="submit" tabindex="21" >
+            <i class="fa fa-save " style="font-size: 20px;" ></i >&nbsp; &nbsp;<span id="submit" data-th-text="${addStatus==true?'Save': 'Update'}" ></span >
+          </button >
+          <button class="btn btn-warning" id="formbtn" type="reset"  >
+            <i class="fa fa-redo" style="font-size: 20px;" ></i > <span id="reset" >Reset</span >
+          </button >
         </div >
         <div class="form-row" >
           <label id="errorLabel" data-th-if="${#fields.hasErrors('*')}" data-th-text="'Errors: '" >Errors: </label >

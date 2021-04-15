@@ -45,9 +45,9 @@
             <div class="col-12" >
               <!--/* id this comment not visualize */-->
               <!--Id-->
-              <div class="form-group row" data-th-if="${addStatus==true}" >
+              <div class="form-group" data-th-if="${addStatus==true}" >
                 <label for="id" class="col-sm-4 col-form-label " > Id </label >
-                <div class="col-sm-8" >
+                <div class="col-sm-10" >
                   <input type="text" class="form-control" data-th-field="*{id}"
                          id="id" readonly >
                   <input type="text" data-th-field="*{liveDead}" hidden >
@@ -108,17 +108,19 @@
                 </div >
               </div >
 
-              <div class="form-group row" >
-                <div class="offset-sm-2 col-sm-10" >
-                  <button type="submit" class="btn btn-primary" >
+              <div class="form-group" >
+                <div class="  text-right col-sm-10" >
+                  <button type="submit" class="btn btn-success" >
                     <i data-th-class="${addStatus==false?'fa fa-save mr-1':'fa fa-thumbs-up mr-1'}" ></i >
                     <span
                           data-th-text="${addStatus==false?'Save' : 'Update'}" ></span >
                   </button >
                 </div >
+
               </div >
 
             </div >
+            <div class="row"></div>
 
           </form >
     </div >

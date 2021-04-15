@@ -32,19 +32,19 @@
   </div >
 </div >
 
-<div class="container-fluid" >
+<div class="container" >
   <div data-th-if="${vehicleSearch}" >
     <!--Vehicle find-->
     <div class="container-fluid " id="employeeFindForm" data-th-if="${vehicleSearch}" >
       <div class="col-sm-12 flex-column " >
-        <form id="form" method="POST" data-th-action="${'/inspection/searchAll'}" data-th-object="${vehicle}" >
-          <div class="form-row" >
-            <div class="col-5 flex-column" >
+        <form id="form" style="padding-left: 150px;padding-top: 50px;" method="POST" data-th-action="${'/inspection/searchAll'}" data-th-object="${vehicle}" >
+
+          <div class="form-group" >
               <div class="form-group" >
                 <div class="col-4" >
                   <label class="control-label" for="selectParameter" >Parameter :</label >
                 </div >
-                <div class="col-8" >
+                <div class="col-10" >
                   <select id="selectParameter" class="form-control" tabindex="1" required >
                     <option value="" >Please select</option >
                     <option value="number" >Number</option >
@@ -53,34 +53,28 @@
                   </select >
                 </div >
               </div >
-            </div >
-            <div class="col-4 flex-column" >
-              <div class="form-group" >
                 <div class="col-5" >
                   <label class="control-label" for="valueEmployee" >Value :</label >
                 </div >
-                <div class="col-7" >
+                <div class="col-10" >
                   <input id="valueEmployee" tabindex="2" class="form-control" type="text" minlength="3"
                          required
-                         autofocus />
+                          />
                 </div >
-              </div >
-            </div >
-            <div class="col-3 flex-column" >
-              <div class="form-group" >
+          </div >
+          <div class="form-group" >
                 <div class="" >
                   <div class="col-2" >
                     <label class="control-label" ></label >
                   </div >
-                  <div class="col-10 text-left" id="btnSearchEmployee" >
-                    <button class="btn btn-success" tabindex="3" type="submit" >
+                  <div class="col-10 text-right" id="btnSearchEmployee" >
+                    <button class="btn btn-outline-dark" tabindex="3" type="submit" >
                       <i class="fa fa-search " style="font-size: 20px" ></i >&nbsp; &nbsp;Search
                     </button >
                   </div >
                 </div >
-              </div >
-            </div >
           </div >
+      <div class="row"></div>
         </form >
       </div >
     </div >

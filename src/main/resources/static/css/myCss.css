@@ -7,7 +7,7 @@
     --error-color: #fa370d;
 }
 body{
-    background-image: url('../img/bg5.jpg');
+    background-image: url('../img/bg7.png');
     background-color: lightblue;
     background-size: cover;
     background-repeat: no-repeat;
@@ -37,6 +37,12 @@ body{
 #form{
     background-color: white;
     border-radius: 10px;
+
+}
+#formbtn{
+    margin-left: 20px
+}
+.card{
 
 }
 

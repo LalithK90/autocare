@@ -12,10 +12,7 @@
     <div class="row text-left">
         <div class="col">
             <a class="btn"  id="btnHome" href="/home">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+
                 <i class="fa fa-home" style="font-size: 20px"></i> &nbsp;
                 Home
             </a>
@@ -29,10 +26,7 @@
         </div>
         <div class="col text-right  ">
             <a href="/role" class="btn" id="btnView">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+
                 <i class="fa fa-list"></i>&nbsp;
                 View List
             </a>
@@ -44,12 +38,12 @@
         <form id="form" style="padding-left: 130px;padding-top: 50px;" method="POST"  data-th-action="${addStatus==true?'/role/add':'/role/update'}"
                data-th-object="${role}">
             <div class="form-group col-md-12 col-sm-12  flex-column">
-                <div class="col-sm-10 col-md-10 ">
+                <div class="col-sm-10 ">
                     <div id="idHide"  data-th-if="${addStatus==false}" class="form-row text-right">
-                        <div class="col-md-4">
+                        <div class="col-md-4 text-left">
                             <label class="control-label" for="id">ID :</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input class="form-control"  data-th-field="*{id}"  id="id" type="text" readonly/>
                         </div>
                     </div>
@@ -60,17 +54,17 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group col-md-12 col-sm-12 text-center flex-column">
+            <div class="form-group col-md-10 text-right flex-column" id="">
                 <!--Back Button-->
-                <a class="btn btn-dark"  tabindex="10" href="/customer">
+                <a class="btn btn-dark" id="formbtn" tabindex="10" href="/customer">
                     <i class="fas fa-arrow-circle-left" style="font-size: 20px"></i>&nbsp;&nbsp;Back
                 </a>
                 <!--Save Button-->
-                <button class="btn btn-success ml-5" type="submit" tabindex="8">
+                <button class="btn btn-success" id="formbtn" type="submit" tabindex="8">
                     <i class="fa fa-save " style="font-size: 20px"></i>&nbsp;&nbsp;<span id="submit" data-th-text="${addStatus==true?'Save': 'Update'}"></span>
                 </button>
                 <!--Cancel Button-->
-                <button class="btn btn-warning ml-5" type="reset" tabindex="9">
+                <button class="btn btn-warning" id="formbtn" type="reset" tabindex="9">
                     <i class="far fa-times-circle" style="font-size: 20px"></i>&nbsp;&nbsp;Cancel
                 </button>
                 <!--<button class="btn btn-success" type="submit">

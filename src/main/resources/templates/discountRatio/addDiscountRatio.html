@@ -69,11 +69,11 @@
         </div >
       </div >
       <!--Discount Ratio status-->
-      <div class="form-row text-right" data-th-if="${addStatus==false}" >
+      <div class="form-group" data-th-if="${addStatus==false}" >
         <div class="col-md-4" >
           <label class="control-label" for="discountRatioStatus" >Discount Ratio Status :</label >
         </div >
-        <div class="col-md-8" >
+        <div class="col-md-10" >
           <select id="discountRatioStatus" data-th-field="*{discountRatioStatus}" class="form-control" tabindex="7"
                   required >
             <option value="" >Please select</option >
@@ -89,19 +89,19 @@
     <!--Button-->
 
     <div class="form-group" id="formButton">
-      <div class=" form-group text-center col-sm-10">
+      <div class=" form-group text-right col-sm-10">
         <!--Back Button-->
-        <a class="btn btn-dark"  tabindex="10" href="/discountRatio">
+        <a class="btn btn-dark" id="formbtn" tabindex="10" href="/discountRatio">
           <i class="fas fa-arrow-circle-left" style="font-size: 20px"></i>&nbsp;&nbsp;Back
         </a>
         <!--Save Button-->
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" id="formbtn" class="btn btn-info">
           <i data-th-class="${addStatus==true?'fa fa-save mr-1':'fa fa-thumbs-up mr-1'}"></i>
           <span
                 data-th-text="${addStatus==true?'Save' : 'Update'}"></span>
         </button>
         <!--Cancel Button-->
-        <button class="btn btn-warning ml-5" type="reset" tabindex="9">
+        <button class="btn btn-warning" id="formbtn" type="reset" tabindex="9">
           <i class="far fa-times-circle" style="font-size: 20px"></i>&nbsp;&nbsp;Cancel
         </button>
       </div>
