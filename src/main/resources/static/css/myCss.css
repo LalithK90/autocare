@@ -7,54 +7,45 @@
     --error-color: #fa370d;
 }
 body{
- background-image: url('../img/loginBackground.jpg');
+    background-image: url('../img/bg7.png');
+    background-color: lightblue;
     background-size: cover;
     background-repeat: no-repeat;
 }
-#userIcon {
-    width: 80px;
-    border-radius: 40px;
-}
-#draggable{
-    margin-top: 100px;
-    padding-top: 30px;
-    margin-bottom: 100px;
-    border-radius: 20px;
-}
-.labelDeco{
-    visibility: hidden;
-    margin: auto;
-    font-size: 10px;
-}
-input{
-    font-family: "calibri";
+#tableheading{
+    font-size:20px;
+    background-color: red;
 
 }
-div>input[type=text],input[type=password]{
-    padding-left: 35px;
-    font-size: 14px;
+#myTable{
+    background-color:white;
+    border-radius: 10px;
+    text-align: center;
+
 }
-.icon{
-    position: relative;
+#table>thead{
+    font-size: 20px;
 }
-#userIconPosition{
-    position: absolute;
-    top: 194px;
-    left:25px;
-    padding: 1px 2px;
+#tabletopic{
+    font-size: 50px;
+    font-family: Calibri;
+
 }
-#passwordIconPosition{
-    position: absolute;
-    top: 235px;
-    left:25px;
-    padding: 1px 2px;
+#btnAdd{
+    margin: 10px;
 }
-button{
-    width: 100%;
-    height: 35px;
+#form{
+    background-color: white;
+    border-radius: 10px;
+
 }
-#draggable{
-    background-color: rgba(0,0,0,0.8);
-}#formTopic{
-    color: white;
- }
+#formbtn{
+    margin-left: 20px
+}
+.card{
+
+}
+
+
+
+

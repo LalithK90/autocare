@@ -30,17 +30,17 @@
 </div >
 
 
-<div class="container-fluid" >
-  <form data-th-action="${addStatus==false?'/serviceTypeParameter/save' :'/serviceTypeParameter/update'}"
+<div class="container" >
+  <form id="form" style="padding-left: 140px;padding-top: 50px;" data-th-action="${addStatus==false?'/serviceTypeParameter/save' :'/serviceTypeParameter/update'}"
         method="post" data-th-object="${serviceTypeParameter}"
         class="mt-3" >
-    <div class="offset-3 col-6" >
+    <div class="col-12" >
       <!--/* id this comment not visualize */-->
       <!--Id-->
-      <div class="form-group row" data-th-if="${addStatus==true}" >
+      <div class="form-group" data-th-if="${addStatus==true}" >
         <label for="id" class="col-sm-6 col-form-label " >
           Id </label >
-        <div class="col-sm-6" >
+        <div class="col-sm-10" >
           <input type="text" class="form-control" data-th-field="*{id}"
                  id="id" readonly >
           <input type="text" data-th-field="*{liveDead}" hidden >
@@ -48,10 +48,10 @@
       </div >
 
       <!--Subject name-->
-      <div class="form-group row" >
+      <div class="form-group" >
         <label data-th-for="${'name'}" class="col-sm-4 col-form-label " >
           Parameter Name </label >
-        <div class="col-sm-8" >
+        <div class="col-sm-10" >
           <input type="text" class="form-control"
                  data-th-field="*{name}"
                  required ><p class="text-danger"
@@ -60,7 +60,7 @@
         </div >
       </div >
       <!--price-->
-      <div class="form-group row" >
+      <div class="form-group" >
         <label data-th-for="${'price'}" class="col-sm-2 col-form-label " >
           Price </label >
         <div class="col-sm-10" >
@@ -73,10 +73,10 @@
         </div >
       </div >
       <!--vehicle model list-->
-      <div class="form-row text-right" >
+      <div class="form-group  " >
         <label class="col-sm-4 col-form-label " for="vehicleModel" >Vehicle Type
                                                                     :</label >
-        <div class="col-md-8" >
+        <div class="col-md-10" >
           <select id="vehicleModel" data-th-field="*{vehicleModel}"
                   class="form-control"
                    required >
@@ -89,10 +89,10 @@
         </div >
       </div >
       <!--vehicle section list-->
-      <div class="form-row text-right" >
+      <div class="form-group" >
         <label class="col-sm-4 col-form-label " for="vehicleModel" >Service Section
                                                                     :</label >
-        <div class="col-md-8" >
+        <div class="col-md-10" >
           <select  data-th-field="*{serviceSection}"
                   class="form-control"
                    required >
@@ -104,26 +104,26 @@
           </select >
         </div >
       </div >
-      <div class="form-group row" >
         <div class="form-group" id="formButton">
-          <div class=" form-group text-center col-sm-10">
+          <div class=" form-group text-right col-sm-10">
             <!--Back Button-->
-            <a class="btn btn-dark"  tabindex="10" href="/serviceTypeParameter">
+            <a class="btn btn-dark" id="formbtn" tabindex="10" href="/serviceTypeParameter">
               <i class="fas fa-arrow-circle-left" style="font-size: 20px"></i>&nbsp;&nbsp;Back
             </a>
             <!--Save Button-->
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" id="formbtn" class="btn btn-info">
               <i data-th-class="${addStatus==false?'fa fa-save mr-1':'fa fa-thumbs-up mr-1'}"></i>
               <span
                     data-th-text="${addStatus==false?'Save' : 'Update'}"></span>
             </button>
             <!--Cancel Button-->
-            <button class="btn btn-warning ml-5" type="reset" tabindex="9">
+            <button class="btn btn-warning" id="formbtn" type="reset" tabindex="9">
               <i class="far fa-times-circle" style="font-size: 20px"></i>&nbsp;&nbsp;Cancel
             </button>
           </div>
         </div>
-      </div >
+      <div class="row"></div>
+
 
     </div >
 

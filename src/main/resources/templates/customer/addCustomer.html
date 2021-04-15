@@ -13,10 +13,7 @@
         <!--ViewList Button-->
         <div class="col text-left">
             <a href="/customer" class="btn"  id="btnView" tabindex="1">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+
                 <i class="fa fa-list" style="font-size: 20px"></i>&nbsp;&nbsp;
                 View List
             </a>
@@ -32,10 +29,7 @@
         <!--Home Button-->
         <div class="col text-right">
             <a class="btn" id="btnHome" href="/home" tabindex="2">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+
                 <i class="fa fa-home" style="font-size: 20px"></i> &nbsp;&nbsp;
                 Home
             </a>
@@ -43,12 +37,11 @@
     </div>
 </div>
 <!--Form Content-->
-<div class="container-fluid     text-center">
+<div class="container">
     <div class="row">
-        <div class="col"></div>
         <div class="col" id="formBack">
-    <div class="col-sm-12 flex-column ">
-        <form id="form" class="form-horizontal" data-th-action="${addStatus==true?'/customer/save':'/customer/update'}"
+    <div class="col-md-12 flex-column ">
+        <form id="form" style="padding-left: 150px;padding-top: 50px;" class="form-horizontal" data-th-action="${addStatus==true?'/customer/save':'/customer/update'}"
               data-th-object="${customer}" method="POST" >
             <div class="row">
                 <div class="form-group col-md-6 col-sm-6 text-left flex-column">
@@ -57,85 +50,94 @@
             </div>
             <div class="row">
                 <!--Left Side-->
-                <div class="form-group col-md-12 col-sm-12 text-left flex-column">
+                <div class="form-group col-md-12 col-sm-12 flex-column">
                     <!--Id-->
-                    <div id="idStatus" data-th-if="${addStatus==false}" class="form-row text-right">
+                    <div id="idStatus" data-th-if="${addStatus==false}" class="form-group">
                         <div class="col-md-4">
                             <label class="control-label" for="id">ID :</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-10">
                             <input id="id" data-th-field="*{id}" class="form-control" type="text" readonly/>
                             <input type="text" data-th-field="*{liveDead}" hidden >
                         </div>
                         <div class="col-md-4">
                             <label class="control-label" for="code">Customer Code :</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-10">
                             <input id="code" data-th-field="*{code}" class="form-control" type="text" readonly/>
                         </div>
                     </div>
                     <!--Name-->
-                    <div class="form-row text-right">
-                            <label class="control-label" for="name">Name :</label>
+                    <div class="form-group">
+                            <label class="col-sm-4 col-form-label control-label" for="name">Name :</label>
+                        <div class="col-md-10">
                             <input id="name" data-th-field="*{name}" class="form-control" tabindex="4" type="text" required/>
                             <span id="nameError" data-th-errors="*{name}"
                                   data-th-if="${#fields.hasErrors('name')}" class="error">Error Name</span>
+                        </div>
                     </div>
                     <!--Mobile Number-->
-                    <div class="form-row text-right">
-                            <label class="control-label" for="mobile">Mobile :</label>
-                            <input id="mobile" data-th-field="*{mobile}" class="form-control mobile" tabindex="6" type="text" minlength="9" maxlength="10" required/>
+                    <div class="form-group">
+                            <label class="col-sm-4 col-form-label control-label" for="mobile">Mobile :</label>
+                        <div class="col-md-10">
+                        <input id="mobile" data-th-field="*{mobile}" class="form-control mobile" tabindex="6" type="text" minlength="9" maxlength="10" required/>
                             <span class="error" data-th-errors="*{mobile}"
                                   data-th-if="${#fields.hasErrors('mobile')}" id="mobileError">Error Mobile Number</span>
+                        </div>
                     </div>
                     <!--Email-->
-                    <div class="form-row text-right">
-                            <label class="control-label" for="email">Email :</label>
-                            <input id="email" data-th-field="*{email}" class="form-control" tabindex="6" type="email"/>
+                    <div class="form-group">
+                            <label class="col-sm-4 col-form-label control-label" for="email">Email :</label>
+                        <div class="col-md-10">
+                        <input id="email" data-th-field="*{email}" class="form-control" tabindex="6" type="email"/>
                             <span class="error" data-th-errors="*{email}"
                                   data-th-if="${#fields.hasErrors('email')}" id="emailError">Error Mobile Number</span>
+
+                        </div>
                     </div>
                     <!--Address-->
-                    <div class="form-row text-right">
-                            <label class="control-label" for="address">Address :</label>
-                            <textarea id="address" data-th-field="*{address}" class="form-control" tabindex="7" rows="3" style="font-size: medium"></textarea>
+                    <div class="form-group">
+                            <label class="col-sm-4 col-form-label control-label" for="address">Address :</label>
+                        <div class="col-md-10">
+                        <textarea id="address" data-th-field="*{address}" class="form-control" tabindex="7" rows="3" style="font-size: medium"></textarea>
                             <span class="error" data-th-errors="*{address}"
                                   data-th-if="${#fields.hasErrors('address')}" id="addressError">Error Address</span>
+                        </div>
                     </div>
                     <!--Created by and created at-->
                     <div id="updateStatus" data-th-if="${addStatus==false}">
                         <!--Created By-->
-                        <div class="form-row text-right">
+                        <div class="form-group">
                             <div class="col-md-4">
                                 <label class="control-label" for="createdBy">Created By :</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-10">
                                 <input id="createdBy" data-th-field="*{createdBy}" class="form-control" type="text" readonly/>
                             </div>
                         </div>
                         <!--Created At-->
-                        <div class="form-row text-right">
+                        <div class="form-group">
                             <div class="col-md-4">
                                 <label class="control-label" for="createdAt">Created At :</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-10">
                                 <input id="createdAt" data-th-field="*{createdAt}" class="form-control" type="text" readonly/>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!--Button-->
-                <div class="form-group col-md-12 col-sm-12 text-center flex-column ">
+                <div class="form-group col-md-10 text-right col-sm-10 flex-column ">
                     <!--Back Button-->
-                    <a class="btn btn-dark"  tabindex="10" href="/customer">
+                    <a class="btn btn-dark" id="formbtn" tabindex="10" href="/customer">
                         <i class="fas fa-arrow-circle-left" style="font-size: 20px"></i>&nbsp;&nbsp;Back
                     </a>
                     <!--Save Button-->
-                    <button class="btn btn-success ml-5" type="submit" tabindex="8">
+                    <button class="btn btn-info" id="formbtn" type="submit" tabindex="8">
                         <i class="fa fa-save " style="font-size: 20px"></i>&nbsp;&nbsp;<span id="submit" data-th-text="${addStatus==true?'Save': 'Update'}"></span>
                     </button>
                     <!--Cancel Button-->
-                    <button class="btn btn-warning ml-5" type="reset" tabindex="9">
+                    <button class="btn btn-warning" id="formbtn" type="reset" tabindex="9">
                         <i class="far fa-times-circle" style="font-size: 20px"></i>&nbsp;&nbsp;Cancel
                     </button>
                 </div>
@@ -150,7 +152,6 @@
         </form>
         </div>
     </div>
-        <div class="col"></div>
         </div>
 </div>
 <!--footer include-->

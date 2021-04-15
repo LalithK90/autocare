@@ -5,49 +5,33 @@
   <title >Thymeleaf Springboot </title >
 </head >
 <body class="hold-transition sidebar-mini layout-fixed" >
-<nav data-th-replace="~{fragments/navBar :: navBarFragment}" ></nav >
-<div class="container-fluid   ">
-  <div class="row text-center   ">
-    <div class="col text-left">
-      <a href="/home" id="btnHome" class="btn">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        &nbsp;Home&nbsp;
-      </a>
+  <nav data-th-replace="~{fragments/navBar :: navBarFragment}" ></nav >
+<div class="container-fluid ">
+  <div class="row">
+    <div class="col text-right"></div>
+    <div class="col text-center" id="topic">
+      <p class="text-center" id="tabletopic">
+
+        Service Type Parameters List
+
+      </p>
     </div>
     <div class="col text-right">
-      <a class="btn" id="btnAdd" href="/serviceTypeParameter/add">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <i class="fa fa-user-plus" style="font-size: 18px;"></i> &nbsp;
-                                                                 Add New Service Type Parameter
+      <a class="btn btn-lg btn-light" href="/serviceTypeParameter/add" id="btnAdd" tabindex="1" >
+        <i class="fas fa-plus" style="font-size: 20px"></i>&nbsp;&nbsp;
+        Add New
       </a>
     </div>
   </div>
-  <div class="row text-center">
-    <div class="col"></div>
-    <div class="col" id="topic">
-      <h2 class="text-center">
-
-        Service Type Parameter Management
-
-      </h2>
-    </div>
-    <div class="col"></div>
-  </div>
 </div>
-<div class="container-fluid" >
+<div class="container-fluid text-center" >
   <!--if not empty list-->
   <div class="container-fluid" id="serviceTypeParameterListTable"
        data-th-if="${not #lists.isEmpty(serviceTypeParameters)}" >
-    <table class="table table-hover table-striped" id="myTable" >
-      <thead class="thead-inverse" >
+    <table class="table table-borderless table-hover table-striped" id="myTable" >
+      <thead>
       <tr >
-        <th >S No</th >
+        <th >Index</th >
         <th >Parameter Name</th >
         <th >Vehicle Modal</th >
         <th >Price</th >
@@ -56,12 +40,12 @@
       </thead >
       <tbody >
       <tr data-th-each="serviceTypeParameter, rowCount : ${serviceTypeParameters}" scope="row" >
-        <th data-th-text="${rowCount.count}" ></th >
-        <th data-th-text="${serviceTypeParameter.name}" ></th >
-        <th data-th-text="${serviceTypeParameter.vehicleModel.vehicleModel}" ></th >
-        <th data-th-text="${serviceTypeParameter.price}" ></th >
+        <td data-th-text="${rowCount.count}" ></td >
+        <td data-th-text="${serviceTypeParameter.name}" ></td >
+        <td data-th-text="${serviceTypeParameter.vehicleModel.vehicleModel}" ></td >
+        <td data-th-text="${serviceTypeParameter.price}" ></td >
 
-        <th >
+        <td >
           <a class="btn btn-primary btn-sm" id="serviceTypeParameterEdit"
              data-th-href="${'/serviceTypeParameter/edit/' + serviceTypeParameter.id}" ><i
                 class="fa fa-edit" ></i >&nbsp;Edit</a >
@@ -73,7 +57,7 @@
                 aria-hidden="true" class="fa fa-trash" ></i >
             Delete</a >
 
-        </th >
+        </td >
       </tr >
       </tbody >
     </table >

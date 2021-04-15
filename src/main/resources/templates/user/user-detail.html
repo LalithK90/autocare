@@ -16,7 +16,7 @@
             </a>
         </div>
         <div class="col">
-            <h4 class="text-light text-center">
+            <h4 class="text-center">
                 <strong>
                     <span id="formHeader"
                            data-th-text="${userDetail.employee.title.title}+${' '}+${userDetail.employee.name}"></span>
@@ -31,16 +31,19 @@
     </div>
 </div>
 <div class="container-fluid">
+    <div class="card">
     <div class="row">
         <!--Left Side-->
-        <div class="form-group col-md-6 col-sm-6 text-left flex-column">
+        <div class="form-group col-md-6 col-sm-6 text-right flex-column ">
             <div class="form-row">
                 <!--id-->
                 <div class="col-md-4">
                     <label class="control-label">ID :</label>
                 </div>
                 <div class="col-md-8">
-                    <strong><span id="id"  data-th-text="${userDetail.id}"></span></strong>
+
+                    <span id="id"  data-th-text="${userDetail.id}"></span>
+
                 </div>
             </div>
             <!--User Name-->
@@ -49,20 +52,20 @@
                     <label class="control-label">User Name :</label>
                 </div>
                 <div class="col-md-8">
-                    <strong><span id="userName"  data-th-text="${userDetail.username}"></span></strong>
+                    <span id="userName"  data-th-text="${userDetail.username}"></span>
                 </div>
             </div>
         </div>
         <!--Right Side-->
-        <div class="form-group col-md-6 col-sm-6 text-left flex-column">
+        <div class="form-group col-md-6 col-sm-6 text-right flex-column ">
             <!--Employee Details-->
             <div class="form-row">
                 <div class="col-md-4">
                     <label class="control-label">Employee :</label>
                 </div>
                 <div class="col-md-8">
-                    <strong><span id="employeeName"
-                                   data-th-text="${userDetail.employee.name}+ ${' - '}+${userDetail.employee.nic}"></span></strong>
+                    <span id="employeeName"
+                                   data-th-text="${userDetail.employee.name}+ ${' - '}+${userDetail.employee.nic}"></span>
                 </div>
             </div>
             <!--Created date-->
@@ -71,15 +74,15 @@
                     <label class="control-label">Created Date :</label>
                 </div>
                 <div class="col-md-8">
-                    <strong><span id="createDate" data-th-text="${{userDetail.createdAt}}"></span></strong>
+                    <span id="createDate" data-th-text="${{userDetail.createdAt}}"></span>
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <label class="control-label">Roles :</label>
                 </div>
-                <div class="col-md-10">
-                    <table class="table table-responsive">
+                <div class="col-md-8">
+                    <table class="table table-responsive" id="">
                         <thead>
                         <tr>
                             <th>No</th>
@@ -88,14 +91,15 @@
                         </thead>
                         <tbody>
                         <tr  data-th-each="roles, count : ${userDetail.roles}">
-                            <th  data-th-text="${count.count}"></th>
-                            <th  data-th-text="${roles.roleName}"></th>
+                            <td  data-th-text="${count.count}"></td>
+                            <td  data-th-text="${roles.roleName}"></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 

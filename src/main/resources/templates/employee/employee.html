@@ -8,34 +8,28 @@
 <nav  data-th-replace="~{fragments/navBar :: navBarFragment}"></nav>
 
 <!--heading Area-->
-<div class="container-fluid    ">
-    <div class="row text-center   ">
-        <div class="col">
-            <a href="/home" id="btnHome" class="btn btn-outline-info">
-                &nbsp;Back To Home&nbsp;
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col text-right"></div>
+        <div class="col text-center" id="topic">
+            <p class="text-center" id="tabletopic">
+
+                Employees List
+
+            </p>
+        </div>
+        <div class="col text-right">
+            <a class="btn btn-lg btn-light" href="/employee/add" id="btnAdd" tabindex="1" >
+                <i class="fas fa-plus" style="font-size: 20px"></i>&nbsp;&nbsp;
+                Add New
             </a>
-        </div>
-
-        <div class="col">
-            <a class="btn btn-info" href="/employee/add"><i class="fa fa-plus"></i>
-                &nbsp;Add New</a>
-        </div>
-
-    </div>
-    <div class="row text-center">
-        <div class="col">
-            <h4 class="text-info text-center">
-                <strong>
-                    Employee Management
-                </strong>
-            </h4>
         </div>
     </div>
 </div>
 <div class="container-fluid     text-center">
     <div class="col">
         <div class="col" id="employeeListPresent"  data-th-if="${not #lists.isEmpty(employees)}">
-            <table class="table table-hover table-striped" id="myTable">
+            <table class="table table-borderless table-hover table-striped" id="myTable">
                 <thead>
                 <tr>
                     <th> Index</th>
@@ -50,27 +44,28 @@
                 </thead>
                 <tbody>
                 <tr  data-th-each="employee, rowCount : ${employees}">
-                    <th  data-th-text="${rowCount.count}"></th>
-                    <th>
+                    <td  data-th-text="${rowCount.count}"></td>
+                    <td>
                         <div class="image" data-th-if="${employee.fileInfo !=null}" >
                             <img id="img" class="rounded"
                                  style="height:50px; width:50px;border-radius: 1px"
                                  alt="Employee images"
                                  data-th-src="${employee.fileInfo.url}" />
                         </div >
-                    </th>
-                    <th  data-th-text="${employee.code}"></th>
-                    <th  data-th-text="${employee.callingName}"></th>
-                    <th  data-th-text="${employee.mobileOne}"></th>
-                    <th  data-th-text="${employee.designation.designation}"></th>
-                    <th  data-th-text="${employee.employeeStatus.employeeStatus}"></th>
-                    <th>
-                        <a id="employeeView"  data-th-href="${'/employee/' + employee.id}" class="btn btn-outline-secondary btn-sm">&nbsp;View</a>
+                    </td>
+                    <td  data-th-text="${employee.code}"></td>
+                    <td  data-th-text="${employee.callingName}"></td>
+                    <td  data-th-text="${employee.mobileOne}"></td>
+                    <td  data-th-text="${employee.designation.designation}"></td>
+                    <td  data-th-text="${employee.employeeStatus.employeeStatus}"></td>
+                    <td>
+                        <a id="employeeView"  data-th-href="${'/employee/' + employee.id}" class="btn btn-success btn-sm"><i
+                                class="fa fa-folder-open" style="font-size: 15px"></i>&nbsp;View</a>
                         <a id="employeeEdit"  data-th-href="${'/employee/edit/' + employee.id}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>&nbsp;Edit</a>
                         <a id="employeeRemove"  data-th-href="${'/employee/remove/' + employee.id}"
                             data-th-if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>
                             Delete</a>
-                    </th>
+                    </td>
                 </tr>
                 </tbody>
             </table>

@@ -32,21 +32,23 @@
   </div >
 </div >
 <!--Form Content - start -->
-<div class="col-sm-12 flex-column " >
-  <form data-th-action="${addStatus==true?'/discountRatio/save':'/discountRatio/update'}"
+<div class="container ">
+  <div class="row">
+<div class="col-sm-12 flex-column" >
+  <form id="form" style="padding-left: 140px;padding-top: 50px;" data-th-action="${addStatus==true?'/discountRatio/save':'/discountRatio/update'}"
         data-th-object="${discountRatio}"
         method="POST" >
 
     <!--Left Side-->
-    <div class="form-group col-md-6 col-sm-6 text-left flex-column" >
+    <div class="form-group col-md-12 text-left flex-column" >
       <input data-th-field="*{id}" data-th-if="${addStatus==false}" hidden type="text" />
       <input type="text" data-th-if="${addStatus==false}" data-th-field="*{liveDead}" hidden >
       <!--Name-->
-      <div class="form-row text-right" >
+      <div class="form-group" >
         <div class="col-md-4" >
           <label class="control-label" for="name" >Name :</label >
         </div >
-        <div class="col-md-8" >
+        <div class="col-md-10" >
           <input class="form-control" data-th-field="*{name}" id="name" required tabindex="4"
                  type="text" />
           <span class="error" data-th-errors="*{name}"
@@ -55,11 +57,11 @@
       </div >
 
       <!--amount-->
-      <div class="form-row text-right" >
+      <div class="form-group" >
         <div class="col-md-4" >
           <label class="control-label" for="name" >Amount (%):</label >
         </div >
-        <div class="col-md-8" >
+        <div class="col-md-10" >
           <input class="form-control" data-th-field="*{amount}" id="amount" required tabindex="4"
                  type="number" min="0" max="100"/>
           <span class="error" data-th-errors="*{amount}"
@@ -67,11 +69,11 @@
         </div >
       </div >
       <!--Discount Ratio status-->
-      <div class="form-row text-right" data-th-if="${addStatus==false}" >
+      <div class="form-group" data-th-if="${addStatus==false}" >
         <div class="col-md-4" >
           <label class="control-label" for="discountRatioStatus" >Discount Ratio Status :</label >
         </div >
-        <div class="col-md-8" >
+        <div class="col-md-10" >
           <select id="discountRatioStatus" data-th-field="*{discountRatioStatus}" class="form-control" tabindex="7"
                   required >
             <option value="" >Please select</option >
@@ -87,19 +89,19 @@
     <!--Button-->
 
     <div class="form-group" id="formButton">
-      <div class=" form-group text-center col-sm-10">
+      <div class=" form-group text-right col-sm-10">
         <!--Back Button-->
-        <a class="btn btn-dark"  tabindex="10" href="/discountRatio">
+        <a class="btn btn-dark" id="formbtn" tabindex="10" href="/discountRatio">
           <i class="fas fa-arrow-circle-left" style="font-size: 20px"></i>&nbsp;&nbsp;Back
         </a>
         <!--Save Button-->
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" id="formbtn" class="btn btn-info">
           <i data-th-class="${addStatus==true?'fa fa-save mr-1':'fa fa-thumbs-up mr-1'}"></i>
           <span
                 data-th-text="${addStatus==true?'Save' : 'Update'}"></span>
         </button>
         <!--Cancel Button-->
-        <button class="btn btn-warning ml-5" type="reset" tabindex="9">
+        <button class="btn btn-warning" id="formbtn" type="reset" tabindex="9">
           <i class="far fa-times-circle" style="font-size: 20px"></i>&nbsp;&nbsp;Cancel
         </button>
       </div>
@@ -114,6 +116,8 @@
     </div >
   </form >
 </div >
+  </div>
+</div>
 
 <div data-th-replace="~{fragments/footer :: footerFragment}" ></div >
 <!--script include-->
