@@ -170,7 +170,7 @@
               </div >
               <div class="col-md-8" >
                 <input id="discountAmount" data-th-field="*{discountAmount}" class="form-control" tabindex="6"
-                       type="text"
+                       type="number" step="0.01"
                        required readonly />
                 <span class="error" id="nicError" data-th-errors="*{discountAmount}"
                       data-th-if="${#fields.hasErrors('discountAmount')}" >Error
@@ -190,7 +190,7 @@
               <div class="col-md-8" >
                 <input id="amountTendered" data-th-field="*{amountTendered}"
                        class="form-control"
-                       tabindex="6" type="text"
+                       tabindex="6" type="number" step="0.01"
                        required />
                 <span class="error" data-th-errors="*{amountTendered}"
                       data-th-if="${#fields.hasErrors('amountTendered')}" ></span >
@@ -260,7 +260,7 @@
           <i class="fas fa-arrow-circle-left" style="font-size: 20px" ></i >&nbsp;&nbsp;Back
         </a >
         <!--save button-->
-        <button class="btn btn-success" type="submit" tabindex="21" >
+        <button class="btn btn-success" type="submit" tabindex="21" id="btnSubmit" >
           <i class="fa fa-save " style="font-size: 20px" ></i >&nbsp; &nbsp;<span id="submit"
                                                                                   data-th-text="${'Save'}" ></span >
         </button >
@@ -323,18 +323,34 @@
         $("#discountAmount").val(discountAmount);
     }
 
-    $("#amountTendered").bind('focusout', function () {
-        let tenderedAmount = $(this).val();
-        let totalAmount = $("#totalAmount").val();
-        if (tenderedAmount < totalAmount) {
+    $("#amountTendered").bind('keyup', function () {
+        if (!$("#discountRatio").val()) {
             swal({
-                title: "Hey why do you try to pay less money",
+                title: "Please select discount",
                 icon: "warning",
             });
-            $("#amountTendered").val(totalAmount);
-        } else {
-            $("#balance").val(tenderedAmount - totalAmount);
         }
+
+        let tenderedAmount = parseFloat($(this).val());
+        let totalAmount = parseFloat($("#totalAmount").val());
+
+        console.log(tenderedAmount + "  " + totalAmount)
+        if (tenderedAmount < totalAmount) {
+            $("#balance").val(tenderedAmount - totalAmount).addClass("bg-danger");
+            $("#amountTendered").addClass("bg-danger");
+            $("#btnSubmit").hide();
+        } else {
+            $("#amountTendered").removeClass("bg-danger").addClass("bg-success");
+            $("#balance").val(tenderedAmount - totalAmount).removeClass("bg-danger").addClass("bg-success");
+            $("#btnSubmit").show();
+        }
+
+        if (isNaN($("#balance").val())) {
+            $("#balance").addClass("bg-danger");
+            $("#amountTendered").addClass("bg-danger");
+            $("#btnSubmit").hide()
+        }
+
     });
 
 </script >

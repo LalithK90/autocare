@@ -3,6 +3,7 @@ package lk.sampath_autocare.asset.vehicle.entity;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import lk.sampath_autocare.asset.common_asset.model.Enum.LiveDead;
 import lk.sampath_autocare.asset.customer.entity.Customer;
+import lk.sampath_autocare.asset.serviceType.entity.ServiceType;
 import lk.sampath_autocare.asset.service_type_parameter_vehicle.entity.ServiceTypeParameterVehicle;
 import lk.sampath_autocare.asset.vehicle.entity.enums.GearType;
 import lk.sampath_autocare.asset.vehicle.entity.enums.VehicleModel;
@@ -11,6 +12,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.security.Provider;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -57,5 +59,9 @@ public class Vehicle extends AuditEntity {
     @Transient
     @DateTimeFormat( pattern = "yyyy-MM-dd" )
     private LocalDate to, form;
+
+
+    @Transient
+    private ServiceType serviceType;
 
 }

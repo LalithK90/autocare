@@ -98,6 +98,8 @@
                            data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].serviceTypeParameter.name}"
                            readonly />
                     <input type="hidden"
+                           data-th-name="${'serviceType'}" data-th-value="${serviceTypeParameterVehicle.serviceType.id}"/>
+                    <input type="hidden"
                            data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].serviceTypeParameter.id}" />
                     <input type="hidden"
                            data-th-field="*{serviceTypeParameterVehicles[__${index.index}__].vehicle.id}" />
