@@ -18,10 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.net.ServerSocket;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Controller
@@ -64,9 +66,9 @@ public class VehicleServiceStationProcessController {
   private String common(Model model, ServiceTypeParameterVehicleStatus serviceTypeParameterVehicleStatus,
                         LocalDate fromDate, LocalDate toDate) {
     List< Vehicle > vehicles = new ArrayList<>();
-    System.out.println(" i am yakooo date " + Period.between(fromDate, toDate).getDays());
+
     for ( int i = 0; i <= Period.between(fromDate, toDate).getDays(); i++ ) {
-      System.out.println(" i am here");
+
       LocalDateTime form = dateTimeAgeService.dateTimeToLocalDateStartInDay(fromDate.plusDays(i));
       LocalDateTime to = dateTimeAgeService.dateTimeToLocalDateEndInDay(fromDate.plusDays(i));
       serviceTypeParameterVehicleService.findByCreatedAtIsBetween(form, to)
@@ -163,10 +165,13 @@ public class VehicleServiceStationProcessController {
     Vehicle vehicleDB = vehicleService.findById(vehicle.getId());
     vehicle.getServiceTypeParameterVehicles().forEach(serviceTypeParameterVehicleService::persist);
 
-
+    ServiceType serviceType = serviceTypeService.findById(vehicle.getServiceType().getId());
     List< ServiceTypeParameterVehicle > serviceTypeParameterVehicles = serviceTypeParameterVehicleService
         .findByCreatedAtIsBetweenAndVehicle(dateTimeAgeService.dateTimeToLocalDateStartInDay(LocalDate.now()),
-                                            dateTimeAgeService.dateTimeToLocalDateEndInDay(LocalDate.now()), vehicle);
+                                            dateTimeAgeService.dateTimeToLocalDateEndInDay(LocalDate.now()), vehicle)
+        .stream()
+        .filter(x -> x.getServiceType().equals(serviceType))
+        .collect(Collectors.toList());
 
     int allParameterSize = serviceTypeParameterVehicles.size();
     List< ServiceTypeParameterVehicle > jobDoneSize = serviceTypeParameterVehicles
@@ -185,51 +190,42 @@ public class VehicleServiceStationProcessController {
           });
     }
 
-    if ( allParameterSize == jobDoneSize.size() ) {
-      ArrayList< ServiceType > arrayList = new ArrayList<>();
+    if ( allParameterSize == jobDoneSize.size() && serviceType != null ) {
 
-      for ( ServiceTypeParameterVehicle serviceTypeParameterVehicle : jobDoneSize ) {
-        ServiceType serviceType = serviceTypeService.findById(serviceTypeParameterVehicle.getServiceType().getId());
-        arrayList.add(serviceType);
+      Payment payment = new Payment();
+      payment.setVehicle(vehicleDB);
+      payment.setAmount(serviceType.getPrice());
+      payment.setTotalAmount(BigDecimal.ZERO);
+      payment.setDiscountAmount(BigDecimal.ZERO);
+      payment.setAmountTendered(BigDecimal.ZERO);
+      payment.setBalance(BigDecimal.ZERO);
+      payment.setCustomer(vehicleDB.getCustomer());
+      payment.setServiceType(serviceType);
+      payment.setPaymentMethod(PaymentMethod.CASH);
+      payment.setPaymentStatus(PaymentStatus.NOTPAID);
+
+      Payment lastPayment = paymentService.lastPayment();
+
+      if ( lastPayment == null ) {
+        payment.setCode("SAP" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
+      } else {
+        String previousCode = lastPayment.getCode().substring(3);
+        payment.setCode("SAP" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
+      }
+      Payment paymentSave = paymentService.persist(payment);
+      if ( paymentSave.getVehicle().getCustomer().getEmail() != null ) {
+        String message = "Your Vehicle's Service is completed.\n" +
+            "Invoice Value \t\t\t\t (Rs.) " + paymentSave.getAmount() + "\n" +
+            "\n\n" +
+            "\t\t Thank you and come again :)\n" +
+            "Sampath Auto care\n" +
+            "All ways care your vehicle";
+        emailService.sendEmail(paymentSave.getVehicle().getCustomer().getEmail(), "Payment Information", message);
       }
 
-
-      for ( ServiceType serviceType : arrayList.stream().distinct().collect(Collectors.toList()) ) {
-
-        Payment payment = new Payment();
-        payment.setVehicle(vehicleDB);
-        payment.setAmount(serviceType.getPrice());
-        payment.setTotalAmount(BigDecimal.ZERO);
-        payment.setDiscountAmount(BigDecimal.ZERO);
-        payment.setAmountTendered(BigDecimal.ZERO);
-        payment.setBalance(BigDecimal.ZERO);
-        payment.setCustomer(vehicleDB.getCustomer());
-        payment.setServiceType(serviceType);
-        payment.setPaymentMethod(PaymentMethod.CASH);
-        payment.setPaymentStatus(PaymentStatus.NOTPAID);
-
-        Payment lastPayment = paymentService.lastPayment();
-
-        if ( lastPayment == null ) {
-          payment.setCode("SAP" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
-        } else {
-          String previousCode = lastPayment.getCode().substring(3);
-          payment.setCode("SAP" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
-        }
-        Payment paymentSave = paymentService.persist(payment);
-        if ( paymentSave.getVehicle().getCustomer().getEmail() != null ) {
-          String message = "Your Vehicle's Service is completed.\n" +
-              "Invoice Value \t\t\t\t (Rs.) "+paymentSave.getAmount()+"\n" +
-              "\n\n" +
-              "\t\t Thank you and come again :)\n" +
-              "Sampath Auto care\n" +
-              "All ways care your vehicle";
-          emailService.sendEmail(paymentSave.getVehicle().getCustomer().getEmail(),"Payment Information",message);
-        }
-        //twilioMessageService.sendSMS();
-      }
-
+      //twilioMessageService.sendSMS();
     }
+
 
     return "redirect:/vehicleServiceStationProcess";
   }
