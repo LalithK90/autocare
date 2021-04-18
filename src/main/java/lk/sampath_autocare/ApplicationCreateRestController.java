@@ -49,7 +49,7 @@ public class ApplicationCreateRestController {
         employee.setCallingName("Admin");
         employee.setName("908670000V");
         employee.setMobileOne("0750000000");
-        employee.setTitle(Title.DR);
+        employee.setTitle(Title.MR);
         employee.setGender(Gender.MALE);
         employee.setLiveDead(LiveDead.STOP);
         employee.setDesignation(Designation.CASHIER);

@@ -17,7 +17,7 @@ body{
     background-color: red;
 
 }
-#myTable{
+table{
     background-color:white;
     border-radius: 10px;
     text-align: center;
@@ -32,6 +32,9 @@ body{
 
 }
 #btnAdd{
+    margin: 10px;
+}
+#btnView{
     margin: 10px;
 }
 #form{

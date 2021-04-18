@@ -8,13 +8,7 @@ import lombok.Getter;
 public enum Title {
     MR("Mr. "),
     MRS("Mrs. "),
-    MISS("Miss. "),
-    MS("Ms. "),
-    REV("Rev. "),
-    DR("Dr. "),
-    DRMRS("Dr(Mrs). "),
-    PRO("Prof. "),
-    SISTER("Sister. ");
+    MISS("Miss. ");
 
     private final String title;
 }

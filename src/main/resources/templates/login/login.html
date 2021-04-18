@@ -7,14 +7,15 @@
 </head>
 <body id="loginBack">
 <link  data-th-href="@{/css/myCss.css}" media="all" rel="stylesheet" type="text/css"/>
-<div class="col full-height " id="loginPage" align="center">
+
+<div class="col full-height" id="loginPage" align="center">
     <div class="col-8 col-sm-4 form-box ui-widget-content formBackground " id="draggable">
         <form  data-th-action="${'/login'}" method="post">
 
             <fieldset>
                 <!--<legend class="text-lg-center bg-white"><h3><strong> Excise Department - Sri Lanka</strong></h3>
                    </legend>-->
-                <img src="../img/face.png" class="" id="userIcon">
+                <img src="../img/user1.png" class="" id="userIcon">
                 <br/><br/>
                 <h1 id="formTopic">LOGIN</h1>
                 <br/>
@@ -22,7 +23,7 @@
                    <!--<label for="username">Username</label>-->
                     <input type="text" id="username" th:name="${'username'}" class="form-control" placeholder="Username"
                            required>
-                    <i class="fas fa-user " id="userIconPosition" aria-hidden="true"></i>
+                    <i class="fas fa-user "  id="userIconPosition" aria-hidden="true"></i>
 
                 </div>
                 <div class="form-group" align="left">
@@ -30,16 +31,16 @@
                     <input type="password" id="inputPassword" th:name="${'password'}" class="form-control"
                            placeholder="Password"
                            required>
-                    <i class="fas fa-lock " id="passwordIconPosition" aria-hidden="true"></i>
+                    <i class="fas fa-lock "  id="passwordIconPosition" aria-hidden="true"></i>
 
                 </div>
                 <div class="form-group text-left -align-left">
-                    <button class="btn btn-primary" type="submit">LOGIN</button>
+                    <button class="btn btn-primary btn-block" type="submit">LOGIN</button>
                 </div>
 
             </fieldset>
             <div class="container-fluid "  data-th-if="${param.error}">
-                <p class="bg-white text-capitalize text-danger text-lg-center">Invalid username or password. </p>
+                <p class="bg-white text-capitalize text-danger text-lg-center"><strong>Invalid username or password. </strong></p>
             </div>
             <div class="container-fluid ">
                 <p id="errorMessage"  data-th-text="${err}" class="bg-white text-capitalize text-danger text-lg-center"></p>
@@ -65,21 +66,26 @@
     }
     #formTopic{
         color: white;
+        paddind-top:100px;
+        padding-bottom:50px;
     }
     .icon{
         position: relative;
     }
     #userIconPosition{
         position: absolute;
-        top: 194px;
-        left:25px;
-        padding: 1px 2px;
+        top: 244px;
+        left:550px;
+
+        style:20px;
     }
     #passwordIconPosition{
         position: absolute;
-        top: 235px;
-        left:25px;
-        padding: 1px 2px;
+        top: 295px;
+        left:550px;
+
+        style:20px;
+
     }
 </style>
 

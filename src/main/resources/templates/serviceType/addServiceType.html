@@ -11,26 +11,26 @@
 
 <div class="container-fluid    " id="topicBack" >
   <div class="row text-left " >
-    <div class="col" >
+    <!--<div class="col" >
       <a class="btn" id="btnHome" href="/home" >
 
         <i class="fa fa-home" style="font-size: 20px" ></i > &nbsp;
                                                              Home
       </a >
-    </div >
-    <div class="col" id="topic" >
-      <h4 class="text-center" >
+    </div -->
+    <div class="col"></div>
+    <div class="col" id="tabletopic" >
+      <p class="text-center" >
         <strong >
-                    <span
-                          data-th-text="${addStatus==false?'New Service Type Add':'Update Service Type Details'}" ></span >
+                    <span data-th-text="${addStatus==false?'New Service Type Add':'Update Service Type Details'}" ></span >
         </strong >
-      </h4 >
+      </p >
     </div >
     <div class="col text-right" >
-      <a href="/serviceTypeParameter" class="btn" id="btnView" >
+      <a href="/serviceTypeParameter" class="btn btn-light btn-lg" id="btnView" >
 
-        <i class="fa fa-list" ></i >&nbsp;
-                                    View List
+        <i class="fa fa-list" style="font-size: 20px" ></i >&nbsp;
+                                    View Service Types
       </a >
     </div >
   </div >
@@ -110,7 +110,7 @@
 
               <div class="form-group" >
                 <div class="  text-right col-sm-10" >
-                  <button type="submit" class="btn btn-success" >
+                  <button type="submit" class="btn btn-info" >
                     <i data-th-class="${addStatus==false?'fa fa-save mr-1':'fa fa-thumbs-up mr-1'}" ></i >
                     <span
                           data-th-text="${addStatus==false?'Save' : 'Update'}" ></span >
