@@ -9,32 +9,32 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3" style="padding:30px;">
-                <a class="button card btn btn-default" href="/employee" style="text-decoration: none;color: black">
+        <div data-sec-authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')" data-th-href="@{'/employee'}" class="col-md-3" style="padding:30px;">
+                <a class="button card btn btn-default" href="/employee" style="text-decoration: none;color: black;border-radius: 10px;">
                 <div class="card-body">
                     <h4 class="card-title">Employee Management</h4>
                     <p class="card-text">You are able to add,view,update and delete employees from here.</p>
                 </div>
                 </a>
         </div>
-        <div class="col-md-3" style="padding:30px">
-            <a class="button card btn btn-default" href="/user" style="text-decoration: none;color: black">
+        <div data-sec-authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')" data-th-href="@{'/user'}" class="col-md-3" style="padding:30px">
+            <a class="button card btn btn-default" href="/user" style="text-decoration: none;color: black;border-radius: 10px;">
                 <div class="card-body">
                         <h4 class="card-title">User Management</h4>
                         <p class="card-text">You are able to add,view,update and delete users from here.</p>
                 </div>
             </a>
         </div>
-        <div class="col-md-3" style="padding:30px">
-            <a class="button card btn btn-default" href="/role" style="text-decoration: none;color: black">
+        <div data-sec-authorize="hasAnyAuthority('ROLE_ADMIN' ,'ROLE_MANAGER')" data-th-href="@{'/role'}" class="col-md-3" style="padding:30px">
+            <a class="button card btn btn-default" href="/role" style="text-decoration: none;color: black;border-radius: 10px;">
                 <div class="card-body">
                     <h4 class="card-title">Role Management</h4>
                     <p class="card-text">You are able to add,view,update and delete roles from here.</p>
                 </div>
             </a>
         </div>
-        <div class="col-md-3" style="padding:30px">
-            <a class="button card btn btn-default" href="/serviceType" style="text-decoration: none;color: black">
+        <div data-sec-authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')" data-th-href="@{'/serviceType'}" class="col-md-3" style="padding:30px">
+            <a class="button card btn btn-default" href="/serviceType" style="text-decoration: none;color: black;border-radius: 10px;">
                 <div class="card-body">
                     <h4 class="card-title">Service Type Management</h4>
                     <p class="card-text">You are able to add,view,update and delete service types from here.</p>
@@ -43,32 +43,33 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3" style="padding:30px">
-            <a class="button card btn btn-default" href="/payment" style="text-decoration: none;color: black">
+        <div data-sec-authorize="hasAnyAuthority('ROLE_MANAGER','ROLE_CASHIER')" data-th-href="@{'/payment'}" class="col-md-3" style="padding:30px">
+            <a class="button card btn btn-default" href="/payment" style="text-decoration: none;color: black;border-radius: 10px;">
                 <div class="card-body">
                         <h4 class="card-title">Payment Management</h4>
                         <p class="card-text">You are able to add,view,update and delete Payment from here.</p>
                 </div>
             </a>
         </div>
-        <div class="col-md-3" style="padding:30px">
-            <a class="button card btn btn-default" href="/discountRatio" style="text-decoration: none;color: black">
+        <div data-sec-authorize="hasAnyAuthority('ROLE_MANAGER')" data-th-href="@{'/discountRatio'}" class="col-md-3" style="padding:30px">
+            <a class="button card btn btn-default" href="/discountRatio" style="text-decoration: none;color: black;border-radius: 10px;">
                 <div class="card-body">
                         <h4 class="card-title">Discount Management</h4>
                         <p class="card-text">You are able to add,view,update and delete discount from here.</p>
                 </div>
             </a>
         </div>
-        <div class="col-md-3" style="padding:30px">
-            <a class="button card btn btn-default" href="/customer" style="text-decoration: none;color: black">
+        <div data-sec-authorize="hasAnyAuthority( 'ROLE_IN_OFFICER' ,'ROLE_MANAGER')" data-th-href="@{'/customer'}" class="col-md-3" style="padding:30px">
+            <a class="button card btn btn-default" href="/customer" style="text-decoration: none;color: black;border-radius: 10px;">
                 <div class="card-body">
                     <h4 class="card-title">Customer Management</h4>
                     <p class="card-text">You are able to add,view,update and delete customer from here.</p>
                 </div>
             </a>
         </div>
-        <div class="col-md-3" style="padding:30px">
-            <a class="button card btn btn-default" href="/vehicle" style="text-decoration: none;color: black">
+        <div data-sec-authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_IN_OFFICER' ,'ROLE_MANAGER')"
+             data-th-href="@{'/vehicle'}" class="col-md-3" style="padding:30px">
+            <a class="button card btn btn-default" href="/vehicle" style="text-decoration: none;color: black;border-radius: 10px;">
                 <div class="card-body">
                     <h4 class="card-title">Vehicle Management</h4>
                     <p class="card-text">You are able to add,view,update and delete vehicle from here.</p>
@@ -77,12 +78,19 @@
         </div>
     </div>
     <div class="row">
-
+        <div data-sec-authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')" data-th-href="@{'/serviceTypeParameter'}" class="col-md-3" style="padding:30px">
+            <a class="button card btn btn-default" href="/vehicle" style="text-decoration: none;color: black;border-radius: 10px;">
+                <div class="card-body">
+                    <h4 class="card-title">Service Type Parameter Management</h4>
+                    <p class="card-text">You are able to add,view,update and delete Service type parameters from here.</p>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
 <style>
     body{
-        background-image: url('../img/bg.jpg');
+        background-image: url('../img/bg7.png');
 
     }
     .button{

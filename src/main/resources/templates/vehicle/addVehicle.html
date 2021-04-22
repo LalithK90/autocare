@@ -11,29 +11,30 @@
 <!--Heading Area-->
 <div class="container-fluid form-boder" id="topicBack">
     <div class="row text-center   ">
+        <div class="col"></div>
+        <!--Form Name-->
+        <div class="col" id="tabletopic">
+            <p class="text text-center">
+                <strong>
+                    <span data-th-text="${addStatus==false?'Add New Vehicle':'Update Vehicle Details'}"></span>
+                </strong>
+            </p>
+        </div>
         <!--ViewList Button-->
-        <div class="col text-left">
-            <a href="/vehicle" class="btn"  id="btnView" tabindex="1">
+        <div class="col text-right">
+            <a href="/vehicle" class="btn btn-lg btn-light"  id="btnView" >
                 <i class="fa fa-list" style="font-size: 20px"></i>&nbsp;&nbsp;
                 View List
             </a>
         </div>
-        <!--Form Name-->
-        <div class="col" id="topic">
-            <h2 class="text-light text-center">
-                <strong>
-                    <span data-th-text="${addStatus==false?'Add New Vehicle':'Update Vehicle Details'}"></span>
-                </strong>
-            </h2>
-        </div>
         <!--Home Button-->
-        <div class="col text-right">
+       <!-- <div class="col text-right">
             <a class="btn" id="btnHome" href="/home" tabindex="2">
 
                 <i class="fa fa-home" style="font-size: 20px"></i> &nbsp;&nbsp;
                 Home
             </a>
-        </div>
+        </div-->
     </div>
 </div>
 <!--Form Content-->

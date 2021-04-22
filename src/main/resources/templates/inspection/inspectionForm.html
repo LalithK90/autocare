@@ -10,22 +10,23 @@
 
 <div class="container-fluid    " id="topicBack" >
   <div class="row text-left " >
-    <div class="col" >
+    <!--<div class="col" >
       <a class="btn" id="btnHome" href="/home" >
         <i class="fa fa-home" style="font-size: 20px" ></i > &nbsp;
                                                              Home
       </a >
-    </div >
-    <div class="col" id="topic" >
-         <h4 class="text-center" >
+    </div -->
+    <div class="col-2"></div>
+    <div class="col-8" id="tabletopic" >
+         <p class="text-center" >
         <strong >
-                    <span data-th-text="${addStatus==false?'New Service Type Add':'Update Service Type Details'}" ></span >
+                    <span data-th-text="${addStatus==false?'New Service Type Add':'New Inspection'}" ></span >
         </strong >
-      </h4 >
+      </p >
     </div >
-    <div class="col text-right" >
-      <a href="/vehicleServiceStationProcess" class="btn" id="btnView">
-        <i class="fa fa-list" ></i >&nbsp;
+    <div class="col-2 text-right" >
+      <a href="/vehicleServiceStationProcess" class="btn btn-lg btn-light" id="btnView">
+        <i class="fa fa-list" style="font-size: 20px" ></i >&nbsp;
                                     View List
       </a >
     </div >
@@ -112,7 +113,7 @@
               <td data-th-text="${vehicle.manufacturedYear}" ></td >
               <td >
                 <a data-th-href="${'/inspection/select/' + vehicle.id}"
-                   class="btn btn-primary btn-sm mr-2 p-2" >Select
+                   class="btn btn-outline-primary btn-sm "><i class="fa fa-hand-pointer" style="font-size: 20px"></i>Select
                 </a ></td >
             </tr >
             </tbody >
@@ -175,8 +176,7 @@
           <!--meter value -->
           <div class="form-group text-right" >
             <div class="form-inline" >
-              <label class="control-label" >Meter Value
-                                            :
+              <label class="control-label" >Meter Value :
                 <input type="number" class="form-control" data-th-field="*{meterValue}" required/>
               </label >
             </div >
@@ -184,15 +184,18 @@
           <!--Service type -->
           <div class="form-group text-right" >
             <div class="form-inline" >
-              <label class="control-label" >Service Type Name
-                                            :
+              <label class="control-label" >Service Type Name :</label >
+              <div class="form-inline" data-th-each="serviceType : ${serviceTypes}">
+                <label class="control-label" data-th-text="${serviceType.name +' Price: '+serviceType.price }"
+                       data-th-for="${serviceType.id}">Service Type Name :</label >&nbsp;
                 <input type="checkbox" class="form-control ml-1 mr-1 serviceType"
-                       data-th-each="serviceType : ${serviceTypes}"
-                       data-th-text="${serviceType.name +' Price: '+serviceType.price }"
                        data-th-value="${serviceType.id}"
-                       data-th-field="*{serviceTypes}"
+                       data-th-name="${'serviceTypes'}"
+                       data-th-id="${serviceType.id}"
                 />
-              </label >
+
+              </div>
+
             </div >
           </div >
           <!--selected parameter list-->
@@ -202,7 +205,7 @@
           <!--button-->
           <div class="form-group " >
             <div class="offset-sm-2 col-sm-10" >
-              <button type="submit" class="btn btn-primary" >
+              <button type="submit" class="btn btn-success" >
                 <i data-th-class="${addStatus==true?'fa fa-save mr-1':'fa fa-thumbs-up mr-1'}" ></i >
                 <span
                       data-th-text="${addStatus==true?'Save' : 'Update'}" ></span >

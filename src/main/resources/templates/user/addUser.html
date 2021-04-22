@@ -10,21 +10,22 @@
 <!--Page header -->
 <div class="container-fluid  " >
   <div class="row text-center   " >
-    <div class="col" >
+    <!--<div class="col" >
       <a class="btn btn-primary" href="/home" >
         <i class="fa fa-home" style="font-size: 20px" ></i > &nbsp; Home
       </a >
-    </div >
+    </div -->
+    <div class="col"></div>
     <div class="col" >
-      <h4 class="text-light text-center" >
+      <p class="text text-center" id="tabletopic" >
         <strong >
           <span id="formHeader" data-th-text="${addStatus==true?'New User':'Update User'}" ></span >
         </strong >
-      </h4 >
+      </p >
     </div >
-    <div class="col" >
-      <a href="/user" class="btn btn-primary" >
-        <i class="fa fa-list" ></i >&nbsp; View List
+    <div class="col text-right">
+      <a href="/user" class="btn btn-light btn-lg" id="btnView">
+        <i class="fa fa-list" style="font-size: 20px"></i >&nbsp; View Users
       </a >
     </div >
   </div >
@@ -32,7 +33,7 @@
 <!--Employee find-->
 <div class="container" id="employeeFindForm" data-th-if="${employeeDetailShow==false}" >
   <div class="col-sm-12 flex-column " >
-    <form id="form" method="POST" data-th-action="${'/user/workingPlace'}" data-th-object="${employee}"
+    <form id="form" style="padding-left:140px;padding-top: 50px;" method="POST" data-th-action="${'/user/workingPlace'}" data-th-object="${employee}"
           enctype="multipart/form-data" >
           <div class="form-group" >
             <div class="col-4" >
@@ -91,7 +92,7 @@
     <div class="row">
       <div class="col-1"></div>
       <div class="col-10">
-        <form id="formUser"style="padding-left: 100px;padding-top: 50px;"  data-th-action="${addStatus==true?'/user/add':'/user/update'}" data-th-object="${user}"
+        <form id="formUser" style="padding-left:100px;padding-top: 50px;"  data-th-action="${addStatus==true?'/user/add':'/user/update'}" data-th-object="${user}"
               class="form-horizontal" method="POST" autocomplete="false" >
           <div class="row" >
             <!--Left Side-->

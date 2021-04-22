@@ -8,27 +8,28 @@
 <body>
 <nav  data-th-replace="~{fragments/navBar :: navBarFragment}"></nav>
 
-<div class="container-fluid    " id="topicBack" >
+<div class="container-fluid" id="topicBack" >
     <div class="row text-left">
-        <div class="col">
+        <!--<div class="col">
             <a class="btn"  id="btnHome" href="/home">
 
                 <i class="fa fa-home" style="font-size: 20px"></i> &nbsp;
                 Home
             </a>
-        </div>
-        <div class="col" id="topic">
-            <h4 class="text-light text-center">
+        </div-->
+        <div class="col"></div>
+        <div class="col text-center" id="tabletopic">
+            <p class="text text-center">
                 <strong>
                     <span id="formHeader"  data-th-text="${addStatus==true?'New Role ':'Update Role'}"></span>
                 </strong>
-            </h4>
+            </p>
         </div>
         <div class="col text-right  ">
-            <a href="/role" class="btn" id="btnView">
+            <a href="/role" class="btn btn-lg btn-light" id="btnView">
 
-                <i class="fa fa-list"></i>&nbsp;
-                View List
+                <i class="fa fa-list" style="font-size: 20px"></i>&nbsp;
+                View Roles
             </a>
         </div>
     </div>
@@ -60,7 +61,7 @@
                     <i class="fas fa-arrow-circle-left" style="font-size: 20px"></i>&nbsp;&nbsp;Back
                 </a>
                 <!--Save Button-->
-                <button class="btn btn-success" id="formbtn" type="submit" tabindex="8">
+                <button class="btn btn-info" id="formbtn" type="submit" tabindex="8">
                     <i class="fa fa-save " style="font-size: 20px"></i>&nbsp;&nbsp;<span id="submit" data-th-text="${addStatus==true?'Save': 'Update'}"></span>
                 </button>
                 <!--Cancel Button-->

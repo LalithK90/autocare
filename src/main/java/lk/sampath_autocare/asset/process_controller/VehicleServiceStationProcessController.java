@@ -222,8 +222,18 @@ public class VehicleServiceStationProcessController {
             "All ways care your vehicle";
         emailService.sendEmail(paymentSave.getVehicle().getCustomer().getEmail(), "Payment Information", message);
       }
-
       //twilioMessageService.sendSMS();
+      /*if ( paymentSave.getVehicle().getCustomer().getMobile() != null ) {
+        try {
+          String mobileNumber = paymentSave.getVehicle().getCustomer().getMobile().substring(1, 10);
+          twilioMessageService.sendSMS("+94" + mobileNumber, "There is immediate PO from " +
+                  "Sampath Autocare \nPlease Check Your Email Form Further Details");
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }*/
+
+
     }
 
 

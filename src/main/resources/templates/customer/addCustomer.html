@@ -10,30 +10,33 @@
 <!--Heading Area-->
 <div class="container-fluid   " id="topicBack">
     <div class="row text-center   ">
-        <!--ViewList Button-->
-        <div class="col text-left">
-            <a href="/customer" class="btn"  id="btnView" tabindex="1">
 
-                <i class="fa fa-list" style="font-size: 20px"></i>&nbsp;&nbsp;
-                View List
-            </a>
-        </div>
+
         <!--Form Name-->
-        <div class="col" id="topic">
-            <h2 class="text-light text-center">
+        <div class="col"></div>
+        <div class="col" id="tabletopic">
+            <p class="text text-center">
                 <strong>
                     <span data-th-text="${addStatus==true?'Add New Customer':'Update Customer Details'}"></span>
                 </strong>
-            </h2>
+            </p>
+        </div>
+        <!--ViewList Button-->
+        <div class="col text-right">
+            <a href="/customer" class="btn btn-lg btn-light "  id="btnView">
+
+                <i class="fa fa-list" style="font-size: 20px"></i>&nbsp;&nbsp;
+                View Customers
+            </a>
         </div>
         <!--Home Button-->
-        <div class="col text-right">
+        <!--<div class="col text-right">
             <a class="btn" id="btnHome" href="/home" tabindex="2">
 
                 <i class="fa fa-home" style="font-size: 20px"></i> &nbsp;&nbsp;
                 Home
             </a>
-        </div>
+        </div-->
     </div>
 </div>
 <!--Form Content-->
